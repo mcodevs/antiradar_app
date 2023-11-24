@@ -1,3 +1,5 @@
+import 'package:antiradar/src/common/configurations/app_routes.dart';
+import 'package:antiradar/src/ui/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -8,6 +10,7 @@ class App extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "AntiRadar",
+      home: HomePage(),
     );
   }
 }
