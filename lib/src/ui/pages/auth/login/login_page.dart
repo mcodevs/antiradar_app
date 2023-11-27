@@ -42,7 +42,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               SizedBox(
                 height: 55,
                 width: 340,
@@ -50,20 +50,24 @@ class LoginPage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF34A853),
                     shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    ),
                   ),
                   onPressed: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginPage()));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ),
+                    );
                   },
                   child: const Text(
                     "T A S D I Q L A SH",
                     style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: "TextFont",
-                        fontSize: 18),
+                      color: Colors.white,
+                      fontFamily: "TextFont",
+                      fontSize: 18,
+                    ),
                   ),
                 ),
               ),

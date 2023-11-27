@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "311184831193",
+    "project_id": "yolda-3c0a7",
+    "storage_bucket": "yolda-3c0a7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311184831193:android:dd7c5a23b6bdb658f2c4c8",
+        "android_client_info": {
+          "package_name": "com.example.antiradar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAT9R9eyqQY9JVGbWNnFLwq2Ww8goB2vTM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311184831193:android:0ece6938c2178615f2c4c8",
+        "android_client_info": {
+          "package_name": "uz.practicum.antiradar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAT9R9eyqQY9JVGbWNnFLwq2Ww8goB2vTM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

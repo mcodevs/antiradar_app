@@ -1,5 +1,5 @@
 import 'package:antiradar/src/ui/pages/auth/login/login_page.dart';
-import 'package:antiradar/src/ui/pages/home/widget/confiro_code.dart';
+import 'package:antiradar/src/ui/pages/home/widget/confirm_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
@@ -73,7 +73,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                     Row(
                       children: [
                         for (int j = 0; j < 3; j++)
-                          ConfiroButton(
+                          ConfirmButton(
                             number: number.elementAt(i + j),
                           ),
                       ],

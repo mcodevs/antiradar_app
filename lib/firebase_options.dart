@@ -58,7 +58,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAT9R9eyqQY9JVGbWNnFLwq2Ww8goB2vTM',
-    appId: '1:311184831193:android:0ece6938c2178615f2c4c8',
+    appId: '1:311184831193:android:dd7c5a23b6bdb658f2c4c8',
     messagingSenderId: '311184831193',
     projectId: 'yolda-3c0a7',
     storageBucket: 'yolda-3c0a7.appspot.com',

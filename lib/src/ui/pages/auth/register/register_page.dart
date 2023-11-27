@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../home/confiro_page.dart';
+import '../../home/confirm_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
