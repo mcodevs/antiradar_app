@@ -2,25 +2,29 @@ import 'package:flutter/material.dart';
 
 import '../../home/confiro_page.dart';
 
-class RegisterPage extends StatelessWidget {
-  RegisterPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
-  List<String>infoName=[
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  static const List<String> infoName = [
     "Ismingiz va familiyangiz",
     "Avtomashina raqami",
     "Telefon raqami"
   ];
 
-  List<String>info=[
+  static const List<String> info = [
     "Ismingiz va familiyangizni kiriting",
     "Avtomashina raqamini kiriting",
     "Telefon raqamingizni kiriting"
   ];
 
-
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: SafeArea(
@@ -55,9 +59,7 @@ class RegisterPage extends StatelessWidget {
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: "Ismingiz va familiyangizni kiriting",
-                      border: OutlineInputBorder(
-
-                      ),
+                      border: OutlineInputBorder(),
                     ),
                   ),
                 ),
@@ -68,9 +70,7 @@ class RegisterPage extends StatelessWidget {
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: "Avtomashina raqamini kiriting",
-                      border: OutlineInputBorder(
-
-                      ),
+                      border: OutlineInputBorder(),
                     ),
                   ),
                 ),
@@ -81,9 +81,7 @@ class RegisterPage extends StatelessWidget {
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: "Telefon raqamizni kiriting",
-                      border: OutlineInputBorder(
-
-                      ),
+                      border: OutlineInputBorder(),
                     ),
                   ),
                 ),
@@ -95,16 +93,21 @@ class RegisterPage extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF34A853),
                       shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15))
-                      ),
+                          borderRadius: BorderRadius.all(Radius.circular(15))),
                     ),
-                    onPressed: (){
+                    onPressed: () {
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context)=>ConfiroPage())
-                      );
+                          MaterialPageRoute(
+                              builder: (context) => const ConfirmPage()));
                     },
-                    child: const Text("K E Y I N N G I",style: TextStyle(color: Colors.white,fontFamily: "TextFont",fontSize: 18),),
+                    child: const Text(
+                      "K E Y I N N G I",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: "TextFont",
+                          fontSize: 18),
+                    ),
                   ),
                 ),
               ],
