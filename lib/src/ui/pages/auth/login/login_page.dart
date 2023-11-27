@@ -42,7 +42,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 40),
+              SizedBox(height: 40),
               SizedBox(
                 height: 55,
                 width: 340,
