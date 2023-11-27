@@ -7,18 +7,29 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return   Scaffold(
+    return Scaffold(
       backgroundColor: const Color(0xFF34A853),
       body: SafeArea(
         child: Center(
           child: Column(
             children: [
               const SizedBox(height: 130),
-              const Text("YO'LDA",style: TextStyle(fontFamily: "TextFont",fontSize: 42,color: Colors.white),),
+              const Text(
+                "YO'LDA",
+                style: TextStyle(
+                    fontFamily: "TextFont", fontSize: 42, color: Colors.white),
+              ),
               const SizedBox(height: 10),
-              const Text("XAFSIZ VA JARIMALARSIZ\n       HARAKATLANING",style: TextStyle(fontFamily: "TitleFont",fontSize: 16,color: Colors.white),),
+              const Text(
+                "XAFSIZ VA JARIMALARSIZ\n       HARAKATLANING",
+                style: TextStyle(
+                    fontFamily: "TitleFont", fontSize: 16, color: Colors.white),
+              ),
               const SizedBox(height: 20),
-              const Image(image: AssetImage("assets/images/yoldaImages.png"),height: 230,),
+              const Image(
+                image: AssetImage("assets/images/yoldaImages.png"),
+                height: 230,
+              ),
               const SizedBox(height: 90),
               SizedBox(
                 height: 50,
@@ -26,11 +37,14 @@ class HomePage extends StatelessWidget {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(15))
-                    ),
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
                   ),
-                    onPressed: (){},
-                    child: const Text("SAFARNI BOSHLANG",style: TextStyle(color: Color(0xFF34A853),fontFamily: "TextFont"),),
+                  onPressed: () {},
+                  child: const Text(
+                    "SAFARNI BOSHLANG",
+                    style: TextStyle(
+                        color: Color(0xFF34A853), fontFamily: "TextFont"),
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -41,16 +55,19 @@ class HomePage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFA027FF),
                     shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15))
-                    ),
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
                   ),
-                  onPressed: (){
+                  onPressed: () {
                     Navigator.push(
-                        context, 
-                        MaterialPageRoute(builder: (context)=>RegisterPage())
-                    );
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RegisterPage()));
                   },
-                  child: const Text("RO'YHATDAN O'TISH",style: TextStyle(color: Colors.white,fontFamily: "TextFont"),),
+                  child: const Text(
+                    "RO'YHATDAN O'TISH",
+                    style:
+                        TextStyle(color: Colors.white, fontFamily: "TextFont"),
+                  ),
                 ),
               ),
             ],
