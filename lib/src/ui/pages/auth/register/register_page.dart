@@ -10,18 +10,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  static const List<String> infoName = [
-    "Ismingiz va familiyangiz",
-    "Avtomashina raqami",
-    "Telefon raqami"
-  ];
-
-  static const List<String> info = [
-    "Ismingiz va familiyangizni kiriting",
-    "Avtomashina raqamini kiriting",
-    "Telefon raqamingizni kiriting"
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,7 +73,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 60),
+                const SizedBox(height: 36),
                 SizedBox(
                   height: 55,
                   width: 340,
@@ -102,14 +90,16 @@ class _RegisterPageState extends State<RegisterPage> {
                               builder: (context) => const ConfirmPage()));
                     },
                     child: const Text(
-                      "K E Y I N N G I",
+                      "K E Y I N G I",
                       style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: "TextFont",
-                          fontSize: 18),
+                        color: Colors.white,
+                        fontFamily: "TextFont",
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ),
+                const SizedBox(height: 24),
               ],
             ),
           ),

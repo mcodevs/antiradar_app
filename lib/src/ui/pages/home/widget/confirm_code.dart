@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 
 class ConfirmButton extends StatelessWidget {
-  const ConfirmButton({Key? key, required this.number}) : super(key: key);
+  const ConfirmButton({
+    required this.number,
+    required this.onTap,
+    super.key,
+  });
   final int? number;
+  final void Function(int? number) onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () => onTap(number),
       child: SizedBox(
         height: 20,
         width: 20,

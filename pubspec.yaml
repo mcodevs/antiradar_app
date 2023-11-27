@@ -22,6 +22,7 @@ dependencies:
   geofence_service: ^5.0.0
   yandex_mapkit: ^3.3.3
   flutter_otp_text_field: ^1.1.1
+  otp_pin_field: ^1.2.2
 
 dev_dependencies:
   flutter_test:

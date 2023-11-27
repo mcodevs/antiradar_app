@@ -37,7 +37,9 @@ class HomePage extends StatelessWidget {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    ),
+                    backgroundColor: Colors.white,
                   ),
                   onPressed: () {},
                   child: const Text(

@@ -1,7 +1,7 @@
 import 'package:antiradar/src/ui/pages/auth/login/login_page.dart';
 import 'package:antiradar/src/ui/pages/home/widget/confirm_code.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:otp_pin_field/otp_pin_field.dart';
 
 class ConfirmPage extends StatefulWidget {
   const ConfirmPage({Key? key}) : super(key: key);
@@ -17,6 +17,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
     0,
     null,
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,9 +29,10 @@ class _ConfirmPageState extends State<ConfirmPage> {
               const Text(
                 "TASDIQLASH",
                 style: TextStyle(
-                    fontFamily: "TextFont",
-                    fontSize: 23,
-                    color: Color(0xFF34A853)),
+                  fontFamily: "TextFont",
+                  fontSize: 23,
+                  color: Color(0xFF34A853),
+                ),
               ),
               const SizedBox(height: 10),
               const Padding(
@@ -47,24 +49,9 @@ class _ConfirmPageState extends State<ConfirmPage> {
               ),
               SizedBox(
                 height: 50,
-                child: OtpTextField(
-                  handleControllers: (controllers) {},
-                  numberOfFields: 5,
-                  cursorColor: Colors.black,
-                  focusedBorderColor: Colors.black,
-                  enabledBorderColor: Colors.grey.shade400,
-                  showFieldAsBox: true,
-                  onCodeChanged: (String code) {},
-                  onSubmit: (String numberCode) {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text("jasur"),
-                            content: Text("code $numberCode"),
-                          );
-                        });
-                  },
+                child: OtpPinField(
+                  onSubmit: (text) {},
+                  onChange: (text) {},
                 ),
               ),
               Column(
@@ -75,6 +62,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                         for (int j = 0; j < 3; j++)
                           ConfirmButton(
                             number: number.elementAt(i + j),
+                            onTap: (digit) {},
                           ),
                       ],
                     )
@@ -88,20 +76,24 @@ class _ConfirmPageState extends State<ConfirmPage> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF34A853),
                     shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    ),
                   ),
                   onPressed: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginPage()));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ),
+                    );
                   },
                   child: const Text(
                     "T A S D I Q L A SH",
                     style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: "TextFont",
-                        fontSize: 18),
+                      color: Colors.white,
+                      fontFamily: "TextFont",
+                      fontSize: 18,
+                    ),
                   ),
                 ),
               ),
