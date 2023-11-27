@@ -32,44 +32,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: YandexMap(
-        onMapCreated: (controller) => _controller.complete(controller),
-      ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            onPressed: () async {
-              final controller = await _controller.future;
-              final current = await Geolocator.getCurrentPosition();
-              controller
-                  .moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
-                target: Point(
-                    latitude: current.latitude, longitude: current.longitude),
-                azimuth: current.heading,
-                zoom: 20,
-                tilt: 70,
-              )));
-            },
-          ),
-          const SizedBox(height: 10),
-          FloatingActionButton(
-            onPressed: () async {
-              final controller = await _controller.future;
-              final current = await Geolocator.getCurrentPosition();
-              controller
-                  .moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
-                target: Point(
-                    latitude: current.latitude, longitude: current.longitude),
-                azimuth: current.heading,
-                zoom: 20,
-                tilt: 70,
-              )));
-            },
-            child: const Icon(Icons.navigation_rounded),
-          ),
-        ],
-      ),
+      body: YandexMap(),
     );
   }
 }
