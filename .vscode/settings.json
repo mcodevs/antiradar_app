@@ -1,3 +1,5 @@
 {
-    "fluttergpt.apiKey": "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"
+    "fluttergpt.apiKey": "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",
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 200
 }

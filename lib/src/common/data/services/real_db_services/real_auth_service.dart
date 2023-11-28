@@ -1,4 +1,3 @@
-
 import 'package:antiradar/src/common/data/models/user_model.dart';
 import 'package:antiradar/src/common/data/repositories/auth_service_repository.dart';
 

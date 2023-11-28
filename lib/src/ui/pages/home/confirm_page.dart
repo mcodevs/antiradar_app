@@ -1,5 +1,4 @@
 import 'package:antiradar/src/ui/pages/auth/login/login_page.dart';
-import 'package:antiradar/src/ui/pages/home/widget/confirm_code.dart';
 import 'package:flutter/material.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
 
@@ -17,8 +16,6 @@ class _ConfirmPageState extends State<ConfirmPage> {
     0,
     null,
   ];
-
-
 
   @override
   Widget build(BuildContext context) {
