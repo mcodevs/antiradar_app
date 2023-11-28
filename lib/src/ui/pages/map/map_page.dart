@@ -17,40 +17,95 @@ class _MapPageState extends State<MapPage> {
       Completer<YandexMapController>();
   int count = 1;
 
-  List<Geofence> _geofenceList = [];
+  final radar1 = const Point(latitude: 41.3276, longitude: 69.2293);
+  final radar2 = const Point(latitude: 41.3286, longitude: 69.2257);
 
-  final _geofenceService = GeofenceService.instance.setup(
-    interval: 100,
+  // Create a [Geofence] list.
+  late final _geofenceList = <Geofence>[
+    Geofence(
+      id: 'radar_1',
+      latitude: radar1.latitude,
+      longitude: radar1.longitude,
+      radius: [
+        GeofenceRadius(id: 'radius_100m', length: 100, data: " Radar 1"),
+      ],
+    ),
+    Geofence(
+      id: 'radar_2',
+      latitude: radar2.latitude,
+      longitude: radar2.longitude,
+      radius: [
+        GeofenceRadius(id: 'radius_100m', length: 100, data: "Bu radar 2"),
+      ],
+    ),
+  ];
+
+  late final _geofenceService = GeofenceService.instance.setup(
+    interval: 200,
     accuracy: 100,
-    loiteringDelayMs: 600,
-    statusChangeDelayMs: 100,
+    loiteringDelayMs: 6000,
+    statusChangeDelayMs: 1000,
     useActivityRecognition: true,
     allowMockLocations: false,
     printDevLog: false,
     geofenceRadiusSortType: GeofenceRadiusSortType.DESC,
   );
 
+  // This function is to be called when the geofence status is changed.
+  Future<void> _onGeofenceStatusChanged(
+    Geofence geofence,
+    GeofenceRadius geofenceRadius,
+    GeofenceStatus geofenceStatus,
+    Location location,
+  ) async {}
+
+// This function is to be called when the activity has changed.
+  void _onActivityChanged(Activity prevActivity, Activity currActivity) {
+    // print('prevActivity: ${prevActivity.toJson()}');
+    // print('currActivity: ${currActivity.toJson()}');
+    // _activityStreamController.sink.add(currActivity);
+  }
+
+// This function is to be called when the location has changed.
+  void _onLocationChanged(Location location) {
+    print('location: ${location.toJson()}');
+  }
+
+// This function is to be called when a location services status change occurs
+// since the service was started.
+  void _onLocationServicesStatusChanged(bool status) {
+    // print('isLocationServicesEnabled: $status');
+  }
+
+// This function is used to handle errors that occur in the service.
+  void _onError(error) {
+    final errorCode = getErrorCodesFromError(error);
+    if (errorCode == null) {
+      print('Undefined error: $error');
+      return;
+    }
+
+    print('ErrorCode: $errorCode');
+  }
+
   @override
   void initState() {
     super.initState();
     getPermission();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _geofenceService.addLocationChangeListener((location) {
-        print(location.toJson());
-      });
-      _geofenceService.addGeofenceStatusChangeListener(
-          (geofence, geofenceRadius, geofenceStatus, location) async {
-        if (geofenceStatus == GeofenceStatus.ENTER) {
-          print("Kirdi");
-        }
-      });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _geofenceService
+          .addGeofenceStatusChangeListener(_onGeofenceStatusChanged);
+      _geofenceService.addLocationChangeListener(_onLocationChanged);
+      _geofenceService.addLocationServicesStatusChangeListener(
+          _onLocationServicesStatusChanged);
+      _geofenceService.addActivityChangeListener(_onActivityChanged);
+      _geofenceService.addStreamErrorListener(_onError);
+      _geofenceService.start(_geofenceList).catchError(_onError);
     });
-
   }
 
   void getPermission() async {
     final permission = await Geolocator.checkPermission();
-    print(permission);
     if (permission == LocationPermission.denied ||
         permission == LocationPermission.deniedForever) {
       await Geolocator.requestPermission();
@@ -68,6 +123,9 @@ class _MapPageState extends State<MapPage> {
             visible: true,
             autoZoomEnabled: true,
           );
+        },
+        onTrafficChanged: (trafficLevel) {
+          print(trafficLevel);
         },
         mapObjects: _geofenceList.map((e) {
           return PlacemarkMapObject(
