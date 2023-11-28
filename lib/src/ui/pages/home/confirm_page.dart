@@ -18,23 +18,26 @@ class _ConfirmPageState extends State<ConfirmPage> {
     null,
   ];
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Center(
           child: Column(
             children: [
-              const SizedBox(height: 60),
+              // const SizedBox(height: 60),
               const Text(
-                "TASDIQLASH",
+                "T A S D I Q L A SH",
                 style: TextStyle(
                   fontFamily: "TextFont",
                   fontSize: 23,
                   color: Color(0xFF34A853),
                 ),
               ),
-              const SizedBox(height: 10),
+              // const SizedBox(height: 10),
               const Padding(
                 padding: EdgeInsets.only(left: 90, right: 90),
                 child: Divider(
@@ -42,33 +45,40 @@ class _ConfirmPageState extends State<ConfirmPage> {
                   color: Color(0xFFA027FF),
                 ),
               ),
-              const SizedBox(height: 20),
+
+              // const SizedBox(height: 20),
               const Image(
                 image: AssetImage("assets/images/confiroImages.png"),
                 height: 200,
               ),
-              SizedBox(
-                height: 50,
+
+              Expanded(
                 child: OtpPinField(
+                  autoFillEnable: true,
                   onSubmit: (text) {},
                   onChange: (text) {},
+                  showCustomKeyboard: true,
+                  showDefaultKeyboard: false,
+                  otpPinFieldInputType: OtpPinFieldInputType.password,
+                  phoneNumbersHint: true,
                 ),
               ),
-              Column(
-                children: [
-                  for (int i = 1; i < number.length - 1; i += 3)
-                    Row(
-                      children: [
-                        for (int j = 0; j < 3; j++)
-                          ConfirmButton(
-                            number: number.elementAt(i + j),
-                            onTap: (digit) {},
-                          ),
-                      ],
-                    )
-                ],
-              ),
-              const SizedBox(height: 100),
+              // Column(
+              //   children: [
+              //     for (int i = 1; i < number.length - 1; i += 3)
+              //       Row(
+              //         children: [
+              //           for (int j = 0; j < 3; j++)
+              //             ConfirmButton(
+              //               number: number.elementAt(i + j),
+              //               onTap: (digit) {},
+              //             ),
+              //         ],
+              //       )
+              //   ],
+              // ),
+
+              // const SizedBox(height: 100),
               SizedBox(
                 height: 55,
                 width: 340,
