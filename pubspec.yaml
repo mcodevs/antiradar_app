@@ -22,6 +22,7 @@ dependencies:
   cloud_firestore: ^4.13.2
   geofence_service: ^5.0.0
   flutter_otp_text_field: ^1.1.1
+  flutter_tts: ^3.8.5
 
 dev_dependencies:
   flutter_test:
