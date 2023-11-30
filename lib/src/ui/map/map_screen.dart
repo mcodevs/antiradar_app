@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:geofence_service/geofence_service.dart';
@@ -52,8 +50,8 @@ class _MapScreenState extends State<MapScreen> {
   final _geofenceList = <Geofence>[
     Geofence(
       id: 'radar_1',
-      latitude: 41.3261,
-      longitude: 69.2334,
+      latitude: 41.3404,
+      longitude: 69.2115,
       radius: [
         GeofenceRadius(
           id: 'radius_200m',
@@ -71,8 +69,8 @@ class _MapScreenState extends State<MapScreen> {
     ),
     Geofence(
       id: 'radar_2',
-      latitude: 41.3302,
-      longitude: 69.2228,
+      latitude: 41.3359,
+      longitude: 69.2070,
       radius: [
         GeofenceRadius(
           id: 'radius_200m',
@@ -96,15 +94,18 @@ class _MapScreenState extends State<MapScreen> {
     GeofenceStatus geofenceStatus,
     Location location,
   ) async {
-    final bearing = Geolocator.bearingBetween(
+    var bearing = Geolocator.bearingBetween(
       location.latitude,
       location.longitude,
       geofence.latitude,
       geofence.longitude,
     );
 
-    if (geofenceStatus == GeofenceStatus.ENTER &&
-        (location.heading - bearing >= 320)) {
+    bearing = bearing.isNegative ? bearing + 360 : bearing;
+
+    final res = (bearing - location.heading).abs();
+    print("result: -------------$res");
+    if (geofenceStatus == GeofenceStatus.ENTER && res <= 30) {
       print("----------------------bear(${geofence.id}): ${bearing}");
       print(
           "----------------------heading(${geofence.id}): ${location.heading}");
@@ -170,7 +171,6 @@ class _MapScreenState extends State<MapScreen> {
     init();
     Geolocator.getPositionStream().listen((event) {
       _speedStreamController.sink.add(event.speed);
-      print(event.speedAccuracy);
     });
   }
 
@@ -184,6 +184,7 @@ class _MapScreenState extends State<MapScreen> {
     printDevLog: false,
     geofenceRadiusSortType: GeofenceRadiusSortType.DESC,
   );
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -198,7 +199,7 @@ class _MapScreenState extends State<MapScreen> {
                   CameraUpdate.newCameraPosition(
                     CameraPosition(
                       target: LatLng(event.latitude, event.longitude),
-                      bearing: event.heading,
+                      // bearing: event.heading,
                       zoom: 15,
                     ),
                   ),
