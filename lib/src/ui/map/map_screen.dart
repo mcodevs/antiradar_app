@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:antiradar/src/ui/map/services/radar_services.dart';
+import 'package:antiradar/src/ui/map/widgets/top_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:geofence_service/geofence_service.dart';
@@ -28,6 +30,8 @@ class _MapScreenState extends State<MapScreen> {
     target: LatLng(41.3276, 69.2293),
   );
 
+  final RadarServices radarServices = RadarServices();
+
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
@@ -46,47 +50,6 @@ class _MapScreenState extends State<MapScreen> {
 
   final _geofenceStreamController = StreamController<MapEvent?>();
   final _speedStreamController = StreamController<double>();
-
-  final _geofenceList = <Geofence>[
-    Geofence(
-      id: 'radar_1',
-      latitude: 41.3404,
-      longitude: 69.2115,
-      radius: [
-        GeofenceRadius(
-          id: 'radius_200m',
-          length: 400,
-        ),
-        GeofenceRadius(
-          id: 'radius_150m',
-          length: 200,
-        ),
-        GeofenceRadius(
-          id: 'radius_100m',
-          length: 50,
-        ),
-      ],
-    ),
-    Geofence(
-      id: 'radar_2',
-      latitude: 41.3359,
-      longitude: 69.2070,
-      radius: [
-        GeofenceRadius(
-          id: 'radius_200m',
-          length: 400,
-        ),
-        GeofenceRadius(
-          id: 'radius_150m',
-          length: 200,
-        ),
-        GeofenceRadius(
-          id: 'radius_100m',
-          length: 50,
-        ),
-      ],
-    ),
-  ];
 
   Future<void> _onGeofenceStatusChanged(
     Geofence geofence,
@@ -141,6 +104,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     super.initState();
+    radarServices.readRadars();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _geofenceService
           .addGeofenceStatusChangeListener(_onGeofenceStatusChanged);
@@ -149,10 +113,12 @@ class _MapScreenState extends State<MapScreen> {
           _onLocationServicesStatusChanged);
       _geofenceService.addActivityChangeListener(_onActivityChanged);
       _geofenceService.addStreamErrorListener(_onError);
-      _geofenceService.start(_geofenceList).catchError(_onError);
+      _geofenceService.start(radarServices.toGeofence()).catchError(_onError);
     });
+
     Geolocator.requestPermission();
     init();
+
     Geolocator.getPositionStream().listen((event) {
       _speedStreamController.sink.add(event.speed);
     });
@@ -173,51 +139,84 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            final controller = await _controller.future;
-            if (subscription == null) {
-              subscription =
-                  Geolocator.getPositionStream().listen((event) async {
-                await controller.animateCamera(
-                  CameraUpdate.newCameraPosition(
-                    CameraPosition(
-                      target: LatLng(event.latitude, event.longitude),
-                      // bearing: event.heading,
-                      zoom: 15,
-                    ),
-                  ),
-                );
-              });
-            } else if (subscription?.isPaused ?? false) {
-              subscription?.resume();
-            } else {
-              subscription?.pause();
-            }
-          },
-          child: StreamBuilder<double>(
-              stream: _speedStreamController.stream,
-              builder: (context, snapshot) {
-                return Text("${snapshot.data?.toInt() ?? 0}");
-              }),
-        ),
-        body: Column(
+        floatingActionButton: Row(
           children: [
-            Expanded(
-              child: GoogleMap(
-                onMapCreated: (controller) {
-                  _controller.complete(controller);
-                },
-                initialCameraPosition: _kLake,
-                myLocationButtonEnabled: true,
-                myLocationEnabled: true,
-                markers: _geofenceList.map((e) {
-                  return Marker(
-                    markerId: MarkerId(e.id),
-                    icon: BitmapDescriptor.defaultMarker,
-                    position: LatLng(e.latitude, e.longitude),
+            FloatingActionButton(
+              onPressed: () async {
+                final controller = await _controller.future;
+                if (subscription == null) {
+                  subscription =
+                      Geolocator.getPositionStream().listen((event) async {
+                    await controller.animateCamera(
+                      CameraUpdate.newCameraPosition(
+                        CameraPosition(
+                          target: LatLng(event.latitude, event.longitude),
+                          bearing: event.heading,
+                          zoom: 17,
+                          tilt: 90,
+                        ),
+                      ),
+                    );
+                  });
+                } else if (subscription?.isPaused ?? false) {
+                  subscription?.resume();
+                } else {
+                  subscription?.pause();
+                }
+              },
+            ),
+          ],
+        ),
+        body: Stack(
+          children: [
+            Positioned.fill(
+              child: ValueListenableBuilder(
+                  valueListenable: radarServices,
+                  builder: (context, radars, child) {
+                    return GoogleMap(
+                      onMapCreated: (controller) {
+                        _controller.complete(controller);
+                        Geolocator.getCurrentPosition().then(
+                          (value) => controller.animateCamera(
+                            CameraUpdate.newCameraPosition(
+                              CameraPosition(
+                                target: LatLng(value.latitude, value.longitude),
+                                bearing: value.heading,
+                                zoom: 17,
+                                tilt: 90,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      initialCameraPosition: _kLake,
+                      myLocationButtonEnabled: false,
+                      myLocationEnabled: true,
+                      markers: radars.map((e) {
+                        return Marker(
+                          markerId: MarkerId(
+                              "${e.position.latitude}${e.position.longitude}"),
+                          icon: BitmapDescriptor.defaultMarker,
+                          position:
+                              LatLng(e.position.latitude, e.position.longitude),
+                        );
+                      }).toSet(),
+                    );
+                  }),
+            ),
+            Positioned(
+              left: 20,
+              right: 20,
+              top: 40,
+              child: StreamBuilder<double>(
+                stream: _speedStreamController.stream,
+                builder: (context, snapshot) {
+                  return CustomIndicator(
+                    bottomText: "СТАТСИОНАРНЫЙ РАДАР НА СПИНУ",
+                    text1: "${snapshot.data?.toInt() ?? 0}",
+                    text2: "600",
                   );
-                }).toSet(),
+                }
               ),
             ),
           ],
