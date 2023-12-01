@@ -1,5 +1,4 @@
 import 'package:antiradar/src/ui/map/map_screen.dart';
-import 'package:antiradar/src/ui/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

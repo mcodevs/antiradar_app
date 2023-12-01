@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 
 abstract class AppImages{
   static String carImages="assets/images/yoldaImages.png";

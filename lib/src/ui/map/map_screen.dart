@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:antiradar/src/ui/map/widgets/top_widget.dart';
+import 'package:antiradar/src/common/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:geofence_service/geofence_service.dart';
@@ -170,40 +170,81 @@ class _MapScreenState extends State<MapScreen> {
     geofenceRadiusSortType: GeofenceRadiusSortType.DESC,
   );
 
+  void _showCustomDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: SizedBox(
+            height: 300,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 25, left: 20, right: 20),
+              child: Column(
+                children: [
+                  const Text(
+                    "  Hurmatli foydalanuvchi siz\n     "
+                    " tizimda muvaffaqiyatli\n        "
+                    "ro'yhatdan o'tdingiz! Dasturdan foydalanish uchun\n        "
+                    "hisobingizni to'ldiring",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(height: 40),
+                  SizedBox(
+                    height: 50,
+                    width: 250,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.greenColor),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text(
+                        "Hisobni to'ldirish",
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            final controller = await _controller.future;
-            if (subscription == null) {
-              subscription =
-                  Geolocator.getPositionStream().listen((event) async {
-                await controller.animateCamera(
-                  CameraUpdate.newCameraPosition(
-                    CameraPosition(
-                      target: LatLng(event.latitude, event.longitude),
-                      bearing: event.heading,
-                      zoom: 17,
-                      tilt: 90,
-                    ),
-                  ),
-                );
-              });
-            } else if (subscription?.isPaused ?? false) {
-              subscription?.resume();
-            } else {
-              subscription?.pause();
-            }
-          },
-          child: StreamBuilder<double>(
-            stream: _speedStreamController.stream,
-            builder: (context, snapshot) {
-              return Text("${snapshot.data?.toInt() ?? 0}");
-            },
-          ),
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () async {
+        //     final controller = await _controller.future;
+        //     if (subscription == null) {
+        //       subscription =
+        //           Geolocator.getPositionStream().listen((event) async {
+        //         await controller.animateCamera(
+        //           CameraUpdate.newCameraPosition(
+        //             CameraPosition(
+        //               target: LatLng(event.latitude, event.longitude),
+        //               // bearing: event.heading,
+        //               zoom: 15,
+        //             ),
+        //           ),
+        //         );
+        //       });
+        //     } else if (subscription?.isPaused ?? false) {
+        //       subscription?.resume();
+        //     } else {
+        //       subscription?.pause();
+        //     }
+        //   },
+        //   child: StreamBuilder<double>(
+        //       stream: _speedStreamController.stream,
+        //       builder: (context, snapshot) {
+        //         return Text("${snapshot.data?.toInt() ?? 0}");
+        //       }),
+        // ),
         body: Stack(
           children: [
             Expanded(
@@ -221,13 +262,115 @@ class _MapScreenState extends State<MapScreen> {
                     position: LatLng(e.latitude, e.longitude),
                   );
                 }).toSet(),
+                circles: _geofenceList
+                    .map((g) {
+                      return g.radius.map((e) {
+                        return Circle(
+                          circleId: CircleId(g.id),
+                          center: LatLng(g.latitude, g.longitude),
+                          radius: e.length,
+                          strokeWidth: 4,
+                        );
+                      });
+                    })
+                    .expand((element) => element)
+                    .toSet(),
               ),
             ),
-            const CustomIndicator(
-              bottomText: "СТАТСИОНАРНЫЙ РАДАР НА СПИНУ",
-              text1: "120",
-              text2: "600",
+              Positioned(
+              top: 20,
+              left: 12,
+              child: GestureDetector(
+                onTap: (){
+
+                },
+                child: const SizedBox(
+                  height: 75,
+                  width: 85,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                        color: AppColors.greenColor,
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    child: Column(
+                      children: [
+                        Text(
+                          "65",
+                          style: TextStyle(
+                              fontSize: 30,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700),
+                        ),
+                        Text(
+                          "km/s",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
+             Positioned(
+              top: 105,
+              left: 15,
+              child: GestureDetector(
+                onTap: (){
+
+                },
+                child: const SizedBox(
+                  height: 80,
+                  width: 80,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                        color: AppColors.redColor,
+                        borderRadius: BorderRadius.all(Radius.circular(200))),
+                    child: Padding(
+                      padding: EdgeInsets.all(5),
+                      child: SizedBox(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(100))),
+                          child: Center(
+                              child: Text(
+                            "110",
+                            style: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.w600),
+                          )),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: 100,
+                color: Colors.transparent,
+                // Bu container ichida, misol uchun, biz CustomDialogni chiqarishimiz mumkin
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        _showCustomDialog();
+                      },
+                      child: const Text('Show Dialog'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+
           ],
         ),
       ),
