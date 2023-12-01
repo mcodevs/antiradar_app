@@ -1,6 +1,7 @@
-import 'package:antiradar/src/ui/map/map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../ui/pages/home/home_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -22,7 +23,7 @@ class App extends StatelessWidget {
           home: child,
         );
       },
-      child: const MapScreen(),
+      child: const HomePage(),
     );
   }
 }

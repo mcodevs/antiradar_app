@@ -85,6 +85,7 @@ class _LoginPageState extends State<LoginPage> {
               const Text("Kirish kodini kiriting"),
               const SizedBox(height: 5),
               Pinput(
+                length: 5,
                 controller: pinController,
                 focusNode: focusNode,
                 onSubmitted: (value){

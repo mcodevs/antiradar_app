@@ -76,6 +76,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
               const Text("Kirish kodini o'rnating"),
               const SizedBox(height: 5),
               Pinput(
+                length: 5,
                 controller: pinController,
                 focusNode: focusNode,
                 androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsUserConsentApi,

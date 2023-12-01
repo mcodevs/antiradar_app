@@ -1,10 +1,8 @@
 import 'dart:async';
 
-import 'package:antiradar/src/common/data/models/radars/speed_radar.dart';
 import 'package:antiradar/src/common/constants/app_images.dart';
 import 'package:antiradar/src/ui/map/services/radar_services.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:geofence_service/geofence_service.dart';
 import 'package:geolocator/geolocator.dart';
@@ -192,6 +190,62 @@ class _MapScreenState extends State<MapScreen> {
       },
     );
   }
+  
+  final TextEditingController speedController=TextEditingController();
+
+  void _showDialog() async{
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: SizedBox(
+            height: 300,
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Text(
+                    "MA'LUMOTLAR QO'SHISH",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                  const Text("Tezlik chegarasini kiriting"),
+                    SizedBox(
+                      height: 50,
+                      width: 300,
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                      controller: speedController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
+                      ),
+                    ),
+                  const SizedBox(height: 40),
+                  SizedBox(
+                    height: 40,
+                    width: 250,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.greenColor),
+                      onPressed: () {
+                        //Dialokni yopib ketish
+                        Navigator.of(context).pop(speedController.text);
+                      },
+                      child: const Text(
+                        "SAQLASH",
+                        style: TextStyle(color: Colors.white, fontSize: 15),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -237,7 +291,9 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
             ConfirmButton(
-              onPressed: () => {},
+              onPressed: () => {
+                _showDialog(),
+              },
               size: 57,
               child: Image(
                 image: AssetImage(AppImages.add),
@@ -370,7 +426,6 @@ class _MapScreenState extends State<MapScreen> {
               child: Container(
                 height: 100,
                 color: Colors.transparent,
-                // Bu container ichida, misol uchun, biz CustomDialogni chiqarishimiz mumkin
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
