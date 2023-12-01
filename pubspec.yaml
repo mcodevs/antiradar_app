@@ -23,6 +23,7 @@ dependencies:
   geofence_service: ^5.0.0
   pinput: ^3.0.1
   flutter_tts: ^3.8.5
+  flutter_screenutil: ^5.9.0
   flutter_otp_text_field: ^1.1.1
   pinput: ^3.0.1
   flutter_tts: ^3.8.5

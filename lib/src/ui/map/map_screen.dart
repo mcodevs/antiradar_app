@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:antiradar/src/ui/map/widgets/top_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:geofence_service/geofence_service.dart';
@@ -207,7 +208,7 @@ class _MapScreenState extends State<MapScreen> {
                 return Text("${snapshot.data?.toInt() ?? 0}");
               }),
         ),
-        body: Column(
+        body: Stack(
           children: [
             Expanded(
               child: GoogleMap(
@@ -238,6 +239,11 @@ class _MapScreenState extends State<MapScreen> {
                     .expand((element) => element)
                     .toSet(),
               ),
+            ),
+            const CustomIndicator(
+              bottomText: "СТАТСИОНАРНЫЙ РАДАР НА СПИНУ",
+              text1: "120",
+              text2: "600",
             ),
           ],
         ),
