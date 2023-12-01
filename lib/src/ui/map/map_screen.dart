@@ -190,62 +190,61 @@ class _MapScreenState extends State<MapScreen> {
       },
     );
   }
-  
-  final TextEditingController speedController=TextEditingController();
 
-  void _showDialog() async{
-    await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          child: SizedBox(
-            height: 300,
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const Text(
-                    "MA'LUMOTLAR QO'SHISH",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                  ),
-                  const Text("Tezlik chegarasini kiriting"),
+  final TextEditingController speedController = TextEditingController();
+
+  Future<String?> _showDialog() async => await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            child: SizedBox(
+              height: 300,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const Text(
+                      "MA'LUMOTLAR QO'SHISH",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                    ),
+                    const Text("Tezlik chegarasini kiriting"),
                     SizedBox(
                       height: 50,
                       width: 300,
                       child: TextField(
                         keyboardType: TextInputType.number,
-                      controller: speedController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                      ),
-                      ),
-                    ),
-                  const SizedBox(height: 40),
-                  SizedBox(
-                    height: 40,
-                    width: 250,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.greenColor),
-                      onPressed: () {
-                        //Dialokni yopib ketish
-                        Navigator.of(context).pop(speedController.text);
-                      },
-                      child: const Text(
-                        "SAQLASH",
-                        style: TextStyle(color: Colors.white, fontSize: 15),
+                        controller: speedController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 40),
+                    SizedBox(
+                      height: 40,
+                      width: 250,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.greenColor),
+                        onPressed: () {
+                          //Dialokni yopib ketish
+                          Navigator.of(context).pop(speedController.text);
+                        },
+                        child: const Text(
+                          "SAQLASH",
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      },
-    );
-  }
+          );
+        },
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -279,34 +278,68 @@ class _MapScreenState extends State<MapScreen> {
         //         return Text("${snapshot.data?.toInt() ?? 0}");
         //       }),
         // ),
-        floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ConfirmButton(
-              onPressed: () => {},
-              radius: 20,
-              size: 63,
-              child: Image(
-                image: AssetImage(AppImages.setting),
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(left: 30),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ConfirmButton(
+                onPressed: () => {},
+                radius: 20,
+                size: 63,
+                child: Image(
+                  image: AssetImage(AppImages.setting),
+                ),
               ),
-            ),
-            ConfirmButton(
-              onPressed: () => {
-                _showDialog(),
-              },
-              size: 57,
-              child: Image(
-                image: AssetImage(AppImages.add),
+              ConfirmButton(
+                onPressed: () async {
+                  final speed = await _showDialog();
+                  if (speed != null) {
+                    final position = await Geolocator.getCurrentPosition();
+                    final radar = await radarServices.addRadar(
+                      "type",
+                      int.tryParse(speed) ?? 60,
+                      LatLng(position.latitude, position.longitude),
+                      "direction",
+                    );
+                    _geofenceService.addGeofence(radar.toGeofence());
+                  }
+                },
+                size: 57,
+                child: Image(
+                  image: AssetImage(AppImages.add),
+                ),
               ),
-            ),
-            ConfirmButton(
-              onPressed: () => {},
-              size: 63,
-              child: Image(
-                image: AssetImage(AppImages.zoom),
+              ConfirmButton(
+                onPressed: () async {
+                  final controller = await _controller.future;
+                  if (subscription == null) {
+                    subscription =
+                        Geolocator.getPositionStream().listen((event) async {
+                      await controller.animateCamera(
+                        CameraUpdate.newCameraPosition(
+                          CameraPosition(
+                            target: LatLng(event.latitude, event.longitude),
+                            bearing: event.heading,
+                            tilt: 90,
+                            zoom: 17,
+                          ),
+                        ),
+                      );
+                    });
+                  } else if (subscription?.isPaused ?? false) {
+                    subscription?.resume();
+                  } else {
+                    subscription?.pause();
+                  }
+                },
+                size: 63,
+                child: Image(
+                  image: AssetImage(AppImages.zoom),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         body: Stack(
           children: [
@@ -345,7 +378,7 @@ class _MapScreenState extends State<MapScreen> {
                     );
                   }),
             ),
-              Positioned(
+            Positioned(
               top: 20,
               left: 12,
               child: GestureDetector(
@@ -354,7 +387,7 @@ class _MapScreenState extends State<MapScreen> {
                   height: 75,
                   width: 85,
                   child: DecoratedBox(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: AppColors.greenColor,
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: Column(
@@ -384,13 +417,11 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ),
             ),
-             Positioned(
+            Positioned(
               top: 105,
               left: 15,
               child: GestureDetector(
-                onTap: (){
-
-                },
+                onTap: () {},
                 child: const SizedBox(
                   height: 80,
                   width: 80,
@@ -426,6 +457,7 @@ class _MapScreenState extends State<MapScreen> {
               child: Container(
                 height: 100,
                 color: Colors.transparent,
+                // Bu container ichida, misol uchun, biz CustomDialogni chiqarishimiz mumkin
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -439,8 +471,6 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ),
             ),
-
-
           ],
         ),
       ),

@@ -25,7 +25,7 @@ class ConfirmButton extends StatelessWidget{
           backgroundColor: AppColors.greenColor,
           shape: radius != null ?  RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(radius!)),
-          ) : CircleBorder(),
+          ) : const CircleBorder(),
         ),
         onPressed: onPressed,
         child: child,
