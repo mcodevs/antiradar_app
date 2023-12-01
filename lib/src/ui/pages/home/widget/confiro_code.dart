@@ -1,13 +1,13 @@
 import 'package:antiradar/src/common/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class ConfiroButton extends StatelessWidget{
+class ConfirmButton extends StatelessWidget{
   final double radius;
   final Widget child;
   final VoidCallback onPressed;
   final double size;
 
-  const ConfiroButton({
+  const ConfirmButton({
     Key?key,
     required this.radius,
     required this.child,
@@ -18,8 +18,8 @@ class ConfiroButton extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50,
-      width: 50,
+      height: size,
+      width: size,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.greenColor,

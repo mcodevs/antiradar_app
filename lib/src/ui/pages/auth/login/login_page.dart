@@ -131,11 +131,45 @@ class _LoginPageState extends State<LoginPage> {
                   border: Border.all(color: Colors.redAccent),
                 ),
               ),
-               ConfiroButton(radius: 7, onPressed: () {  },
-              size: 12,
-              child: const Text(""),),
-
-              const SizedBox(height: 40),
+              Padding(
+                padding: const EdgeInsets.only(left: 70, right: 70, top: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: List.generate(
+                    4,
+                        (i) => Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: List.generate(
+                        3,
+                            (j) {
+                          final index = i * 3 + j + 1;
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ConfirmButton(
+                              radius: 7,
+                              onPressed: () {},
+                              size: 55,
+                              child: Center(
+                                child: Text(
+                                  index <= 9
+                                      ? '$index'
+                                      : index == 10
+                                      ? 'x'
+                                      : index == 11
+                                      ? '0'
+                                      : '<',
+                                  style: const TextStyle(fontSize: 20,color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
               LayoutBuilder(
                 builder: (context, constraints) {
                   return SizedBox(

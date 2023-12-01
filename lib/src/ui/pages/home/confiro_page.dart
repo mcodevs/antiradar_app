@@ -7,16 +7,16 @@ import 'package:pinput/pinput.dart';
 import '../../../common/constants/app_colors.dart';
 import '../auth/login/login_page.dart';
 
-class ConfiroPage extends StatefulWidget {
-   ConfiroPage({Key? key}) : super(key: key);
+class ConfirmPage extends StatefulWidget {
+   const ConfirmPage({Key? key}) : super(key: key);
 
 
 
   @override
-  State<ConfiroPage> createState() => _ConfiroPageState();
+  State<ConfirmPage> createState() => _ConfirmPageState();
 }
 
-class _ConfiroPageState extends State<ConfiroPage> {
+class _ConfirmPageState extends State<ConfirmPage> {
   final pinController = TextEditingController();
   final focusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
@@ -120,11 +120,47 @@ class _ConfiroPageState extends State<ConfiroPage> {
                   border: Border.all(color: Colors.redAccent),
                 ),
               ),
-               ConfiroButton(radius: 8, onPressed: () {  },
-              size: 12,
-              child: Text(""),),
+              Padding(
+                padding: const EdgeInsets.only(left: 70, right: 70, top: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: List.generate(
+                    4,
+                        (i) => Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: List.generate(
+                        3,
+                            (j) {
+                          final index = i * 3 + j + 1;
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ConfirmButton(
+                              radius: 7,
+                              onPressed: () {},
+                              size: 55,
+                              child: Center(
+                                child: Text(
+                                  index <= 9
+                                      ? '$index'
+                                      : index == 10
+                                      ? 'x'
+                                      : index == 11
+                                      ? '0'
+                                      : '<',
+                                  style: const TextStyle(fontSize: 20,color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
 
-              const SizedBox(height: 70),
+
+              const SizedBox(height: 50),
               LayoutBuilder(
                 builder: (context, constraints) {
                   return SizedBox(
