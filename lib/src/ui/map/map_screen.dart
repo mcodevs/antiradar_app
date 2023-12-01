@@ -1,13 +1,16 @@
 import 'dart:async';
 
+import 'package:antiradar/src/common/constants/app_images.dart';
 import 'package:antiradar/src/ui/map/services/radar_services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:geofence_service/geofence_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../common/constants/app_colors.dart';
+import '../pages/home/widget/confiro_code.dart';
 
 class MapEvent {
   final double distance;
@@ -209,37 +212,62 @@ class _MapScreenState extends State<MapScreen> {
         //         return Text("${snapshot.data?.toInt() ?? 0}");
         //       }),
         // ),
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ConfirmButton(
+              onPressed: () => {},
+              radius: 20,
+              size: 63,
+              child: Image(
+                image: AssetImage(AppImages.setting),
+              ),
+            ),
+            ConfirmButton(
+              onPressed: () => {},
+              size: 57,
+              child: Image(
+                image: AssetImage(AppImages.add),
+              ),
+            ),
+            ConfirmButton(
+              onPressed: () => {},
+              size: 63,
+              child: Image(
+                image: AssetImage(AppImages.zoom),
+              ),
+            ),
+          ],
+        ),
         body: Stack(
           children: [
             Expanded(
               child: ValueListenableBuilder(
-                valueListenable: radarServices,
-                builder: (context, radars, child) {
-                  return GoogleMap(
-                    onMapCreated: (controller) {
-                      _controller.complete(controller);
-                    },
-                    initialCameraPosition: _kLake,
-                    myLocationButtonEnabled: true,
-                    myLocationEnabled: true,
-                    markers: radarServices.toGeofence().map((e) {
-                      return Marker(
-                        markerId: MarkerId(e.id),
-                        icon: BitmapDescriptor.defaultMarker,
-                        position: LatLng(e.latitude, e.longitude),
-                      );
-                    }).toSet(),
-                  );
-                }
-              ),
+                  valueListenable: radarServices,
+                  builder: (context, radars, child) {
+                    return GoogleMap(
+                      onMapCreated: (controller) {
+                        _controller.complete(controller);
+                      },
+                      initialCameraPosition: _kLake,
+                      myLocationButtonEnabled: true,
+                      myLocationEnabled: true,
+                      zoomControlsEnabled: false,
+                      markers: radarServices.toGeofence().map((e) {
+                        return Marker(
+                          markerId: MarkerId(e.id),
+                          icon: BitmapDescriptor.defaultMarker,
+                          position: LatLng(e.latitude, e.longitude),
+                        );
+                      }).toSet(),
+                    );
+                  }),
             ),
-              Positioned(
+            Positioned(
               top: 20,
               left: 12,
               child: GestureDetector(
-                onTap: (){
-
-                },
+                onTap: () {},
                 child: const SizedBox(
                   height: 75,
                   width: 85,
@@ -269,13 +297,11 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ),
             ),
-             Positioned(
+            Positioned(
               top: 105,
               left: 15,
               child: GestureDetector(
-                onTap: (){
-
-                },
+                onTap: () {},
                 child: const SizedBox(
                   height: 80,
                   width: 80,
@@ -311,7 +337,6 @@ class _MapScreenState extends State<MapScreen> {
               child: Container(
                 height: 100,
                 color: Colors.transparent,
-                // Bu container ichida, misol uchun, biz CustomDialogni chiqarishimiz mumkin
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -325,8 +350,6 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ),
             ),
-
-
           ],
         ),
       ),

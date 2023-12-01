@@ -2,14 +2,14 @@ import 'package:antiradar/src/common/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ConfirmButton extends StatelessWidget{
-  final double radius;
+  final double? radius;
   final Widget child;
   final VoidCallback onPressed;
   final double  size;
 
   const ConfirmButton({
     Key?key,
-    required this.radius,
+    this.radius,
     required this.child,
     required this.onPressed,
     required this.size,
@@ -23,9 +23,9 @@ class ConfirmButton extends StatelessWidget{
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.greenColor,
-          shape:  RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(radius)),
-          ),
+          shape: radius != null ?  RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(radius!)),
+          ) : CircleBorder(),
         ),
         onPressed: onPressed,
         child: child,
