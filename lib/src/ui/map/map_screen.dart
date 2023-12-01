@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:geofence_service/geofence_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -181,7 +182,6 @@ class _MapScreenState extends State<MapScreen> {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             final controller = await _controller.future;
-
             if (subscription == null) {
               subscription =
                   Geolocator.getPositionStream().listen((event) async {

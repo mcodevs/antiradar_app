@@ -131,7 +131,10 @@ class _LoginPageState extends State<LoginPage> {
                   border: Border.all(color: Colors.redAccent),
                 ),
               ),
-              const ConfiroButton(),
+               ConfiroButton(radius: 7, onPressed: () {  },
+              size: 12,
+              child: const Text(""),),
+
               const SizedBox(height: 40),
               LayoutBuilder(
                 builder: (context, constraints) {

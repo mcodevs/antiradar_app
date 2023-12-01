@@ -1,112 +1,34 @@
+import 'package:antiradar/src/common/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../common/constants/app_colors.dart';
+class ConfiroButton extends StatelessWidget{
+  final double radius;
+  final Widget child;
+  final VoidCallback onPressed;
+  final double size;
 
-class ConfiroButton extends StatefulWidget {
-  const ConfiroButton({Key? key}) : super(key: key);
+  const ConfiroButton({
+    Key?key,
+    required this.radius,
+    required this.child,
+    required this.onPressed,
+    required this.size,
+  }):super(key: key);
 
-  @override
-  State<ConfiroButton> createState() => _ConfiroButtonState();
-}
-
-List<String> number1 = ["1", "2", "3"];
-List<String> number2 = ["4", "5", "6"];
-List<String> number3 = ["7", "8", "9"];
-List<String> number4 = ["x", "0", "<"];
-
-class _ConfiroButtonState extends State<ConfiroButton> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 30, left: 50, right: 50),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              for (int i = 0; i <= 2; i++)
-                SizedBox(
-                  height: 53,
-                  width: 53,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.greenColor,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5),),),),
-                      onPressed: () {},
-                      child: Text(
-                        number1[i],
-                        style:
-                            const TextStyle(fontSize: 20, color: Colors.white),
-                      )),
-                ),
-            ],
+    return SizedBox(
+      height: 50,
+      width: 50,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.greenColor,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(7)),
           ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              for (int i = 0; i <= 2; i++)
-                SizedBox(
-                  height: 53,
-                  width: 53,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.greenColor,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5),),),),
-                      onPressed: () {},
-                      child: Text(number2[i],
-                          style: const TextStyle(
-                              fontSize: 20, color: Colors.white),),),
-                ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              for (int i = 0; i <= 2; i++)
-                SizedBox(
-                  height: 53,
-                  width: 53,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.greenColor,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5),),),),
-                      onPressed: () {},
-                      child: Text(number3[i],
-                          style: const TextStyle(
-                              fontSize: 20, color: Colors.white))),
-                )
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              for (int i = 0; i <= 2; i++)
-                SizedBox(
-                  height: 53,
-                  width: 53,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.greenColor,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)))),
-                      onPressed: () {},
-                      child: Text(number4[i],style: const TextStyle(
-                          fontSize: 20, color: Colors.white))),
-                )
-            ],
-          ),
-        ],
+        ),
+        onPressed: onPressed,
+        child: child,
       ),
     );
   }

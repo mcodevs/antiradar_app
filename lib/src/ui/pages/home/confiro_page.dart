@@ -2,6 +2,7 @@
 
 import 'package:antiradar/src/ui/pages/home/widget/confiro_code.dart';
 import 'package:flutter/material.dart';
+import 'package:pinput/pinput.dart';
 
 import '../../../common/constants/app_colors.dart';
 import '../auth/login/login_page.dart';
@@ -10,10 +11,6 @@ class ConfiroPage extends StatefulWidget {
    ConfiroPage({Key? key}) : super(key: key);
 
 
-  // static List<int?>number=[
-  //   ...List.generate(10, (index) => index),
-  //   null,0,null,
-  // ];
 
   @override
   State<ConfiroPage> createState() => _ConfiroPageState();
@@ -123,7 +120,9 @@ class _ConfiroPageState extends State<ConfiroPage> {
                   border: Border.all(color: Colors.redAccent),
                 ),
               ),
-              const ConfiroButton(),
+               ConfiroButton(radius: 8, onPressed: () {  },
+              size: 12,
+              child: Text(""),),
 
               const SizedBox(height: 70),
               LayoutBuilder(
