@@ -211,52 +211,68 @@ class _MapScreenState extends State<MapScreen> {
         // ),
         body: Stack(
           children: [
-            Expanded(
+            Positioned.fill(
               child: ValueListenableBuilder(
-                valueListenable: radarServices,
-                builder: (context, radars, child) {
-                  return GoogleMap(
-                    onMapCreated: (controller) {
-                      _controller.complete(controller);
-                    },
-                    initialCameraPosition: _kLake,
-                    myLocationButtonEnabled: true,
-                    myLocationEnabled: true,
-                    markers: radarServices.toGeofence().map((e) {
-                      return Marker(
-                        markerId: MarkerId(e.id),
-                        icon: BitmapDescriptor.defaultMarker,
-                        position: LatLng(e.latitude, e.longitude),
-                      );
-                    }).toSet(),
-                  );
-                }
-              ),
+                  valueListenable: radarServices,
+                  builder: (context, radars, child) {
+                    return GoogleMap(
+                      onMapCreated: (controller) {
+                        _controller.complete(controller);
+                        Geolocator.getCurrentPosition().then((event) async {
+                          await controller.animateCamera(
+                            CameraUpdate.newCameraPosition(
+                              CameraPosition(
+                                target: LatLng(event.latitude, event.longitude),
+                                bearing: event.heading,
+                                tilt: 90,
+                                zoom: 17,
+                              ),
+                            ),
+                          );
+                        });
+                      },
+                      initialCameraPosition: _kLake,
+                      myLocationButtonEnabled: false,
+                      compassEnabled: false,
+                      zoomControlsEnabled: false,
+                      myLocationEnabled: true,
+                      markers: radarServices.toGeofence().map((e) {
+                        return Marker(
+                          markerId: MarkerId(e.id),
+                          icon: BitmapDescriptor.defaultMarker,
+                          position: LatLng(e.latitude, e.longitude),
+                        );
+                      }).toSet(),
+                    );
+                  }),
             ),
-              Positioned(
+            Positioned(
               top: 20,
               left: 12,
               child: GestureDetector(
-                onTap: (){
-
-                },
-                child: const SizedBox(
+                onTap: () {},
+                child: SizedBox(
                   height: 75,
                   width: 85,
                   child: DecoratedBox(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: AppColors.greenColor,
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          "65",
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        Text(
+                        StreamBuilder<double>(
+                            stream: _speedStreamController.stream,
+                            builder: (context, snapshot) {
+                              return Text(
+                                "${snapshot.data?.toInt() ?? 0}",
+                                style: const TextStyle(
+                                    fontSize: 30,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700),
+                              );
+                            }),
+                        const Text(
                           "km/s",
                           style: TextStyle(
                               color: Colors.white,
@@ -269,13 +285,11 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ),
             ),
-             Positioned(
+            Positioned(
               top: 105,
               left: 15,
               child: GestureDetector(
-                onTap: (){
-
-                },
+                onTap: () {},
                 child: const SizedBox(
                   height: 80,
                   width: 80,
@@ -325,8 +339,6 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ),
             ),
-
-
           ],
         ),
       ),
