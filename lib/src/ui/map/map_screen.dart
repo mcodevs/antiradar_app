@@ -9,6 +9,8 @@ import 'package:geofence_service/geofence_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../common/constants/app_colors.dart';
+
 class MapEvent {
   final double distance;
   final String radarName;
