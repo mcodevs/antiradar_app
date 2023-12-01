@@ -105,20 +105,14 @@ class _MapScreenState extends State<MapScreen> {
     bearing = bearing.isNegative ? bearing + 360 : bearing;
 
     final res = (bearing - location.heading).abs();
-    print("result: -------------$res");
     if (geofenceStatus == GeofenceStatus.ENTER && res <= 30) {
-      print("----------------------bear(${geofence.id}): ${bearing}");
-      print(
-          "----------------------heading(${geofence.id}): ${location.heading}");
       _geofenceStreamController.sink.add(
         MapEvent(distance: geofenceRadius.length, radarName: geofence.id),
       );
       await flutterTts
           .speak("До радара осталось ${geofenceRadius.length.toInt()} метров");
     } else if (geofenceStatus == GeofenceStatus.EXIT) {
-      _geofenceStreamController.sink.add(
-        null,
-      );
+      _geofenceStreamController.sink.add(null);
     }
   }
 
@@ -131,11 +125,11 @@ class _MapScreenState extends State<MapScreen> {
   void _onError(error) {
     final errorCode = getErrorCodesFromError(error);
     if (errorCode == null) {
-      print('Undefined error: $error');
+      // print('Undefined error: $error');
       return;
     }
 
-    print('ErrorCode: $errorCode');
+    // print('ErrorCode: $errorCode');
   }
 
   @override
@@ -190,8 +184,9 @@ class _MapScreenState extends State<MapScreen> {
                   CameraUpdate.newCameraPosition(
                     CameraPosition(
                       target: LatLng(event.latitude, event.longitude),
-                      // bearing: event.heading,
-                      zoom: 15,
+                      bearing: event.heading,
+                      zoom: 17,
+                      tilt: 90,
                     ),
                   ),
                 );
@@ -203,10 +198,11 @@ class _MapScreenState extends State<MapScreen> {
             }
           },
           child: StreamBuilder<double>(
-              stream: _speedStreamController.stream,
-              builder: (context, snapshot) {
-                return Text("${snapshot.data?.toInt() ?? 0}");
-              }),
+            stream: _speedStreamController.stream,
+            builder: (context, snapshot) {
+              return Text("${snapshot.data?.toInt() ?? 0}");
+            },
+          ),
         ),
         body: Stack(
           children: [
@@ -225,19 +221,6 @@ class _MapScreenState extends State<MapScreen> {
                     position: LatLng(e.latitude, e.longitude),
                   );
                 }).toSet(),
-                circles: _geofenceList
-                    .map((g) {
-                      return g.radius.map((e) {
-                        return Circle(
-                          circleId: CircleId(g.id),
-                          center: LatLng(g.latitude, g.longitude),
-                          radius: e.length,
-                          strokeWidth: 4,
-                        );
-                      });
-                    })
-                    .expand((element) => element)
-                    .toSet(),
               ),
             ),
             const CustomIndicator(
