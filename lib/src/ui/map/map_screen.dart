@@ -32,6 +32,17 @@ class _MapScreenState extends State<MapScreen> {
     target: LatLng(41.3276, 69.2293),
   );
 
+  BitmapDescriptor? icon;
+
+  void getIcon() async {
+    icon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/icons/camera.png",
+      mipmaps: false,
+    );
+    setState(() {});
+  }
+
   final RadarServices radarServices = RadarServices();
 
   final Completer<GoogleMapController> _controller =
@@ -122,6 +133,7 @@ class _MapScreenState extends State<MapScreen> {
     Geolocator.getPositionStream().listen((event) {
       _speedStreamController.sink.add(event.speed);
     });
+    getIcon();
   }
 
   final _geofenceService = GeofenceService.instance.setup(
@@ -240,7 +252,7 @@ class _MapScreenState extends State<MapScreen> {
                       markers: radarServices.toGeofence().map((e) {
                         return Marker(
                           markerId: MarkerId(e.id),
-                          icon: BitmapDescriptor.defaultMarker,
+                          icon: icon ?? BitmapDescriptor.defaultMarker,
                           position: LatLng(e.latitude, e.longitude),
                         );
                       }).toSet(),
