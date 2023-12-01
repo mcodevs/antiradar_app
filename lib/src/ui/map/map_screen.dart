@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:antiradar/src/common/data/models/radars/speed_radar.dart';
 import 'package:antiradar/src/ui/map/services/radar_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -72,8 +73,8 @@ class _MapScreenState extends State<MapScreen> {
       _geofenceStreamController.sink.add(
         MapEvent(distance: geofenceRadius.length, radarName: geofence.id),
       );
-      await flutterTts
-          .speak("До радара осталось ${geofenceRadius.length.toInt()} метров");
+      await flutterTts.speak(
+          "До радара осталось ${geofenceRadius.length.toInt()} метров. Ограничение скорости ${(geofence.data as SpeedRadar).speed} км/ч.");
     } else if (geofenceStatus == GeofenceStatus.EXIT) {
       _geofenceStreamController.sink.add(null);
     }
