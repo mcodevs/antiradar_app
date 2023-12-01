@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:antiradar/src/ui/map/services/radar_services.dart';
-import 'package:antiradar/src/ui/map/widgets/top_widget.dart';
-import 'package:antiradar/src/ui/map/widgets/top_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:geofence_service/geofence_service.dart';
@@ -214,33 +212,25 @@ class _MapScreenState extends State<MapScreen> {
         body: Stack(
           children: [
             Expanded(
-              child: GoogleMap(
-                onMapCreated: (controller) {
-                  _controller.complete(controller);
-                },
-                initialCameraPosition: _kLake,
-                myLocationButtonEnabled: true,
-                myLocationEnabled: true,
-                markers: _geofenceList.map((e) {
-                  return Marker(
-                    markerId: MarkerId(e.id),
-                    icon: BitmapDescriptor.defaultMarker,
-                    position: LatLng(e.latitude, e.longitude),
+              child: ValueListenableBuilder(
+                valueListenable: radarServices,
+                builder: (context, radars, child) {
+                  return GoogleMap(
+                    onMapCreated: (controller) {
+                      _controller.complete(controller);
+                    },
+                    initialCameraPosition: _kLake,
+                    myLocationButtonEnabled: true,
+                    myLocationEnabled: true,
+                    markers: radarServices.toGeofence().map((e) {
+                      return Marker(
+                        markerId: MarkerId(e.id),
+                        icon: BitmapDescriptor.defaultMarker,
+                        position: LatLng(e.latitude, e.longitude),
+                      );
+                    }).toSet(),
                   );
-                }).toSet(),
-                circles: _geofenceList
-                    .map((g) {
-                      return g.radius.map((e) {
-                        return Circle(
-                          circleId: CircleId(g.id),
-                          center: LatLng(g.latitude, g.longitude),
-                          radius: e.length,
-                          strokeWidth: 4,
-                        );
-                      });
-                    })
-                    .expand((element) => element)
-                    .toSet(),
+                }
               ),
             ),
               Positioned(
