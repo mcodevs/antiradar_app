@@ -1,6 +1,8 @@
 import 'dart:async';
 
-import 'package:antiradar/src/common/constants/app_colors.dart';
+import 'package:antiradar/src/ui/map/services/radar_services.dart';
+import 'package:antiradar/src/ui/map/widgets/top_widget.dart';
+import 'package:antiradar/src/ui/map/widgets/top_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:geofence_service/geofence_service.dart';
@@ -29,6 +31,8 @@ class _MapScreenState extends State<MapScreen> {
     target: LatLng(41.3276, 69.2293),
   );
 
+  final RadarServices radarServices = RadarServices();
+
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
@@ -47,47 +51,6 @@ class _MapScreenState extends State<MapScreen> {
 
   final _geofenceStreamController = StreamController<MapEvent?>();
   final _speedStreamController = StreamController<double>();
-
-  final _geofenceList = <Geofence>[
-    Geofence(
-      id: 'radar_1',
-      latitude: 41.3404,
-      longitude: 69.2115,
-      radius: [
-        GeofenceRadius(
-          id: 'radius_200m',
-          length: 400,
-        ),
-        GeofenceRadius(
-          id: 'radius_150m',
-          length: 200,
-        ),
-        GeofenceRadius(
-          id: 'radius_100m',
-          length: 50,
-        ),
-      ],
-    ),
-    Geofence(
-      id: 'radar_2',
-      latitude: 41.3359,
-      longitude: 69.2070,
-      radius: [
-        GeofenceRadius(
-          id: 'radius_200m',
-          length: 400,
-        ),
-        GeofenceRadius(
-          id: 'radius_150m',
-          length: 200,
-        ),
-        GeofenceRadius(
-          id: 'radius_100m',
-          length: 50,
-        ),
-      ],
-    ),
-  ];
 
   Future<void> _onGeofenceStatusChanged(
     Geofence geofence,
@@ -142,6 +105,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     super.initState();
+    radarServices.readRadars();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _geofenceService
           .addGeofenceStatusChangeListener(_onGeofenceStatusChanged);
@@ -150,7 +114,7 @@ class _MapScreenState extends State<MapScreen> {
           _onLocationServicesStatusChanged);
       _geofenceService.addActivityChangeListener(_onActivityChanged);
       _geofenceService.addStreamErrorListener(_onError);
-      _geofenceService.start(_geofenceList).catchError(_onError);
+      _geofenceService.start(radarServices.toGeofence()).catchError(_onError);
     });
     Geolocator.requestPermission();
     init();
