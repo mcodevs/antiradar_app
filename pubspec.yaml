@@ -21,6 +21,8 @@ dependencies:
   firebase_core: ^2.23.0
   cloud_firestore: ^4.13.2
   geofence_service: ^5.0.0
+  pinput: ^3.0.1
+  flutter_tts: ^3.8.5
   flutter_otp_text_field: ^1.1.1
 
 dev_dependencies:

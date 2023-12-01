@@ -2,6 +2,7 @@
 
 import 'package:antiradar/src/ui/pages/home/widget/confiro_code.dart';
 import 'package:flutter/material.dart';
+import 'package:pinput/pinput.dart';
 
 import '../../../common/constants/app_colors.dart';
 import '../auth/login/login_page.dart';
