@@ -13,6 +13,7 @@ class RadarServices extends ValueNotifier<List<SpeedRadar>> {
     return value
         .map(
           (e) => Geofence(
+            data: e,
             id: "${e.position.latitude}${e.position.longitude}",
             latitude: e.position.latitude,
             longitude: e.position.longitude,
@@ -52,10 +53,11 @@ class RadarServices extends ValueNotifier<List<SpeedRadar>> {
         : _geofenceList
             .map(
               (e) => SpeedRadar(
-                  type: "type",
-                  direction: "direction",
-                  speed: 50,
-                  position: LatLng(e.latitude, e.longitude)),
+                type: "type",
+                direction: "direction",
+                speed: 50,
+                position: LatLng(e.latitude, e.longitude),
+              ),
             )
             .toList();
     notifyListeners();

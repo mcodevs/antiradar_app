@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:antiradar/src/common/data/models/radars/speed_radar.dart';
 import 'package:antiradar/src/common/constants/app_images.dart';
 import 'package:antiradar/src/ui/map/services/radar_services.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,17 @@ class _MapScreenState extends State<MapScreen> {
   static const CameraPosition _kLake = CameraPosition(
     target: LatLng(41.3276, 69.2293),
   );
+
+  BitmapDescriptor? icon;
+
+  void getIcon() async {
+    icon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/icons/camera.png",
+      mipmaps: false,
+    );
+    setState(() {});
+  }
 
   final RadarServices radarServices = RadarServices();
 
@@ -124,6 +136,7 @@ class _MapScreenState extends State<MapScreen> {
     Geolocator.getPositionStream().listen((event) {
       _speedStreamController.sink.add(event.speed);
     });
+    getIcon();
   }
 
   final _geofenceService = GeofenceService.instance.setup(
@@ -241,34 +254,47 @@ class _MapScreenState extends State<MapScreen> {
         ),
         body: Stack(
           children: [
-            Expanded(
+            Positioned.fill(
               child: ValueListenableBuilder(
                   valueListenable: radarServices,
                   builder: (context, radars, child) {
                     return GoogleMap(
                       onMapCreated: (controller) {
                         _controller.complete(controller);
+                        Geolocator.getCurrentPosition().then((event) async {
+                          await controller.animateCamera(
+                            CameraUpdate.newCameraPosition(
+                              CameraPosition(
+                                target: LatLng(event.latitude, event.longitude),
+                                bearing: event.heading,
+                                tilt: 90,
+                                zoom: 17,
+                              ),
+                            ),
+                          );
+                        });
                       },
                       initialCameraPosition: _kLake,
-                      myLocationButtonEnabled: true,
-                      myLocationEnabled: true,
+                      myLocationButtonEnabled: false,
+                      compassEnabled: false,
                       zoomControlsEnabled: false,
+                      myLocationEnabled: true,
                       markers: radarServices.toGeofence().map((e) {
                         return Marker(
                           markerId: MarkerId(e.id),
-                          icon: BitmapDescriptor.defaultMarker,
+                          icon: icon ?? BitmapDescriptor.defaultMarker,
                           position: LatLng(e.latitude, e.longitude),
                         );
                       }).toSet(),
                     );
                   }),
             ),
-            Positioned(
+              Positioned(
               top: 20,
               left: 12,
               child: GestureDetector(
                 onTap: () {},
-                child: const SizedBox(
+                child: SizedBox(
                   height: 75,
                   width: 85,
                   child: DecoratedBox(
@@ -276,15 +302,20 @@ class _MapScreenState extends State<MapScreen> {
                         color: AppColors.greenColor,
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          "65",
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        Text(
+                        StreamBuilder<double>(
+                            stream: _speedStreamController.stream,
+                            builder: (context, snapshot) {
+                              return Text(
+                                "${snapshot.data?.toInt() ?? 0}",
+                                style: const TextStyle(
+                                    fontSize: 30,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700),
+                              );
+                            }),
+                        const Text(
                           "km/s",
                           style: TextStyle(
                               color: Colors.white,
@@ -297,11 +328,13 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ),
             ),
-            Positioned(
+             Positioned(
               top: 105,
               left: 15,
               child: GestureDetector(
-                onTap: () {},
+                onTap: (){
+
+                },
                 child: const SizedBox(
                   height: 80,
                   width: 80,
@@ -337,6 +370,7 @@ class _MapScreenState extends State<MapScreen> {
               child: Container(
                 height: 100,
                 color: Colors.transparent,
+                // Bu container ichida, misol uchun, biz CustomDialogni chiqarishimiz mumkin
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -350,6 +384,8 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ),
             ),
+
+
           ],
         ),
       ),
