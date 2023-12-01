@@ -54,7 +54,7 @@ class CustomIndicator extends StatelessWidget {
                     ),
                     const Image(
                       width: 30,
-                      image: AssetImage("assets/images/image 11.png"),
+                      image: AssetImage("assets/images/belgi.png"),
                     ),
                   ],
                 ),
