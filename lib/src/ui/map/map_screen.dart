@@ -121,23 +121,12 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-// This function is to be called when the activity has changed.
-  void _onActivityChanged(Activity prevActivity, Activity currActivity) {
-    // print('prevActivity: ${prevActivity.toJson()}');
-    // print('currActivity: ${currActivity.toJson()}');
-    // _activityStreamController.sink.add(currActivity);
-  }
+  void _onActivityChanged(Activity prevActivity, Activity currActivity) {}
 
-// This function is to be called when the location has changed.
   void _onLocationChanged(Location location) {}
 
-// This function is to be called when a location services status change occurs
-// since the service was started.
-  void _onLocationServicesStatusChanged(bool status) {
-    // print('isLocationServicesEnabled: $status');
-  }
+  void _onLocationServicesStatusChanged(bool status) {}
 
-// This function is used to handle errors that occur in the service.
   void _onError(error) {
     final errorCode = getErrorCodesFromError(error);
     if (errorCode == null) {
@@ -149,8 +138,9 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   @override
-  void dispose() {
+  void dispose() async {
     flutterTts.stop();
+    (await _controller.future).dispose();
     super.dispose();
   }
 
@@ -192,6 +182,7 @@ class _MapScreenState extends State<MapScreen> {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             final controller = await _controller.future;
+
             if (subscription == null) {
               subscription =
                   Geolocator.getPositionStream().listen((event) async {
@@ -247,21 +238,6 @@ class _MapScreenState extends State<MapScreen> {
                     })
                     .expand((element) => element)
                     .toSet(),
-              ),
-            ),
-            Expanded(
-              child: Center(
-                child: StreamBuilder<MapEvent?>(
-                    stream: _geofenceStreamController.stream,
-                    builder: (context, snapshot) {
-                      if (snapshot.data == null) {
-                        return Text("Hech qanday radar yo'q");
-                      } else {
-                        return Text(
-                          "Radargacha masofa: ${snapshot.data!.distance}\nRadar nomi: ${snapshot.data!.radarName}",
-                        );
-                      }
-                    }),
               ),
             ),
           ],
