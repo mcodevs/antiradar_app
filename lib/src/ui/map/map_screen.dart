@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:antiradar/src/ui/map/widgets/top_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:geofence_service/geofence_service.dart';
@@ -184,9 +183,8 @@ class _MapScreenState extends State<MapScreen> {
                   CameraUpdate.newCameraPosition(
                     CameraPosition(
                       target: LatLng(event.latitude, event.longitude),
-                      bearing: event.heading,
-                      zoom: 17,
-                      tilt: 90,
+                      // bearing: event.heading,
+                      zoom: 15,
                     ),
                   ),
                 );
@@ -198,13 +196,12 @@ class _MapScreenState extends State<MapScreen> {
             }
           },
           child: StreamBuilder<double>(
-            stream: _speedStreamController.stream,
-            builder: (context, snapshot) {
-              return Text("${snapshot.data?.toInt() ?? 0}");
-            },
-          ),
+              stream: _speedStreamController.stream,
+              builder: (context, snapshot) {
+                return Text("${snapshot.data?.toInt() ?? 0}");
+              }),
         ),
-        body: Stack(
+        body: Column(
           children: [
             Expanded(
               child: GoogleMap(
@@ -222,11 +219,6 @@ class _MapScreenState extends State<MapScreen> {
                   );
                 }).toSet(),
               ),
-            ),
-            const CustomIndicator(
-              bottomText: "СТАТСИОНАРНЫЙ РАДАР НА СПИНУ",
-              text1: "120",
-              text2: "600",
             ),
           ],
         ),

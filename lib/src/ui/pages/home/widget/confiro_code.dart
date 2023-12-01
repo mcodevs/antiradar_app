@@ -5,7 +5,7 @@ class ConfirmButton extends StatelessWidget{
   final double radius;
   final Widget child;
   final VoidCallback onPressed;
-  final double size;
+  final double  size;
 
   const ConfirmButton({
     Key?key,
@@ -23,8 +23,8 @@ class ConfirmButton extends StatelessWidget{
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.greenColor,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(7)),
+          shape:  RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(radius)),
           ),
         ),
         onPressed: onPressed,

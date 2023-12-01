@@ -1,12 +1,14 @@
 import 'package:antiradar/src/common/constants/app_colors.dart';
+import 'package:antiradar/src/ui/map/map_screen.dart';
 import 'package:antiradar/src/ui/pages/home/widget/confiro_code.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../settings/settings_page.dart';
 
 class LoginPage extends StatefulWidget {
-   LoginPage({super.key});
+   const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -30,7 +32,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     const fillColor = Color.fromRGBO(243, 246, 249, 0);
-
     final defaultPinTheme = PinTheme(
       width: 45,
       height: 45,
@@ -77,9 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                   controller: phonController,
                   decoration: const InputDecoration(
                     hintText: "Telefon raqamingizni kiriting",
-                    border: OutlineInputBorder(
-
-                    ),
+                    border: OutlineInputBorder(),
                   ),
                 ),
               ),
@@ -89,6 +88,9 @@ class _LoginPageState extends State<LoginPage> {
               Pinput(
                 controller: pinController,
                 focusNode: focusNode,
+                onSubmitted: (value){
+                  FocusScope.of(context).unfocus();
+                },
                 androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsUserConsentApi,
                 listenForMultipleSmsOnAndroid: true,
                 defaultPinTheme: defaultPinTheme,
@@ -186,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context)=>const SettingsPage()),
+                            MaterialPageRoute(builder: (context)=>const MapScreen()),
                         );
                       },
                       child: const Text(
