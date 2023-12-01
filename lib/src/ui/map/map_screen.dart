@@ -182,7 +182,6 @@ class _MapScreenState extends State<MapScreen> {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             final controller = await _controller.future;
-
             if (subscription == null) {
               subscription =
                   Geolocator.getPositionStream().listen((event) async {

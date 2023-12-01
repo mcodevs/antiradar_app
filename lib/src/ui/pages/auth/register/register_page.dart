@@ -99,7 +99,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ConfiroPage()));
+                              builder: (context) => const ConfirmPage()));
                     },
                     child: const Text(
                       "K E Y I N N G I",

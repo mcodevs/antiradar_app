@@ -10,7 +10,7 @@ class App extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Yo'lda",
-      home: MapScreen(),
+      home: HomePage(),
     );
   }
 }
