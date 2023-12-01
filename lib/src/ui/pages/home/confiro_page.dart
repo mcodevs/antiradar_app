@@ -1,109 +1,158 @@
-import 'package:antiradar/src/ui/pages/auth/login/login_page.dart';
+
+
 import 'package:antiradar/src/ui/pages/home/widget/confiro_code.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
-class ConfirmPage extends StatefulWidget {
-  const ConfirmPage({Key? key}) : super(key: key);
+import '../../../common/constants/app_colors.dart';
+import '../auth/login/login_page.dart';
+
+class ConfiroPage extends StatefulWidget {
+   ConfiroPage({Key? key}) : super(key: key);
+
+
+  // static List<int?>number=[
+  //   ...List.generate(10, (index) => index),
+  //   null,0,null,
+  // ];
 
   @override
-  State<ConfirmPage> createState() => _ConfirmPageState();
+  State<ConfiroPage> createState() => _ConfiroPageState();
 }
 
-class _ConfirmPageState extends State<ConfirmPage> {
-  static List<int?> number = [
-    ...List.generate(10, (index) => index),
-    null,
-    0,
-    null,
-  ];
+class _ConfiroPageState extends State<ConfiroPage> {
+  final pinController = TextEditingController();
+  final focusNode = FocusNode();
+  final formKey = GlobalKey<FormState>();
+
+
+  @override
+  void dispose() {
+    pinController.dispose();
+    focusNode.dispose();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+
+    const fillColor = Color.fromRGBO(243, 246, 249, 0);
+
+    final defaultPinTheme = PinTheme(
+      width: 45,
+      height: 45,
+      textStyle: const TextStyle(
+        fontSize: 20,
+        color: Colors.black,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.black),
+      ),
+    );
+    return  Scaffold(
       body: SafeArea(
         child: Center(
           child: Column(
             children: [
-              const SizedBox(height: 60),
+              const SizedBox(height: 40),
               const Text(
                 "TASDIQLASH",
                 style: TextStyle(
                     fontFamily: "TextFont",
                     fontSize: 23,
-                    color: Color(0xFF34A853)),
+                    color: AppColors.greenColor),
               ),
               const SizedBox(height: 10),
               const Padding(
                 padding: EdgeInsets.only(left: 90, right: 90),
                 child: Divider(
                   height: 2,
-                  color: Color(0xFFA027FF),
+                  color: AppColors.purpleColor,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               const Image(
                 image: AssetImage("assets/images/confiroImages.png"),
                 height: 200,
               ),
-              SizedBox(
-                height: 50,
-                child: OtpTextField(
-                  handleControllers: (controllers) {},
-                  numberOfFields: 5,
-                  cursorColor: Colors.black,
-                  focusedBorderColor: Colors.black,
-                  enabledBorderColor: Colors.grey.shade400,
-                  showFieldAsBox: true,
-                  onCodeChanged: (String code) {},
-                  onSubmit: (String numberCode) {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text("jasur"),
-                            content: Text("code $numberCode"),
-                          );
-                        });
-                  },
+              const Text("Kirish kodini o'rnating"),
+              const SizedBox(height: 5),
+              Pinput(
+                controller: pinController,
+                focusNode: focusNode,
+                androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsUserConsentApi,
+                listenForMultipleSmsOnAndroid: true,
+                defaultPinTheme: defaultPinTheme,
+                separatorBuilder: (index) => const SizedBox(width: 8),
+                validator: (value) {
+                  return value == '2222' ? null : "PIN-code error";
+                },
+                hapticFeedbackType: HapticFeedbackType.lightImpact,
+                onCompleted: (pin) {
+                  debugPrint('onCompleted: $pin');
+                },
+                onChanged: (value) {
+                  debugPrint('onChanged: $value');
+                },
+                cursor: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 9),
+                      width: 22,
+                      height: 1,
+                      color: Colors.black,
+                    ),
+                  ],
                 ),
-              ),
-              Column(
-                children: [
-                  for (int i = 1; i < number.length - 1; i += 3)
-                    Row(
-                      children: [
-                        for (int j = 0; j < 3; j++)
-                          ConfiroButton(
-                            number: number.elementAt(i + j),
-                          ),
-                      ],
-                    )
-                ],
-              ),
-              const SizedBox(height: 100),
-              SizedBox(
-                height: 55,
-                width: 340,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF34A853),
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginPage()));
-                  },
-                  child: const Text(
-                    "T A S D I Q L A SH",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: "TextFont",
-                        fontSize: 18),
+                focusedPinTheme: defaultPinTheme.copyWith(
+                  decoration: defaultPinTheme.decoration!.copyWith(
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.black),
                   ),
                 ),
+                submittedPinTheme: defaultPinTheme.copyWith(
+                  decoration: defaultPinTheme.decoration!.copyWith(
+                    color: fillColor,
+                    borderRadius: BorderRadius.circular(13),
+                    border: Border.all(color: Colors.black),
+                  ),
+                ),
+                errorPinTheme: defaultPinTheme.copyBorderWith(
+                  border: Border.all(color: Colors.redAccent),
+                ),
+              ),
+              const ConfiroButton(),
+
+              const SizedBox(height: 70),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  return SizedBox(
+                    height: constraints.maxWidth <= 600 ? 50 : 55,
+                    width: constraints.maxWidth <= 340 ? double.infinity : 340,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.greenColor,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(10)),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) =>  LoginPage()),
+                        );
+                      },
+                      child: const Text(
+                        "T A S D I Q L A SH",
+                        style:
+                        TextStyle(color: Colors.white, fontFamily: "TextFont", fontSize: 18),
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),
