@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinput/pinput.dart';
 
-
 class LoginPage extends StatefulWidget {
-   const LoginPage({super.key});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -18,6 +17,15 @@ class _LoginPageState extends State<LoginPage> {
   final focusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
 
+  void onButtonPressed(String value) {
+    if (value == "<") {
+      pinController.delete();
+    } else if (value == "x") {
+      pinController.clear();
+    } else {
+      pinController.append(value, 5);
+    }
+  }
 
   @override
   void dispose() {
@@ -26,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  final TextEditingController phonController=TextEditingController();
+  final TextEditingController phonController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +72,17 @@ class _LoginPageState extends State<LoginPage> {
                   color: AppColors.purpleColor,
                 ),
               ),
-              const SizedBox(height: 20),
-              const Image(
-                image: AssetImage("assets/images/loginImage.png"),
-                height: 160,
+              const Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Image(
+                    image: AssetImage("assets/images/loginImage.png"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
-              const SizedBox(height: 20),
-                SizedBox(
+              SizedBox(
                 height: 50,
                 width: 335,
                 child: TextField(
@@ -88,17 +100,12 @@ class _LoginPageState extends State<LoginPage> {
                 length: 5,
                 controller: pinController,
                 focusNode: focusNode,
-                onSubmitted: (value){
+                onSubmitted: (value) {
                   FocusScope.of(context).unfocus();
                 },
-                androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsUserConsentApi,
-                listenForMultipleSmsOnAndroid: true,
+                useNativeKeyboard: false,
                 defaultPinTheme: defaultPinTheme,
                 separatorBuilder: (index) => const SizedBox(width: 8),
-                validator: (value) {
-                  return value == '2222' ? null : "PIN-code error";
-                },
-                hapticFeedbackType: HapticFeedbackType.lightImpact,
                 onCompleted: (pin) {
                   debugPrint('onCompleted: $pin');
                 },
@@ -133,45 +140,51 @@ class _LoginPageState extends State<LoginPage> {
                   border: Border.all(color: Colors.redAccent),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 70, right: 70, top: 15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: List.generate(
-                    4,
-                        (i) => Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: List.generate(
-                        3,
-                            (j) {
-                          final index = i * 3 + j + 1;
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ConfirmButton(
-                              radius: 7,
-                              onPressed: () {},
-                              size: 55,
-                              child: Center(
-                                child: Text(
-                                  index <= 9
-                                      ? '$index'
-                                      : index == 10
-                                      ? 'x'
-                                      : index == 11
-                                      ? '0'
-                                      : '<',
-                                  style: const TextStyle(fontSize: 20,color: Colors.white),
+              Expanded(
+                flex: 4,
+                child: FractionallySizedBox(
+                  alignment: Alignment.center,
+                  widthFactor: 0.55,
+                  heightFactor: 0.94,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: List.generate(
+                      4,
+                      (i) => Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: List.generate(
+                          3,
+                          (j) {
+                            final index = i * 3 + j + 1;
+                            final value = index <= 9
+                                ? '$index'
+                                : index == 10
+                                    ? 'x'
+                                    : index == 11
+                                        ? '0'
+                                        : '<';
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 12),
+                              child: ConfirmButton(
+                                radius: 7,
+                                onPressed: () => onButtonPressed(value),
+                                size: 60,
+                                child: Center(
+                                  child: Text(
+                                    value,
+                                    style: const TextStyle(
+                                        fontSize: 20, color: Colors.white),
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
               LayoutBuilder(
                 builder: (context, constraints) {
                   return SizedBox(
@@ -181,25 +194,28 @@ class _LoginPageState extends State<LoginPage> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.greenColor,
                         shape: const RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(10)),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                       ),
                       onPressed: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context)=>const MapScreen()),
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MapScreen()),
                         );
                       },
                       child: const Text(
                         "K E Y I N G I",
-                        style:
-                        TextStyle(color: Colors.white, fontFamily: "TextFont", fontSize: 18),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "TextFont",
+                            fontSize: 18),
                       ),
                     ),
                   );
                 },
               ),
+              const SizedBox(height: 20),
             ],
           ),
         ),

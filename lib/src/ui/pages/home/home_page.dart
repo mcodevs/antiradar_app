@@ -2,6 +2,7 @@ import 'package:antiradar/src/common/constants/app_colors.dart';
 import 'package:antiradar/src/common/constants/app_images.dart';
 import 'package:flutter/material.dart';
 
+import '../auth/login/login_page.dart';
 import '../auth/register/register_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -9,18 +10,29 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return   Scaffold(
+    return Scaffold(
       backgroundColor: AppColors.greenColor,
       body: SafeArea(
         child: Center(
           child: Column(
             children: [
               const SizedBox(height: 130),
-              const Text("YO'LDA",style: TextStyle(fontFamily: "TextFont",fontSize: 42,color: Colors.white),),
+              const Text(
+                "YO'LDA",
+                style: TextStyle(
+                    fontFamily: "TextFont", fontSize: 42, color: Colors.white),
+              ),
               const SizedBox(height: 10),
-              const Text("XAFSIZ VA JARIMALARSIZ\n       HARAKATLANING",style: TextStyle(fontFamily: "TitleFont",fontSize: 16,color: Colors.white),),
+              const Text(
+                "XAFSIZ VA JARIMALARSIZ\n       HARAKATLANING",
+                style: TextStyle(
+                    fontFamily: "TitleFont", fontSize: 16, color: Colors.white),
+              ),
               const SizedBox(height: 20),
-              Image(image: AssetImage(AppImages.carImages),height: 230,),
+              Image(
+                image: AssetImage(AppImages.carImages),
+                height: 230,
+              ),
               const SizedBox(height: 90),
               LayoutBuilder(
                 builder: (context, constraints) {
@@ -31,20 +43,23 @@ class HomePage extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                         shape: const RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(10)),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                       ),
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => RegisterPage()),
+                          MaterialPageRoute(
+                            builder: (context) => const LoginPage(),
+                          ),
                         );
                       },
                       child: const Text(
                         "SAFARNI BOSHLANG",
-                        style:
-                        TextStyle(color: AppColors.greenColor, fontFamily: "TextFont", fontSize: 16),
+                        style: TextStyle(
+                            color: AppColors.greenColor,
+                            fontFamily: "TextFont",
+                            fontSize: 16),
                       ),
                     ),
                   );
@@ -60,20 +75,23 @@ class HomePage extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.purpleColor,
                         shape: const RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(10)),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                       ),
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => RegisterPage()),
+                          MaterialPageRoute(
+                            builder: (context) => const RegisterPage(),
+                          ),
                         );
                       },
                       child: const Text(
                         "R O' Y H A T D A N  O' T I SH",
-                        style:
-                        TextStyle(color: Colors.white, fontFamily: "TextFont", fontSize: 18),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "TextFont",
+                            fontSize: 18),
                       ),
                     ),
                   );
