@@ -339,8 +339,8 @@ class _MapScreenState extends State<MapScreen> {
                 size: 63,
                 color:
                     ((subscription?.isPaused ?? false) || subscription == null)
-                        ? AppColors.purpleColor
-                        : AppColors.greenColor,
+                        ? AppColors.greenColor
+                        : AppColors.purpleColor,
                 child: Image(
                   image: AssetImage(AppImages.zoom),
                 ),
