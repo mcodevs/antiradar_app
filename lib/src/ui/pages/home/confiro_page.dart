@@ -29,7 +29,15 @@ class _ConfirmPageState extends State<ConfirmPage> {
     super.dispose();
   }
 
-
+  void buttonPressed(String value1){
+    if(value1 == "<"){
+      pinController.delete();
+    }else if(value1 == "x"){
+      pinController.clear();
+    }else{
+      pinController.append(value1, 5);
+    }
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -79,14 +87,12 @@ class _ConfirmPageState extends State<ConfirmPage> {
                 length: 5,
                 controller: pinController,
                 focusNode: focusNode,
-                androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsUserConsentApi,
-                listenForMultipleSmsOnAndroid: true,
+                onSubmitted: (value1){
+                  FocusScope.of(context).unfocus();
+               },
+                useNativeKeyboard: false,
                 defaultPinTheme: defaultPinTheme,
-                separatorBuilder: (index) => const SizedBox(width: 8),
-                validator: (value) {
-                  return value == '2222' ? null : "PIN-code error";
-                },
-                hapticFeedbackType: HapticFeedbackType.lightImpact,
+                separatorBuilder: (index)=>const SizedBox(width: 8),
                 onCompleted: (pin) {
                   debugPrint('onCompleted: $pin');
                 },
@@ -121,46 +127,45 @@ class _ConfirmPageState extends State<ConfirmPage> {
                   border: Border.all(color: Colors.redAccent),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 70, right: 70, top: 30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: List.generate(
-                    4,
-                        (i) => Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: List.generate(
-                        3,
-                            (j) {
-                          final index = i * 3 + j + 1;
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ConfirmButton(
-                              radius: 7,
-                              onPressed: () {},
-                              size: 55,
-                              child: Center(
-                                child: Text(
-                                  index <= 9
-                                      ? '$index'
-                                      : index == 10
-                                      ? 'x'
-                                      : index == 11
-                                      ? '0'
-                                      : '<',
-                                  style: const TextStyle(fontSize: 20,color: Colors.white),
+              Expanded(
+                flex: 4,
+                child: FractionallySizedBox(
+                  alignment: Alignment.center,
+                  widthFactor: 0.55,
+                  heightFactor: 0.94,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: List.generate(
+                      4,
+                          (i) => Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: List.generate(
+                          3,
+                              (j) {
+                            final index = i * 3 + j + 1;
+                            final value = index <= 9
+                            ? "$index" :index == 10 ? "x" : index == 11 ? "0" : "<";
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 12),
+                              child: ConfirmButton(
+                                radius: 7,
+                                onPressed: () =>buttonPressed(value),
+                                size: 60,
+                                child: Center(
+                                  child: Text(
+                                   value,
+                                    style: const TextStyle(fontSize: 20,color: Colors.white),
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-
-
               const SizedBox(height: 50),
               LayoutBuilder(
                 builder: (context, constraints) {
@@ -178,7 +183,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) =>  LoginPage()),
+                          MaterialPageRoute(builder: (context) =>  const LoginPage()),
                         );
                       },
                       child: const Text(
