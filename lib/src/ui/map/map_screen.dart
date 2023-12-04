@@ -399,7 +399,7 @@ class _MapScreenState extends State<MapScreen> {
                             stream: _speedStreamController.stream,
                             builder: (context, snapshot) {
                               return Text(
-                                "${(snapshot.data ?? 0) * (3.6)}",
+                                "${((snapshot.data ?? 0) * (3.6)).toInt()}",
                                 style: const TextStyle(
                                   fontSize: 30,
                                   color: Colors.white,
