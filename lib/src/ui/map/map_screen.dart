@@ -4,7 +4,7 @@ import 'package:antiradar/src/common/constants/app_images.dart';
 import 'package:antiradar/src/ui/map/services/radar_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:geofence_service/geofence_service.dart';
+import 'package:geofence_service/geofence_service.dart' hide LocationPermission;
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -35,13 +35,12 @@ class _MapScreenState extends State<MapScreen> {
 
   BitmapDescriptor? icon;
 
-  void getIcon() async {
+  Future<void> getIcon() async {
     icon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
       "assets/icons/camera.png",
       mipmaps: false,
     );
-    setState(() {});
   }
 
   final RadarServices radarServices = RadarServices();
@@ -57,9 +56,21 @@ class _MapScreenState extends State<MapScreen> {
     flutterTts = FlutterTts();
     await flutterTts.awaitSpeakCompletion(true);
     await flutterTts.setVolume(1);
-    await flutterTts.setSpeechRate(0.8);
-    await flutterTts.setPitch(1);
+    await flutterTts.setSpeechRate(0.6);
     await flutterTts.setLanguage("ru");
+  }
+
+  Future<void> checkPermission() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+    if (permission == LocationPermission.always ||
+        permission == LocationPermission.whileInUse) {
+      Geolocator.getPositionStream().listen((event) {
+        _speedStreamController.sink.add(event.speed);
+      });
+    }
   }
 
   final _geofenceStreamController = StreamController<MapEvent?>();
@@ -112,6 +123,8 @@ class _MapScreenState extends State<MapScreen> {
   void dispose() async {
     flutterTts.stop();
     (await _controller.future).dispose();
+    _geofenceStreamController.close();
+    _speedStreamController.close();
     super.dispose();
   }
 
@@ -129,12 +142,9 @@ class _MapScreenState extends State<MapScreen> {
       _geofenceService.addStreamErrorListener(_onError);
       _geofenceService.start(radarServices.toGeofence()).catchError(_onError);
     });
-    Geolocator.requestPermission();
-    init();
-    Geolocator.getPositionStream().listen((event) {
-      _speedStreamController.sink.add(event.speed);
+    Future.wait<void>([init(), getIcon(), checkPermission()]).then((value) {
+      setState(() {});
     });
-    getIcon();
   }
 
   final _geofenceService = GeofenceService.instance.setup(
@@ -250,34 +260,6 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () async {
-        //     final controller = await _controller.future;
-        //     if (subscription == null) {
-        //       subscription =
-        //           Geolocator.getPositionStream().listen((event) async {
-        //         await controller.animateCamera(
-        //           CameraUpdate.newCameraPosition(
-        //             CameraPosition(
-        //               target: LatLng(event.latitude, event.longitude),
-        //               // bearing: event.heading,
-        //               zoom: 15,
-        //             ),
-        //           ),
-        //         );
-        //       });
-        //     } else if (subscription?.isPaused ?? false) {
-        //       subscription?.resume();
-        //     } else {
-        //       subscription?.pause();
-        //     }
-        //   },
-        //   child: StreamBuilder<double>(
-        //       stream: _speedStreamController.stream,
-        //       builder: (context, snapshot) {
-        //         return Text("${snapshot.data?.toInt() ?? 0}");
-        //       }),
-        // ),
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(left: 30),
           child: Row(
@@ -397,19 +379,21 @@ class _MapScreenState extends State<MapScreen> {
                             stream: _speedStreamController.stream,
                             builder: (context, snapshot) {
                               return Text(
-                                "${snapshot.data?.toInt() ?? 0}",
+                                "${(snapshot.data ?? 0) * (3.6)}",
                                 style: const TextStyle(
-                                    fontSize: 30,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700),
+                                  fontSize: 30,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               );
                             }),
                         const Text(
                           "km/s",
                           style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500),
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          ),
                         )
                       ],
                     ),
@@ -476,5 +460,4 @@ class _MapScreenState extends State<MapScreen> {
       ),
     );
   }
-
 }
