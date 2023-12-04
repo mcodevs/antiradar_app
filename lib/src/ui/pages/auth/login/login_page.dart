@@ -2,7 +2,6 @@ import 'package:antiradar/src/common/constants/app_colors.dart';
 import 'package:antiradar/src/ui/map/map_screen.dart';
 import 'package:antiradar/src/ui/pages/home/widget/confiro_code.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:pinput/pinput.dart';
 
 class LoginPage extends StatefulWidget {
@@ -52,6 +51,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Center(
           child: Column(
@@ -220,6 +220,8 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
+
     );
+
   }
 }
