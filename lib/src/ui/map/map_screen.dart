@@ -11,15 +11,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../common/constants/app_colors.dart';
 import '../pages/home/widget/confiro_code.dart';
 
-class MapEvent {
-  final double distance;
-  final String radarName;
-
-  MapEvent({
-    required this.distance,
-    required this.radarName,
-  });
-}
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -73,7 +64,6 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-  final _geofenceStreamController = StreamController<MapEvent?>();
   final _speedStreamController = StreamController<double>();
 
   Future<void> _onGeofenceStatusChanged(
@@ -93,13 +83,8 @@ class _MapScreenState extends State<MapScreen> {
 
     final res = (bearing - location.heading).abs();
     if (geofenceStatus == GeofenceStatus.ENTER && res <= 30) {
-      _geofenceStreamController.sink.add(
-        MapEvent(distance: geofenceRadius.length, radarName: geofence.id),
-      );
       await flutterTts
           .speak("До радара осталось ${geofenceRadius.length.toInt()} метров");
-    } else if (geofenceStatus == GeofenceStatus.EXIT) {
-      _geofenceStreamController.sink.add(null);
     }
   }
 
@@ -142,7 +127,6 @@ class _MapScreenState extends State<MapScreen> {
   void dispose() async {
     flutterTts.stop();
     (await _controller.future).dispose();
-    _geofenceStreamController.close();
     _speedStreamController.close();
     super.dispose();
   }
@@ -261,6 +245,7 @@ class _MapScreenState extends State<MapScreen> {
                           //Dialokni yopib ketish
                           Navigator.of(context).pop(speedController.text);
                         },
+                        
                         child: const Text(
                           "SAQLASH",
                           style: TextStyle(color: Colors.white, fontSize: 15),

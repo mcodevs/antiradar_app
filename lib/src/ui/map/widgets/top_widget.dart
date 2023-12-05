@@ -112,9 +112,7 @@ class CustomIndicator extends StatelessWidget {
                       ],
                     ),
                     // const Image(height: 100,image: AssetImage("assets/images/image 7.png")),
-                    SizedBox.square(
-                      dimension: 100,
-                    ),
+                    const SizedBox.square(dimension: 100),
                   ],
                 ),
               ),

@@ -1,4 +1,3 @@
-
 import 'package:antiradar/src/common/data/models/user_model.dart';
 import 'package:antiradar/src/common/data/repositories/auth_service_repository.dart';
 
@@ -18,5 +17,7 @@ class RealAuthService extends AuthServiceRepository {
   }) async {}
 
   @override
-  Future<UserModel?> getUser() async {}
+  Future<UserModel?> getUser() async {
+    throw UnimplementedError();
+  }
 }
