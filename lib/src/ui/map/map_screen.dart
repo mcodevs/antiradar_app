@@ -10,7 +10,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../common/constants/app_colors.dart';
 import '../pages/home/widget/confiro_code.dart';
-import 'widgets/top_widget.dart';
 
 class MapEvent {
   final double distance;
@@ -95,7 +94,7 @@ class _MapScreenState extends State<MapScreen> {
     bearing = bearing.isNegative ? bearing + 360 : bearing;
 
     final res = (bearing - location.heading).abs();
-    if (geofenceStatus == GeofenceStatus.ENTER && res <= 45) {
+    if (geofenceStatus == GeofenceStatus.ENTER && res <= 30) {
       _geofenceStreamController.sink.add(
         MapEvent(distance: geofenceRadius.length, radarName: geofence.id),
       );

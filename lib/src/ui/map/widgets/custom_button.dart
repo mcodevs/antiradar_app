@@ -7,7 +7,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {},
-      child: Text(""),
+      child: const Text(""),
     );
   }
 }

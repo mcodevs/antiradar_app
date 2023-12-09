@@ -10,17 +10,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  static const List<String> infoName = [
-    "Ismingiz va familiyangiz",
-    "Avtomashina raqami",
-    "Telefon raqami"
-  ];
-
-  static const List<String> info = [
-    "Ismingiz va familiyangizni kiriting",
-    "Avtomashina raqamini kiriting",
-    "Telefon raqamingizni kiriting"
-  ];
 
   @override
   Widget build(BuildContext context) {
