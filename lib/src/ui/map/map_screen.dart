@@ -10,6 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../common/constants/app_colors.dart';
 import '../pages/home/widget/confiro_code.dart';
+import 'widgets/top_widget.dart';
 
 class MapEvent {
   final double distance;
@@ -45,6 +46,8 @@ class _MapScreenState extends State<MapScreen> {
 
   final RadarServices radarServices = RadarServices();
 
+  ValueNotifier<bool> visiblite = ValueNotifier<bool>(false);
+
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
@@ -74,7 +77,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   final _geofenceStreamController = StreamController<MapEvent?>();
-  final _speedStreamController = StreamController<double>();
+  final _speedStreamController = StreamController<double>.broadcast();
 
   Future<void> _onGeofenceStatusChanged(
     Geofence geofence,
@@ -92,14 +95,16 @@ class _MapScreenState extends State<MapScreen> {
     bearing = bearing.isNegative ? bearing + 360 : bearing;
 
     final res = (bearing - location.heading).abs();
-    if (geofenceStatus == GeofenceStatus.ENTER && res <= 30) {
+    if (geofenceStatus == GeofenceStatus.ENTER && res <= 45) {
       _geofenceStreamController.sink.add(
         MapEvent(distance: geofenceRadius.length, radarName: geofence.id),
       );
       await flutterTts
           .speak("До радара осталось ${geofenceRadius.length.toInt()} метров");
+      visiblite.value = true;
     } else if (geofenceStatus == GeofenceStatus.EXIT) {
       _geofenceStreamController.sink.add(null);
+      visiblite.value = false;
     }
   }
 
@@ -355,6 +360,18 @@ class _MapScreenState extends State<MapScreen> {
                   valueListenable: radarServices,
                   builder: (context, radars, child) {
                     return GoogleMap(
+                      onTap: (argument) async {
+                        final speed = await _showDialog();
+                        if (speed != null) {
+                          final radar = await radarServices.addRadar(
+                            "type",
+                            int.tryParse(speed) ?? 60,
+                            LatLng(argument.latitude, argument.longitude),
+                            "direction",
+                          );
+                          _geofenceService.addGeofence(radar.toGeofence());
+                        }
+                      },
                       onMapCreated: (controller) {
                         _controller.complete(controller);
                         Geolocator.getCurrentPosition().then((event) async {
@@ -381,7 +398,7 @@ class _MapScreenState extends State<MapScreen> {
                   }),
             ),
             Positioned(
-              top: 20,
+              top: 160,
               left: 12,
               child: GestureDetector(
                 onTap: () {},
@@ -422,7 +439,7 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
             Positioned(
-              top: 105,
+              top: 250,
               left: 15,
               child: GestureDetector(
                 onTap: () {},
@@ -455,23 +472,30 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
             Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                height: 100,
-                color: Colors.transparent,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        _showCustomDialog();
-                      },
-                      child: const Text('Show Dialog'),
-                    ),
-                  ],
-                ),
+              top: 10,
+              right: 15,
+              child: StreamBuilder<double>(
+                stream: _speedStreamController.stream,
+                builder: (context, snapshot1) {
+                  return StreamBuilder<MapEvent?>(
+                    stream: _geofenceStreamController.stream,
+                    builder: (context, snapshot) {
+                      return ValueListenableBuilder<bool>(
+                        valueListenable: visiblite,
+                        builder: (context,value,child) {
+                          return Visibility(
+                            visible: value,
+                            child: CustomIndicator(
+                              text1: snapshot1.data?.toStringAsFixed(4) ?? "",
+                              text2: snapshot.data?.distance.toString()??"",
+                              bottomText: snapshot.data?.radarName ?? "",
+                            ),
+                          );
+                        }
+                      );
+                    }
+                  );
+                }
               ),
             ),
           ],

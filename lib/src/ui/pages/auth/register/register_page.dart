@@ -107,7 +107,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       style: TextStyle(
                           color: Colors.white,
                           fontFamily: "TextFont",
-                          fontSize: 18),
+                          fontSize: 18,),
                     ),
                   ),
                 ),
