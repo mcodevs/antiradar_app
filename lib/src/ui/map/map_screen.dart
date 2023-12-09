@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:antiradar/src/common/constants/app_images.dart';
 import 'package:antiradar/src/ui/map/services/radar_services.dart';
+import 'package:antiradar/src/ui/map/widgets/top_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:geofence_service/geofence_service.dart' hide LocationPermission;
@@ -359,6 +360,20 @@ class _MapScreenState extends State<MapScreen> {
                   valueListenable: radarServices,
                   builder: (context, radars, child) {
                     return GoogleMap(
+                      circles: radarServices
+                          .toGeofence()
+                          .map((g) {
+                            return g.radius.map(
+                              (e) => Circle(
+                                circleId: CircleId(g.id),
+                                radius: e.length,
+                                center: LatLng(g.latitude, g.longitude),
+                                strokeWidth: 1,
+                              ),
+                            );
+                          })
+                          .expand((element) => element)
+                          .toSet(),
                       onTap: (argument) async {
                         final speed = await _showDialog();
                         if (speed != null) {
@@ -474,28 +489,27 @@ class _MapScreenState extends State<MapScreen> {
               top: 10,
               right: 15,
               child: StreamBuilder<double>(
-                stream: _speedStreamController.stream,
-                builder: (context, snapshot1) {
-                  return StreamBuilder<MapEvent?>(
-                    stream: _geofenceStreamController.stream,
-                    builder: (context, snapshot) {
-                      return ValueListenableBuilder<bool>(
-                        valueListenable: visiblite,
-                        builder: (context,value,child) {
-                          return Visibility(
-                            visible: value,
-                            child: CustomIndicator(
-                              text1: snapshot1.data?.toStringAsFixed(4) ?? "",
-                              text2: snapshot.data?.distance.toString()??"",
-                              bottomText: snapshot.data?.radarName ?? "",
-                            ),
-                          );
-                        }
-                      );
-                    }
-                  );
-                }
-              ),
+                  stream: _speedStreamController.stream,
+                  builder: (context, snapshot1) {
+                    return StreamBuilder<MapEvent?>(
+                        stream: _geofenceStreamController.stream,
+                        builder: (context, snapshot) {
+                          return ValueListenableBuilder<bool>(
+                              valueListenable: visiblite,
+                              builder: (context, value, child) {
+                                return Visibility(
+                                  visible: value,
+                                  child: CustomIndicator(
+                                    text1: snapshot1.data?.toStringAsFixed(4) ??
+                                        "",
+                                    text2: snapshot.data?.distance.toString() ??
+                                        "",
+                                    bottomText: snapshot.data?.radarName ?? "",
+                                  ),
+                                );
+                              });
+                        });
+                  }),
             ),
           ],
         ),
