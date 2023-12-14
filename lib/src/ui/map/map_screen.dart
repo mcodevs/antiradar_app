@@ -11,6 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../common/constants/app_colors.dart';
 import '../pages/home/widget/confiro_code.dart';
+import 'widgets/top_widget.dart';
 
 class MapEvent {
   final double distance;
@@ -473,11 +474,12 @@ class _MapScreenState extends State<MapScreen> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(100))),
                           child: Center(
-                              child: Text(
-                            "110",
-                            style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.w600),
-                          )),
+                            child: Text(
+                              "110",
+                              style: TextStyle(
+                                  fontSize: 30, fontWeight: FontWeight.w600),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -489,27 +491,28 @@ class _MapScreenState extends State<MapScreen> {
               top: 10,
               right: 15,
               child: StreamBuilder<double>(
-                  stream: _speedStreamController.stream,
-                  builder: (context, snapshot1) {
-                    return StreamBuilder<MapEvent?>(
-                        stream: _geofenceStreamController.stream,
-                        builder: (context, snapshot) {
-                          return ValueListenableBuilder<bool>(
-                              valueListenable: visiblite,
-                              builder: (context, value, child) {
-                                return Visibility(
-                                  visible: value,
-                                  child: CustomIndicator(
-                                    text1: snapshot1.data?.toStringAsFixed(4) ??
-                                        "",
-                                    text2: snapshot.data?.distance.toString() ??
-                                        "",
-                                    bottomText: snapshot.data?.radarName ?? "",
-                                  ),
-                                );
-                              });
-                        });
-                  }),
+                stream: _speedStreamController.stream,
+                builder: (context, snapshot1) {
+                  return StreamBuilder<MapEvent?>(
+                    stream: _geofenceStreamController.stream,
+                    builder: (context, snapshot) {
+                      return ValueListenableBuilder<bool>(
+                        valueListenable: visiblite,
+                        builder: (context, value, child) {
+                          return Visibility(
+                            visible: value,
+                            child: CustomIndicator(
+                              text1: snapshot1.data?.toStringAsFixed(1) ?? "",
+                              text2: snapshot.data?.distance.toString() ?? "",
+                              bottomText: snapshot.data?.radarName ?? "",
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ],
         ),
