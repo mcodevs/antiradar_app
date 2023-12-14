@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:antiradar/src/common/constants/app_images.dart';
 import 'package:antiradar/src/ui/map/services/radar_services.dart';
 import 'package:antiradar/src/ui/map/widgets/top_widget.dart';
+import 'package:antiradar/src/ui/pages/intro/widget/confirm_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:geofence_service/geofence_service.dart' hide LocationPermission;
@@ -10,8 +11,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../common/constants/app_colors.dart';
-import '../pages/home/widget/confiro_code.dart';
-import 'widgets/top_widget.dart';
 
 class MapEvent {
   final double distance;

@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import '../auth/login/login_page.dart';
 import '../auth/register/register_page.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class IntroPage extends StatelessWidget {
+  const IntroPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +20,19 @@ class HomePage extends StatelessWidget {
               const Text(
                 "YO'LDA",
                 style: TextStyle(
-                    fontFamily: "TextFont", fontSize: 42, color: Colors.white),
+                  fontFamily: "Righteous",
+                  fontSize: 42,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(height: 10),
               const Text(
                 "XAFSIZ VA JARIMALARSIZ\n       HARAKATLANING",
                 style: TextStyle(
-                    fontFamily: "TitleFont", fontSize: 16, color: Colors.white),
+                  fontFamily: "RaviPrakash",
+                  fontSize: 16,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(height: 20),
               Image(
@@ -58,7 +64,7 @@ class HomePage extends StatelessWidget {
                         "SAFARNI BOSHLANG",
                         style: TextStyle(
                             color: AppColors.greenColor,
-                            fontFamily: "TextFont",
+                            fontFamily: "Righteous",
                             fontSize: 16),
                       ),
                     ),
@@ -90,7 +96,7 @@ class HomePage extends StatelessWidget {
                         "R O' Y H A T D A N  O' T I SH",
                         style: TextStyle(
                             color: Colors.white,
-                            fontFamily: "TextFont",
+                            fontFamily: "Righteous",
                             fontSize: 18),
                       ),
                     ),

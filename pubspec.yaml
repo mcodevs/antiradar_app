@@ -46,10 +46,10 @@ flutter:
 
   uses-material-design: true
   fonts:
-    - family: TextFont
+    - family: Righteous
       fonts:
         - asset: assets/fonts/Righteous-Regular.ttf
-    - family: TitleFont
+    - family: RaviPrakash
       fonts:
         - asset: assets/fonts/RaviPrakash-Regular.ttf
 

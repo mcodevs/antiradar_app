@@ -1,6 +1,6 @@
 
 
-import 'package:antiradar/src/ui/pages/home/widget/confiro_code.dart';
+import 'package:antiradar/src/ui/pages/intro/widget/confirm_code.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 

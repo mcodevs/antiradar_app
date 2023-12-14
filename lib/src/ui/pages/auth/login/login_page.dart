@@ -1,6 +1,6 @@
 import 'package:antiradar/src/common/constants/app_colors.dart';
 import 'package:antiradar/src/ui/map/map_screen.dart';
-import 'package:antiradar/src/ui/pages/home/widget/confiro_code.dart';
+import 'package:antiradar/src/ui/pages/intro/widget/confirm_code.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
@@ -60,9 +60,10 @@ class _LoginPageState extends State<LoginPage> {
               const Text(
                 "KIRISH",
                 style: TextStyle(
-                    fontFamily: "TextFont",
-                    fontSize: 23,
-                    color: AppColors.greenColor),
+                  fontFamily: "TextFont",
+                  fontSize: 23,
+                  color: AppColors.greenColor,
+                ),
               ),
               const SizedBox(height: 10),
               const Padding(
@@ -220,8 +221,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-
     );
-
   }
 }
