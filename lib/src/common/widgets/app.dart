@@ -4,8 +4,8 @@ import 'package:antiradar/src/common/localization/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../ui/map/map_screen.dart';
 import '../../ui/pages/intro/intro_page.dart';
+import '../../ui/pages/map/map_screen.dart';
 
 class App extends StatelessWidget {
   const App({super.key});

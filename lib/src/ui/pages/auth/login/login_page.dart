@@ -1,8 +1,9 @@
 import 'package:antiradar/src/common/constants/app_colors.dart';
-import 'package:antiradar/src/ui/map/map_screen.dart';
 import 'package:antiradar/src/ui/pages/intro/widget/confirm_code.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
+
+import '../../map/map_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
