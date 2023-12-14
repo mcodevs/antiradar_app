@@ -1,9 +1,7 @@
+import 'package:antiradar/src/common/configurations/app_routes.dart';
 import 'package:antiradar/src/common/constants/app_colors.dart';
 import 'package:antiradar/src/common/constants/app_images.dart';
 import 'package:flutter/material.dart';
-
-import '../auth/login/login_page.dart';
-import '../auth/register/register_page.dart';
 
 class IntroPage extends StatelessWidget {
   const IntroPage({super.key});
@@ -49,23 +47,21 @@ class IntroPage extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                         shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
                         ),
                       ),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPage(),
-                          ),
-                        );
+                        Navigator.pushNamed(context, AppRoutes.login);
                       },
                       child: const Text(
                         "SAFARNI BOSHLANG",
                         style: TextStyle(
-                            color: AppColors.greenColor,
-                            fontFamily: "Righteous",
-                            fontSize: 16),
+                          color: AppColors.greenColor,
+                          fontFamily: "Righteous",
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   );
@@ -81,15 +77,15 @@ class IntroPage extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.purpleColor,
                         shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
                         ),
                       ),
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushNamed(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => const RegisterPage(),
-                          ),
+                          AppRoutes.register,
                         );
                       },
                       child: const Text(

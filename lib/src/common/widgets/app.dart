@@ -1,11 +1,10 @@
 import 'package:antiradar/main.dart';
+import 'package:antiradar/src/common/configurations/app_routes.dart';
 import 'package:antiradar/src/common/configurations/app_themes.dart';
 import 'package:antiradar/src/common/localization/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../ui/pages/intro/intro_page.dart';
-import '../../ui/pages/map/map_screen.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -24,16 +23,11 @@ class App extends StatelessWidget {
           darkTheme: AppThemes.dark,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
+          routes: AppRoutes.routes,
+          initialRoute: ($storage.getBool('isLogged') ?? false) ? AppRoutes.map : AppRoutes.intro,
           locale: const Locale('uz'),
-          home: child,
         );
       },
-      child: Builder(
-        builder: (context) {
-          bool isLogged = $storage.getBool("isLogged") ?? false;
-          return isLogged ? const MapScreen() : const IntroPage();
-        },
-      ),
     );
   }
 }

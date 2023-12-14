@@ -1,9 +1,9 @@
+import 'package:antiradar/src/common/configurations/app_routes.dart';
 import 'package:antiradar/src/common/constants/app_colors.dart';
 import 'package:antiradar/src/ui/pages/intro/widget/confirm_code.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
-import '../../map/map_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -175,7 +175,9 @@ class _LoginPageState extends State<LoginPage> {
                                   child: Text(
                                     value,
                                     style: const TextStyle(
-                                        fontSize: 20, color: Colors.white),
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -200,10 +202,10 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushNamedAndRemoveUntil(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => const MapScreen()),
+                          AppRoutes.map,
+                          (route) => false,
                         );
                       },
                       child: const Text(
