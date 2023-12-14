@@ -264,7 +264,6 @@ class _MapScreenState extends State<MapScreen> {
                         style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.greenColor),
                         onPressed: () {
-                          //Dialokni yopib ketish
                           Navigator.of(context).pop(speedController.text);
                         },
                         child: const Text(
