@@ -1,11 +1,3 @@
-import 'package:antiradar/src/common/widgets/app.dart';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:antiradar/src/common/widgets/app_runner.dart';
 
-late final SharedPreferences $storage;
-
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  $storage = await SharedPreferences.getInstance();
-  runApp(const App());
-}
+void main() => AppRunner.initialize();
