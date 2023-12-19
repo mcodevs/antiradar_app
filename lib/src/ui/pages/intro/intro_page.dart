@@ -1,6 +1,9 @@
 import 'package:antiradar/src/common/configurations/app_routes.dart';
 import 'package:antiradar/src/common/constants/app_colors.dart';
 import 'package:antiradar/src/common/constants/app_images.dart';
+import 'package:antiradar/src/common/constants/app_text_themes.dart';
+import 'package:antiradar/src/common/utils/extensions/extensions.dart';
+import 'package:antiradar/src/ui/widgets/main_button.dart';
 import 'package:flutter/material.dart';
 
 class IntroPage extends StatelessWidget {
@@ -9,97 +12,51 @@ class IntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.greenColor,
+      backgroundColor: AppColors.primary,
       body: SafeArea(
         child: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 130),
-              const Text(
-                "YO'LDA",
-                style: TextStyle(
-                  fontFamily: "Righteous",
-                  fontSize: 42,
-                  color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: Column(
+              children: [
+                const Spacer(
+                  flex: 2,
                 ),
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                "XAFSIZ VA JARIMALARSIZ\n       HARAKATLANING",
-                style: TextStyle(
-                  fontFamily: "RaviPrakash",
-                  fontSize: 16,
-                  color: Colors.white,
+                const Text(
+                  "YO'LDA",
+                  style: AppTextThemes.introTitle,
                 ),
-              ),
-              const SizedBox(height: 20),
-              Image(
-                image: AssetImage(AppImages.carImages),
-                height: 230,
-              ),
-              const SizedBox(height: 90),
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  return SizedBox(
-                    height: constraints.maxWidth <= 600 ? 50 : 55,
-                    width: constraints.maxWidth <= 360 ? double.infinity : 360,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, AppRoutes.login);
-                      },
-                      child: const Text(
-                        "SAFARNI BOSHLANG",
-                        style: TextStyle(
-                          color: AppColors.greenColor,
-                          fontFamily: "Righteous",
-                          fontSize: 16,
-                        ),
-                      ),
+                const Text(
+                  "XAFSIZ VA JARIMALARSIZ\nHARAKATLANING",
+                  textAlign: TextAlign.center,
+                  style: AppTextThemes.introSubtitle,
+                ),
+                Expanded(
+                  flex: 9,
+                  child: Center(
+                    child: Image(
+                      image: AssetImage(AppImages.carImages),
+                      height: 230,
                     ),
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  return SizedBox(
-                    height: constraints.maxWidth <= 600 ? 50 : 55,
-                    width: constraints.maxWidth <= 360 ? double.infinity : 360,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.purpleColor,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          AppRoutes.register,
-                        );
-                      },
-                      child: const Text(
-                        "R O' Y H A T D A N  O' T I SH",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: "Righteous",
-                            fontSize: 18),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ],
+                  ),
+                ),
+                MainButton(
+                  onPressed: () => context.go(AppRoutes.login),
+                  text: "Safarni boshlash",
+                  style: AppTextThemes.buttonDefault,
+                ),
+                const SizedBox(height: 24),
+                MainButton(
+                  onPressed: () => context.go(AppRoutes.register),
+                  text: "Ro'yhatdan o'tish",
+                  backgroundColor: AppColors.secondary,
+                  style: AppTextThemes.buttonWithSpace,
+                ),
+                const Spacer(
+                  flex: 2,
+                ),
+              ],
+            ),
           ),
         ),
       ),

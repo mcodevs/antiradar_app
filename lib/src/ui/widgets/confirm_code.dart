@@ -14,7 +14,7 @@ class ConfirmButton extends StatelessWidget {
     required this.child,
     required this.onPressed,
     required this.size,
-    this.color = AppColors.greenColor,
+    this.color = AppColors.primary,
   }) : super(key: key);
 
   @override

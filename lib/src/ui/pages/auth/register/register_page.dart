@@ -1,4 +1,5 @@
 import 'package:antiradar/src/common/configurations/app_routes.dart';
+import 'package:antiradar/src/ui/widgets/header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -24,22 +25,8 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Column(
                 children: [
                   const SizedBox(height: 60),
-                  const Text(
-                    "R O' Y H A T D A N  O' T I SH",
-                    style: TextStyle(
-                      fontFamily: "TextFont",
-                      fontSize: 23,
-                      color: Color(0xFF34A853),
-                    ),
-                  ),
+                  const Header(text: "Ro'yhatdan o'tish"),
                   const SizedBox(height: 10),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 70, right: 70),
-                    child: Divider(
-                      height: 2,
-                      color: Color(0xFFA027FF),
-                    ),
-                  ),
                   const SizedBox(height: 20),
                   const Image(
                     image: AssetImage("assets/images/registerImage.png"),

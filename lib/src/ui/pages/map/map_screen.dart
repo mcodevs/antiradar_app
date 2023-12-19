@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:antiradar/src/common/constants/app_icons.dart';
 import 'package:antiradar/src/common/constants/app_images.dart';
 import 'package:antiradar/src/common/data/models/radars/speed_radar.dart';
-import 'package:antiradar/src/ui/pages/intro/widget/confirm_code.dart';
+import 'package:antiradar/src/ui/widgets/confirm_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -228,7 +228,7 @@ class _MapScreenState extends State<MapScreen> {
                       width: 250,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.greenColor),
+                            backgroundColor: AppColors.primary),
                         onPressed: () {
                           Navigator.of(context).pop(speedController.text);
                         },
@@ -312,8 +312,8 @@ class _MapScreenState extends State<MapScreen> {
                   size: 63,
                   color: ((subscription?.isPaused ?? false) ||
                           subscription == null)
-                      ? AppColors.greenColor
-                      : AppColors.purpleColor,
+                      ? AppColors.primary
+                      : AppColors.secondary,
                   child: Image(
                     image: AssetImage(AppImages.zoom),
                   ),

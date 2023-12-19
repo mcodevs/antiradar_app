@@ -1,5 +1,6 @@
 import 'package:antiradar/src/common/data/models/radars/radar_model.dart';
 import 'package:antiradar/src/common/data/services/local_db_service.dart';
+import 'package:antiradar/src/common/utils/extensions/extensions.dart';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -14,7 +15,6 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   MapBloc() : super(const MapState.loading()) {
     on<MapEvent>(
       (event, emit) => event.map(
-        tapRadar: (value) => _tapRadar(emit, value),
         addRadar: (value) => _addRadar(emit, value),
         removeRadar: (value) => _removeRadar(emit, value),
         updateRadar: (value) => _updateRadar(emit, value),
@@ -23,14 +23,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     );
   }
 
-  void _onTap(RadarModel model) {
-    add(MapEvent.tapRadar(model));
-  }
-
   Future<void> _addRadar(Emitter<MapState> emit, _AddRadar value) async {
     try {
       final radars = await LocalDBService.addRadar(value.model);
-      emit(MapState.success(radars.toMarkers(onTap: _onTap)));
+      emit(MapState.success(radars.toMarkers()));
     } catch (e) {
       print(e);
     }
@@ -38,7 +34,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   Future<void> _removeRadar(Emitter<MapState> emit, _RemoveRadar value) async {
     try {
-      await LocalDBService.remove(value.model);
+      final radars = await LocalDBService.remove(value.model);
+      emit(MapState.success(radars.toMarkers()));
     } catch (e) {
       print(e);
     }
@@ -46,7 +43,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   Future<void> _updateRadar(Emitter<MapState> emit, _UpdateRadar value) async {
     try {
-      await LocalDBService.update(value.model);
+      final radars = await LocalDBService.update(value.model);
+      emit(MapState.success(radars.toMarkers()));
     } catch (e) {
       print(e);
     }
@@ -54,15 +52,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   Future<void> _radiusRadar(Emitter<MapState> emit, _RadiusRadar value) async {
     final radars = LocalDBService.readRadars();
-    emit(MapState.success(radars.toMarkers(onTap: _onTap)));
-  }
-
-  void _tapRadar(Emitter<MapState> emit, _TapRadar value) {
-    emit(MapState.radarTapped(value.model));
+    emit(MapState.success(radars.toMarkers()));
   }
 }
 
-extension on Set<RadarModel> {
-  Set<Marker> toMarkers({required void Function(RadarModel model) onTap}) =>
-      map((e) => e.toMarker(onTap: onTap)).toSet();
-}
+
+
