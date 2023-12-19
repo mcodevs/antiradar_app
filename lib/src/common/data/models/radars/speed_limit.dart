@@ -7,7 +7,9 @@ class SpeedLimit extends RadarModel {
     required super.speed,
   });
 
+  @override
   Map<String, Object?> toMap() => {
+        'id': id,
         'speed': speed,
         'position': position.toJson(),
       };
@@ -18,4 +20,12 @@ class SpeedLimit extends RadarModel {
       speed: map['speed'] as int,
     );
   }
+
+  @override
+  Marker toMarker() {
+    //  implement toMarker
+    throw UnimplementedError();
+  }
+
+
 }

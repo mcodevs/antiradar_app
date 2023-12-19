@@ -2,11 +2,14 @@ import 'package:antiradar/src/common/data/models/radars/radar_model.dart';
 import 'package:geofence_service/geofence_service.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../../widgets/app_runner.dart';
+
 class SpeedRadar extends RadarModel {
   final String type;
   final String direction;
 
   SpeedRadar({
+    super.id,
     required this.type,
     required this.direction,
     required super.speed,
@@ -30,6 +33,7 @@ class SpeedRadar extends RadarModel {
 
   factory SpeedRadar.fromMap(Map<String, dynamic> map) {
     return SpeedRadar(
+      id: map['id'] as String?,
       type: map['type'] as String,
       direction: map['direction'] as String,
       speed: map['speed'] as int,
@@ -37,6 +41,7 @@ class SpeedRadar extends RadarModel {
     );
   }
 
+  @override
   Map<String, dynamic> toMap() {
     return {
       'type': type,
@@ -57,4 +62,18 @@ class SpeedRadar extends RadarModel {
       position: position ?? this.position,
       speed: speed ?? this.speed,
     );
+
+
+  @override
+  Marker toMarker() {
+    return Marker(
+      onTap: () {
+
+      },
+      markerId: MarkerId(id),
+      position: position,
+      icon: GetIcon.icon,
+    );
+  }
+
 }

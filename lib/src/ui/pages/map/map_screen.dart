@@ -1,22 +1,23 @@
 import 'dart:async';
 
 import 'package:antiradar/src/common/constants/app_images.dart';
+import 'package:antiradar/src/common/data/models/radars/speed_radar.dart';
 import 'package:antiradar/src/ui/pages/intro/widget/confirm_code.dart';
-import 'package:antiradar/src/ui/pages/map/widgets/top_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:geofence_service/geofence_service.dart' hide LocationPermission;
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../common/constants/app_colors.dart';
-import 'services/radar_services.dart';
+import 'mapBloc/map_bloc.dart';
 
-class MapEvent {
+class MapEventModel {
   final double distance;
   final String radarName;
 
-  MapEvent({
+  MapEventModel({
     required this.distance,
     required this.radarName,
   });
@@ -30,28 +31,14 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  static const CameraPosition _kLake = CameraPosition(
-    target: LatLng(41.3276, 69.2293),
-  );
-
-  BitmapDescriptor? icon;
-
-  Future<void> getIcon() async {
-    icon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration.empty,
-      "assets/icons/camera.png",
-      mipmaps: false,
-    );
-  }
-
-  final RadarServices radarServices = RadarServices();
-
   ValueNotifier<bool> visiblite = ValueNotifier<bool>(false);
+
+  late MapBloc mapBloc;
 
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
-  late FlutterTts flutterTts;
+  late final FlutterTts flutterTts;
 
   StreamSubscription? subscription;
 
@@ -68,16 +55,9 @@ class _MapScreenState extends State<MapScreen> {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
     }
-    if (permission == LocationPermission.always ||
-        permission == LocationPermission.whileInUse) {
-      Geolocator.getPositionStream().listen((event) {
-        _speedStreamController.sink.add(event.speed);
-      });
-    }
   }
 
-  final _geofenceStreamController = StreamController<MapEvent?>();
-  final _speedStreamController = StreamController<double>.broadcast();
+  final _geofenceStreamController = StreamController<MapEventModel?>();
 
   Future<void> _onGeofenceStatusChanged(
     Geofence geofence,
@@ -97,7 +77,7 @@ class _MapScreenState extends State<MapScreen> {
     final res = (bearing - location.heading).abs();
     if (geofenceStatus == GeofenceStatus.ENTER && res <= 30) {
       _geofenceStreamController.sink.add(
-        MapEvent(distance: geofenceRadius.length, radarName: geofence.id),
+        MapEventModel(distance: geofenceRadius.length, radarName: geofence.id),
       );
       await flutterTts
           .speak("До радара осталось ${geofenceRadius.length.toInt()} метров");
@@ -108,21 +88,16 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-  void _onActivityChanged(Activity prevActivity, Activity currActivity) {}
-
-  void _onLocationChanged(Location location) {}
-
-  void _onLocationServicesStatusChanged(bool status) {}
-
-  void _onError(error) {
-    final errorCode = getErrorCodesFromError(error);
-    if (errorCode == null) {
-      // print('Undefined error: $error');
-      return;
-    }
-
-    // print('ErrorCode: $errorCode');
-  }
+  //
+  // void _onError(error) {
+  //   final errorCode = getErrorCodesFromError(error);
+  //   if (errorCode == null) {
+  //     // print('Undefined error: $error');
+  //     return;
+  //   }
+  //
+  //   // print('ErrorCode: $errorCode');
+  // }
 
   CameraPosition userCamera(Position position) {
     return CameraPosition(
@@ -148,26 +123,16 @@ class _MapScreenState extends State<MapScreen> {
     flutterTts.stop();
     (await _controller.future).dispose();
     _geofenceStreamController.close();
-    _speedStreamController.close();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    radarServices.readRadars();
+    mapBloc = MapBloc()..add(const MapEvent.radiusRadar(10));
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _geofenceService
           .addGeofenceStatusChangeListener(_onGeofenceStatusChanged);
-      _geofenceService.addLocationChangeListener(_onLocationChanged);
-      _geofenceService.addLocationServicesStatusChangeListener(
-          _onLocationServicesStatusChanged);
-      _geofenceService.addActivityChangeListener(_onActivityChanged);
-      _geofenceService.addStreamErrorListener(_onError);
-      _geofenceService.start(radarServices.toGeofence()).catchError(_onError);
-    });
-    Future.wait<void>([init(), getIcon(), checkPermission()]).then((value) {
-      setState(() {});
     });
   }
 
@@ -182,48 +147,48 @@ class _MapScreenState extends State<MapScreen> {
     geofenceRadiusSortType: GeofenceRadiusSortType.DESC,
   );
 
-  void _showCustomDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          child: SizedBox(
-            height: 300,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 25, left: 20, right: 20),
-              child: Column(
-                children: [
-                  const Text(
-                    "  Hurmatli foydalanuvchi siz\n     "
-                    " tizimda muvaffaqiyatli\n        "
-                    "ro'yhatdan o'tdingiz! Dasturdan foydalanish uchun\n        "
-                    "hisobingizni to'ldiring",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                  ),
-                  const SizedBox(height: 40),
-                  SizedBox(
-                    height: 50,
-                    width: 250,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.greenColor),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text(
-                        "Hisobni to'ldirish",
-                        style: TextStyle(color: Colors.white, fontSize: 18),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
+  // void _showCustomDialog() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return Dialog(
+  //         child: SizedBox(
+  //           height: 300,
+  //           child: Padding(
+  //             padding: const EdgeInsets.only(top: 25, left: 20, right: 20),
+  //             child: Column(
+  //               children: [
+  //                 const Text(
+  //                   "  Hurmatli foydalanuvchi siz\n     "
+  //                   " tizimda muvaffaqiyatli\n        "
+  //                   "ro'yhatdan o'tdingiz! Dasturdan foydalanish uchun\n        "
+  //                   "hisobingizni to'ldiring",
+  //                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+  //                 ),
+  //                 const SizedBox(height: 40),
+  //                 SizedBox(
+  //                   height: 50,
+  //                   width: 250,
+  //                   child: ElevatedButton(
+  //                     style: ElevatedButton.styleFrom(
+  //                         backgroundColor: AppColors.greenColor),
+  //                     onPressed: () {
+  //                       Navigator.of(context).pop();
+  //                     },
+  //                     child: const Text(
+  //                       "Hisobni to'ldirish",
+  //                       style: TextStyle(color: Colors.white, fontSize: 18),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   final TextEditingController speedController = TextEditingController();
 
@@ -281,110 +246,103 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(left: 30),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ConfirmButton(
-                onPressed: () => {},
-                radius: 20,
-                size: 63,
-                child: Image(
-                  image: AssetImage(AppImages.setting),
+    return BlocProvider.value(
+      value: mapBloc,
+      child: SafeArea(
+        child: Scaffold(
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.only(left: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ConfirmButton(
+                  onPressed: () => {},
+                  radius: 20,
+                  size: 63,
+                  child: Image(
+                    image: AssetImage(AppImages.setting),
+                  ),
                 ),
-              ),
-              ConfirmButton(
-                onPressed: () async {
-                  final speed = await _showDialog();
-                  if (speed != null) {
+                ConfirmButton(
+                  onPressed: () async {
+                    final speed = await _showDialog();
+                    if (speed != null) {
+                      // final position = await Geolocator.getCurrentPosition();
+                      // final radar = await radarServices.addRadar(
+                      //   "type",
+                      //   int.tryParse(speed) ?? 60,
+                      //   LatLng(position.latitude, position.longitude),
+                      //   "direction",
+                      // );
+                      // _geofenceService.addGeofence(radar.toGeofence());
+                    }
+                  },
+                  size: 57,
+                  child: Image(
+                    image: AssetImage(AppImages.add),
+                  ),
+                ),
+                ConfirmButton(
+                  onPressed: () async {
+                    final controller = await _controller.future;
                     final position = await Geolocator.getCurrentPosition();
-                    final radar = await radarServices.addRadar(
-                      "type",
-                      int.tryParse(speed) ?? 60,
-                      LatLng(position.latitude, position.longitude),
-                      "direction",
+                    await controller.animateCamera(
+                      CameraUpdate.newCameraPosition(
+                        userCamera(position),
+                      ),
                     );
-                    _geofenceService.addGeofence(radar.toGeofence());
-                  }
-                },
-                size: 57,
-                child: Image(
-                  image: AssetImage(AppImages.add),
+                    if (subscription == null) {
+                      subscription =
+                          Geolocator.getPositionStream().listen((event) async {
+                        await controller.animateCamera(
+                          CameraUpdate.newCameraPosition(
+                            userCamera(event),
+                          ),
+                        );
+                      });
+                    } else if (subscription?.isPaused ?? false) {
+                      subscription?.resume();
+                    } else {
+                      subscription?.pause();
+                    }
+                    setState(() {});
+                  },
+                  size: 63,
+                  color: ((subscription?.isPaused ?? false) ||
+                          subscription == null)
+                      ? AppColors.greenColor
+                      : AppColors.purpleColor,
+                  child: Image(
+                    image: AssetImage(AppImages.zoom),
+                  ),
                 ),
-              ),
-              ConfirmButton(
-                onPressed: () async {
-                  final controller = await _controller.future;
-                  final position = await Geolocator.getCurrentPosition();
-                  await controller.animateCamera(
-                    CameraUpdate.newCameraPosition(
-                      userCamera(position),
-                    ),
-                  );
-                  if (subscription == null) {
-                    subscription =
-                        Geolocator.getPositionStream().listen((event) async {
-                      await controller.animateCamera(
-                        CameraUpdate.newCameraPosition(
-                          userCamera(event),
-                        ),
-                      );
-                    });
-                  } else if (subscription?.isPaused ?? false) {
-                    subscription?.resume();
-                  } else {
-                    subscription?.pause();
-                  }
-                  setState(() {});
-                },
-                size: 63,
-                color:
-                    ((subscription?.isPaused ?? false) || subscription == null)
-                        ? AppColors.greenColor
-                        : AppColors.purpleColor,
-                child: Image(
-                  image: AssetImage(AppImages.zoom),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        body: Stack(
-          children: [
-            Positioned.fill(
-              child: ValueListenableBuilder(
-                  valueListenable: radarServices,
-                  builder: (context, radars, child) {
+          body: Stack(
+            children: [
+              Positioned.fill(
+                child: BlocBuilder<MapBloc, MapState>(
+                  builder: (context, state) {
                     return GoogleMap(
-                      circles: radarServices
-                          .toGeofence()
-                          .map((g) {
-                            return g.radius.map(
-                              (e) => Circle(
-                                circleId: CircleId(g.id),
-                                radius: e.length,
-                                center: LatLng(g.latitude, g.longitude),
-                                strokeWidth: 1,
-                              ),
-                            );
-                          })
-                          .expand((element) => element)
-                          .toSet(),
                       onTap: (argument) async {
-                        final speed = await _showDialog();
-                        if (speed != null) {
-                          final radar = await radarServices.addRadar(
-                            "type",
-                            int.tryParse(speed) ?? 60,
-                            LatLng(argument.latitude, argument.longitude),
-                            "direction",
+                        final res = await _showDialog();
+                        if(res != null){
+                          SpeedRadar radar = SpeedRadar(
+                            type: "type",
+                            direction: "direction",
+                            speed: int.parse(res),
+                            position: LatLng(argument.latitude,argument.longitude),
                           );
-                          _geofenceService.addGeofence(radar.toGeofence());
+                          mapBloc.add(MapEvent.addRadar(radar));
                         }
                       },
+                      initialCameraPosition:
+                          const CameraPosition(target: LatLng(45, 89)),
+                      markers: state.maybeMap(
+                        orElse: () => {},
+                        success: (value) => value.markers,
+                      ),
                       onMapCreated: (controller) {
                         _controller.complete(controller);
                         Geolocator.getCurrentPosition().then((event) async {
@@ -395,87 +353,81 @@ class _MapScreenState extends State<MapScreen> {
                           );
                         });
                       },
-                      initialCameraPosition: _kLake,
                       myLocationButtonEnabled: false,
                       compassEnabled: false,
                       zoomControlsEnabled: false,
                       myLocationEnabled: true,
-                      markers: radarServices.toGeofence().map((e) {
-                        return Marker(
-                          markerId: MarkerId(e.id),
-                          icon: icon ?? BitmapDescriptor.defaultMarker,
-                          position: LatLng(e.latitude, e.longitude),
-                        );
-                      }).toSet(),
                     );
-                  }),
-            ),
-            Positioned(
-              top: 160,
-              left: 12,
-              child: GestureDetector(
-                onTap: () {},
-                child: SizedBox(
-                  height: 75,
-                  width: 85,
-                  child: DecoratedBox(
-                    decoration: const BoxDecoration(
-                        color: AppColors.greenColor,
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        StreamBuilder<double>(
-                            stream: _speedStreamController.stream,
-                            builder: (context, snapshot) {
-                              return Text(
-                                "${((snapshot.data ?? 0) * (3.6)).toInt()}",
-                                style: const TextStyle(
-                                  fontSize: 30,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              );
-                            }),
-                        const Text(
-                          "km/s",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                  },
                 ),
               ),
-            ),
-            Positioned(
-              top: 250,
-              left: 15,
-              child: GestureDetector(
-                onTap: () {},
-                child: const SizedBox(
-                  height: 80,
-                  width: 80,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                        color: AppColors.redColor,
-                        borderRadius: BorderRadius.all(Radius.circular(200))),
-                    child: Padding(
-                      padding: EdgeInsets.all(5),
-                      child: SizedBox(
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(100))),
-                          child: Center(
-                            child: Text(
-                              "110",
-                              style: TextStyle(
-                                  fontSize: 30, fontWeight: FontWeight.w600),
+              // Positioned(
+              //   top: 160,
+              //   left: 12,
+              //   child: GestureDetector(
+              //     onTap: () {},
+              //     child: SizedBox(
+              //       height: 75,
+              //       width: 85,
+              //       child: DecoratedBox(
+              //         decoration: const BoxDecoration(
+              //             color: AppColors.greenColor,
+              //             borderRadius: BorderRadius.all(Radius.circular(15))),
+              //         child: Column(
+              //           mainAxisAlignment: MainAxisAlignment.center,
+              //           children: [
+              //             StreamBuilder<double>(
+              //                 stream: _speedStreamController.stream,
+              //                 builder: (context, snapshot) {
+              //                   return Text(
+              //                     "${((snapshot.data ?? 0) * (3.6)).toInt()}",
+              //                     style: const TextStyle(
+              //                       fontSize: 30,
+              //                       color: Colors.white,
+              //                       fontWeight: FontWeight.w700,
+              //                     ),
+              //                   );
+              //                 }),
+              //             const Text(
+              //               "km/s",
+              //               style: TextStyle(
+              //                 color: Colors.white,
+              //                 fontSize: 20,
+              //                 fontWeight: FontWeight.w500,
+              //               ),
+              //             )
+              //           ],
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              Positioned(
+                top: 250,
+                left: 15,
+                child: GestureDetector(
+                  onTap: () {},
+                  child: const SizedBox(
+                    height: 80,
+                    width: 80,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                          color: AppColors.redColor,
+                          borderRadius: BorderRadius.all(Radius.circular(200))),
+                      child: Padding(
+                        padding: EdgeInsets.all(5),
+                        child: SizedBox(
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(100))),
+                            child: Center(
+                              child: Text(
+                                "110",
+                                style: TextStyle(
+                                    fontSize: 30, fontWeight: FontWeight.w600),
+                              ),
                             ),
                           ),
                         ),
@@ -484,35 +436,35 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                 ),
               ),
-            ),
-            Positioned(
-              top: 10,
-              right: 15,
-              child: StreamBuilder<double>(
-                stream: _speedStreamController.stream,
-                builder: (context, snapshot1) {
-                  return StreamBuilder<MapEvent?>(
-                    stream: _geofenceStreamController.stream,
-                    builder: (context, snapshot) {
-                      return ValueListenableBuilder<bool>(
-                        valueListenable: visiblite,
-                        builder: (context, value, child) {
-                          return Visibility(
-                            visible: value,
-                            child: CustomIndicator(
-                              text1: snapshot1.data?.toStringAsFixed(1) ?? "",
-                              text2: snapshot.data?.distance.toString() ?? "",
-                              bottomText: snapshot.data?.radarName ?? "",
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
+              // Positioned(
+              //   top: 10,
+              //   right: 15,
+              //   child: StreamBuilder<double>(
+              //     stream: _speedStreamController.stream,
+              //     builder: (context, snapshot1) {
+              //       return StreamBuilder<MapEvent?>(
+              //         stream: _geofenceStreamController.stream,
+              //         builder: (context, snapshot) {
+              //           return ValueListenableBuilder<bool>(
+              //             valueListenable: visiblite,
+              //             builder: (context, value, child) {
+              //               return Visibility(
+              //                 visible: value,
+              //                 child: CustomIndicator(
+              //                   text1: snapshot1.data?.toStringAsFixed(1) ?? "",
+              //                   text2: snapshot.data?.distance.toString() ?? "",
+              //                   bottomText: snapshot.data?.radarName ?? "",
+              //                 ),
+              //               );
+              //             },
+              //           );
+              //         },
+              //       );
+              //     },
+              //   ),
+              // ),
+            ],
+          ),
         ),
       ),
     );
