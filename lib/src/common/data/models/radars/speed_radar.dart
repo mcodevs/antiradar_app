@@ -1,8 +1,8 @@
+import 'package:antiradar/src/common/configurations/initialize.dart';
 import 'package:antiradar/src/common/data/models/radars/radar_model.dart';
 import 'package:geofence_service/geofence_service.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../../widgets/app_runner.dart';
 
 class SpeedRadar extends RadarModel {
   final String type;

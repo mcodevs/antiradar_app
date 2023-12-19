@@ -1,5 +1,6 @@
 import 'package:antiradar/src/common/data/models/radars/radar_model.dart';
 import 'package:antiradar/src/common/data/services/local_db_service.dart';
+import 'package:antiradar/src/common/utils/extensions/extensions.dart';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -56,6 +57,4 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 }
 
 
-extension on Set<RadarModel> {
-  Set<Marker> toMarkers() => map((e) => e.toMarker()).toSet();
-}
+

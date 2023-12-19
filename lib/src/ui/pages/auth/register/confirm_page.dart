@@ -1,11 +1,11 @@
 
 
-import 'package:antiradar/src/ui/pages/intro/widget/confirm_code.dart';
+import 'package:antiradar/src/ui/widgets/confirm_code.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
-import '../../../common/constants/app_colors.dart';
-import '../auth/login/login_page.dart';
+import '../../../../common/constants/app_colors.dart';
+import '../login/login_page.dart';
 
 class ConfirmPage extends StatefulWidget {
    const ConfirmPage({Key? key}) : super(key: key);
@@ -66,14 +66,14 @@ class _ConfirmPageState extends State<ConfirmPage> {
                 style: TextStyle(
                     fontFamily: "TextFont",
                     fontSize: 23,
-                    color: AppColors.greenColor),
+                    color: AppColors.primary),
               ),
               const SizedBox(height: 10),
               const Padding(
                 padding: EdgeInsets.only(left: 90, right: 90),
                 child: Divider(
                   height: 2,
-                  color: AppColors.purpleColor,
+                  color: AppColors.secondary,
                 ),
               ),
               const SizedBox(height: 10),
@@ -174,7 +174,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                     width: constraints.maxWidth <= 340 ? double.infinity : 340,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.greenColor,
+                        backgroundColor: AppColors.primary,
                         shape: const RoundedRectangleBorder(
                           borderRadius:
                           BorderRadius.all(Radius.circular(10)),
