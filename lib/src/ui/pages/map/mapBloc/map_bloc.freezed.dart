@@ -22,6 +22,7 @@ mixin _$MapEvent {
     required TResult Function(RadarModel model) removeRadar,
     required TResult Function(RadarModel model) updateRadar,
     required TResult Function(int radius) radiusRadar,
+    required TResult Function(RadarModel radar) tapRadar,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,6 +31,7 @@ mixin _$MapEvent {
     TResult? Function(RadarModel model)? removeRadar,
     TResult? Function(RadarModel model)? updateRadar,
     TResult? Function(int radius)? radiusRadar,
+    TResult? Function(RadarModel radar)? tapRadar,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,6 +40,7 @@ mixin _$MapEvent {
     TResult Function(RadarModel model)? removeRadar,
     TResult Function(RadarModel model)? updateRadar,
     TResult Function(int radius)? radiusRadar,
+    TResult Function(RadarModel radar)? tapRadar,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -47,6 +50,7 @@ mixin _$MapEvent {
     required TResult Function(_RemoveRadar value) removeRadar,
     required TResult Function(_UpdateRadar value) updateRadar,
     required TResult Function(_RadiusRadar value) radiusRadar,
+    required TResult Function(_TapRadar value) tapRadar,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -55,6 +59,7 @@ mixin _$MapEvent {
     TResult? Function(_RemoveRadar value)? removeRadar,
     TResult? Function(_UpdateRadar value)? updateRadar,
     TResult? Function(_RadiusRadar value)? radiusRadar,
+    TResult? Function(_TapRadar value)? tapRadar,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -63,6 +68,7 @@ mixin _$MapEvent {
     TResult Function(_RemoveRadar value)? removeRadar,
     TResult Function(_UpdateRadar value)? updateRadar,
     TResult Function(_RadiusRadar value)? radiusRadar,
+    TResult Function(_TapRadar value)? tapRadar,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -153,6 +159,7 @@ class _$AddRadarImpl implements _AddRadar {
     required TResult Function(RadarModel model) removeRadar,
     required TResult Function(RadarModel model) updateRadar,
     required TResult Function(int radius) radiusRadar,
+    required TResult Function(RadarModel radar) tapRadar,
   }) {
     return addRadar(model);
   }
@@ -164,6 +171,7 @@ class _$AddRadarImpl implements _AddRadar {
     TResult? Function(RadarModel model)? removeRadar,
     TResult? Function(RadarModel model)? updateRadar,
     TResult? Function(int radius)? radiusRadar,
+    TResult? Function(RadarModel radar)? tapRadar,
   }) {
     return addRadar?.call(model);
   }
@@ -175,6 +183,7 @@ class _$AddRadarImpl implements _AddRadar {
     TResult Function(RadarModel model)? removeRadar,
     TResult Function(RadarModel model)? updateRadar,
     TResult Function(int radius)? radiusRadar,
+    TResult Function(RadarModel radar)? tapRadar,
     required TResult orElse(),
   }) {
     if (addRadar != null) {
@@ -190,6 +199,7 @@ class _$AddRadarImpl implements _AddRadar {
     required TResult Function(_RemoveRadar value) removeRadar,
     required TResult Function(_UpdateRadar value) updateRadar,
     required TResult Function(_RadiusRadar value) radiusRadar,
+    required TResult Function(_TapRadar value) tapRadar,
   }) {
     return addRadar(this);
   }
@@ -201,6 +211,7 @@ class _$AddRadarImpl implements _AddRadar {
     TResult? Function(_RemoveRadar value)? removeRadar,
     TResult? Function(_UpdateRadar value)? updateRadar,
     TResult? Function(_RadiusRadar value)? radiusRadar,
+    TResult? Function(_TapRadar value)? tapRadar,
   }) {
     return addRadar?.call(this);
   }
@@ -212,6 +223,7 @@ class _$AddRadarImpl implements _AddRadar {
     TResult Function(_RemoveRadar value)? removeRadar,
     TResult Function(_UpdateRadar value)? updateRadar,
     TResult Function(_RadiusRadar value)? radiusRadar,
+    TResult Function(_TapRadar value)? tapRadar,
     required TResult orElse(),
   }) {
     if (addRadar != null) {
@@ -298,6 +310,7 @@ class _$RemoveRadarImpl implements _RemoveRadar {
     required TResult Function(RadarModel model) removeRadar,
     required TResult Function(RadarModel model) updateRadar,
     required TResult Function(int radius) radiusRadar,
+    required TResult Function(RadarModel radar) tapRadar,
   }) {
     return removeRadar(model);
   }
@@ -309,6 +322,7 @@ class _$RemoveRadarImpl implements _RemoveRadar {
     TResult? Function(RadarModel model)? removeRadar,
     TResult? Function(RadarModel model)? updateRadar,
     TResult? Function(int radius)? radiusRadar,
+    TResult? Function(RadarModel radar)? tapRadar,
   }) {
     return removeRadar?.call(model);
   }
@@ -320,6 +334,7 @@ class _$RemoveRadarImpl implements _RemoveRadar {
     TResult Function(RadarModel model)? removeRadar,
     TResult Function(RadarModel model)? updateRadar,
     TResult Function(int radius)? radiusRadar,
+    TResult Function(RadarModel radar)? tapRadar,
     required TResult orElse(),
   }) {
     if (removeRadar != null) {
@@ -335,6 +350,7 @@ class _$RemoveRadarImpl implements _RemoveRadar {
     required TResult Function(_RemoveRadar value) removeRadar,
     required TResult Function(_UpdateRadar value) updateRadar,
     required TResult Function(_RadiusRadar value) radiusRadar,
+    required TResult Function(_TapRadar value) tapRadar,
   }) {
     return removeRadar(this);
   }
@@ -346,6 +362,7 @@ class _$RemoveRadarImpl implements _RemoveRadar {
     TResult? Function(_RemoveRadar value)? removeRadar,
     TResult? Function(_UpdateRadar value)? updateRadar,
     TResult? Function(_RadiusRadar value)? radiusRadar,
+    TResult? Function(_TapRadar value)? tapRadar,
   }) {
     return removeRadar?.call(this);
   }
@@ -357,6 +374,7 @@ class _$RemoveRadarImpl implements _RemoveRadar {
     TResult Function(_RemoveRadar value)? removeRadar,
     TResult Function(_UpdateRadar value)? updateRadar,
     TResult Function(_RadiusRadar value)? radiusRadar,
+    TResult Function(_TapRadar value)? tapRadar,
     required TResult orElse(),
   }) {
     if (removeRadar != null) {
@@ -443,6 +461,7 @@ class _$UpdateRadarImpl implements _UpdateRadar {
     required TResult Function(RadarModel model) removeRadar,
     required TResult Function(RadarModel model) updateRadar,
     required TResult Function(int radius) radiusRadar,
+    required TResult Function(RadarModel radar) tapRadar,
   }) {
     return updateRadar(model);
   }
@@ -454,6 +473,7 @@ class _$UpdateRadarImpl implements _UpdateRadar {
     TResult? Function(RadarModel model)? removeRadar,
     TResult? Function(RadarModel model)? updateRadar,
     TResult? Function(int radius)? radiusRadar,
+    TResult? Function(RadarModel radar)? tapRadar,
   }) {
     return updateRadar?.call(model);
   }
@@ -465,6 +485,7 @@ class _$UpdateRadarImpl implements _UpdateRadar {
     TResult Function(RadarModel model)? removeRadar,
     TResult Function(RadarModel model)? updateRadar,
     TResult Function(int radius)? radiusRadar,
+    TResult Function(RadarModel radar)? tapRadar,
     required TResult orElse(),
   }) {
     if (updateRadar != null) {
@@ -480,6 +501,7 @@ class _$UpdateRadarImpl implements _UpdateRadar {
     required TResult Function(_RemoveRadar value) removeRadar,
     required TResult Function(_UpdateRadar value) updateRadar,
     required TResult Function(_RadiusRadar value) radiusRadar,
+    required TResult Function(_TapRadar value) tapRadar,
   }) {
     return updateRadar(this);
   }
@@ -491,6 +513,7 @@ class _$UpdateRadarImpl implements _UpdateRadar {
     TResult? Function(_RemoveRadar value)? removeRadar,
     TResult? Function(_UpdateRadar value)? updateRadar,
     TResult? Function(_RadiusRadar value)? radiusRadar,
+    TResult? Function(_TapRadar value)? tapRadar,
   }) {
     return updateRadar?.call(this);
   }
@@ -502,6 +525,7 @@ class _$UpdateRadarImpl implements _UpdateRadar {
     TResult Function(_RemoveRadar value)? removeRadar,
     TResult Function(_UpdateRadar value)? updateRadar,
     TResult Function(_RadiusRadar value)? radiusRadar,
+    TResult Function(_TapRadar value)? tapRadar,
     required TResult orElse(),
   }) {
     if (updateRadar != null) {
@@ -588,6 +612,7 @@ class _$RadiusRadarImpl implements _RadiusRadar {
     required TResult Function(RadarModel model) removeRadar,
     required TResult Function(RadarModel model) updateRadar,
     required TResult Function(int radius) radiusRadar,
+    required TResult Function(RadarModel radar) tapRadar,
   }) {
     return radiusRadar(radius);
   }
@@ -599,6 +624,7 @@ class _$RadiusRadarImpl implements _RadiusRadar {
     TResult? Function(RadarModel model)? removeRadar,
     TResult? Function(RadarModel model)? updateRadar,
     TResult? Function(int radius)? radiusRadar,
+    TResult? Function(RadarModel radar)? tapRadar,
   }) {
     return radiusRadar?.call(radius);
   }
@@ -610,6 +636,7 @@ class _$RadiusRadarImpl implements _RadiusRadar {
     TResult Function(RadarModel model)? removeRadar,
     TResult Function(RadarModel model)? updateRadar,
     TResult Function(int radius)? radiusRadar,
+    TResult Function(RadarModel radar)? tapRadar,
     required TResult orElse(),
   }) {
     if (radiusRadar != null) {
@@ -625,6 +652,7 @@ class _$RadiusRadarImpl implements _RadiusRadar {
     required TResult Function(_RemoveRadar value) removeRadar,
     required TResult Function(_UpdateRadar value) updateRadar,
     required TResult Function(_RadiusRadar value) radiusRadar,
+    required TResult Function(_TapRadar value) tapRadar,
   }) {
     return radiusRadar(this);
   }
@@ -636,6 +664,7 @@ class _$RadiusRadarImpl implements _RadiusRadar {
     TResult? Function(_RemoveRadar value)? removeRadar,
     TResult? Function(_UpdateRadar value)? updateRadar,
     TResult? Function(_RadiusRadar value)? radiusRadar,
+    TResult? Function(_TapRadar value)? tapRadar,
   }) {
     return radiusRadar?.call(this);
   }
@@ -647,6 +676,7 @@ class _$RadiusRadarImpl implements _RadiusRadar {
     TResult Function(_RemoveRadar value)? removeRadar,
     TResult Function(_UpdateRadar value)? updateRadar,
     TResult Function(_RadiusRadar value)? radiusRadar,
+    TResult Function(_TapRadar value)? tapRadar,
     required TResult orElse(),
   }) {
     if (radiusRadar != null) {
@@ -666,11 +696,164 @@ abstract class _RadiusRadar implements MapEvent {
 }
 
 /// @nodoc
+abstract class _$$TapRadarImplCopyWith<$Res> {
+  factory _$$TapRadarImplCopyWith(
+          _$TapRadarImpl value, $Res Function(_$TapRadarImpl) then) =
+      __$$TapRadarImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({RadarModel radar});
+}
+
+/// @nodoc
+class __$$TapRadarImplCopyWithImpl<$Res>
+    extends _$MapEventCopyWithImpl<$Res, _$TapRadarImpl>
+    implements _$$TapRadarImplCopyWith<$Res> {
+  __$$TapRadarImplCopyWithImpl(
+      _$TapRadarImpl _value, $Res Function(_$TapRadarImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? radar = null,
+  }) {
+    return _then(_$TapRadarImpl(
+      null == radar
+          ? _value.radar
+          : radar // ignore: cast_nullable_to_non_nullable
+              as RadarModel,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$TapRadarImpl implements _TapRadar {
+  const _$TapRadarImpl(this.radar);
+
+  @override
+  final RadarModel radar;
+
+  @override
+  String toString() {
+    return 'MapEvent.tapRadar(radar: $radar)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TapRadarImpl &&
+            (identical(other.radar, radar) || other.radar == radar));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, radar);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TapRadarImplCopyWith<_$TapRadarImpl> get copyWith =>
+      __$$TapRadarImplCopyWithImpl<_$TapRadarImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(RadarModel model) addRadar,
+    required TResult Function(RadarModel model) removeRadar,
+    required TResult Function(RadarModel model) updateRadar,
+    required TResult Function(int radius) radiusRadar,
+    required TResult Function(RadarModel radar) tapRadar,
+  }) {
+    return tapRadar(radar);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(RadarModel model)? addRadar,
+    TResult? Function(RadarModel model)? removeRadar,
+    TResult? Function(RadarModel model)? updateRadar,
+    TResult? Function(int radius)? radiusRadar,
+    TResult? Function(RadarModel radar)? tapRadar,
+  }) {
+    return tapRadar?.call(radar);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(RadarModel model)? addRadar,
+    TResult Function(RadarModel model)? removeRadar,
+    TResult Function(RadarModel model)? updateRadar,
+    TResult Function(int radius)? radiusRadar,
+    TResult Function(RadarModel radar)? tapRadar,
+    required TResult orElse(),
+  }) {
+    if (tapRadar != null) {
+      return tapRadar(radar);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_AddRadar value) addRadar,
+    required TResult Function(_RemoveRadar value) removeRadar,
+    required TResult Function(_UpdateRadar value) updateRadar,
+    required TResult Function(_RadiusRadar value) radiusRadar,
+    required TResult Function(_TapRadar value) tapRadar,
+  }) {
+    return tapRadar(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_AddRadar value)? addRadar,
+    TResult? Function(_RemoveRadar value)? removeRadar,
+    TResult? Function(_UpdateRadar value)? updateRadar,
+    TResult? Function(_RadiusRadar value)? radiusRadar,
+    TResult? Function(_TapRadar value)? tapRadar,
+  }) {
+    return tapRadar?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_AddRadar value)? addRadar,
+    TResult Function(_RemoveRadar value)? removeRadar,
+    TResult Function(_UpdateRadar value)? updateRadar,
+    TResult Function(_RadiusRadar value)? radiusRadar,
+    TResult Function(_TapRadar value)? tapRadar,
+    required TResult orElse(),
+  }) {
+    if (tapRadar != null) {
+      return tapRadar(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TapRadar implements MapEvent {
+  const factory _TapRadar(final RadarModel radar) = _$TapRadarImpl;
+
+  RadarModel get radar;
+  @JsonKey(ignore: true)
+  _$$TapRadarImplCopyWith<_$TapRadarImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$MapState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(Set<Marker> markers) success,
+    required TResult Function(RadarModel radar, Set<Marker> markers)
+        radarTapped,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -678,6 +861,7 @@ mixin _$MapState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(Set<Marker> markers)? success,
+    TResult? Function(RadarModel radar, Set<Marker> markers)? radarTapped,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -685,6 +869,7 @@ mixin _$MapState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(Set<Marker> markers)? success,
+    TResult Function(RadarModel radar, Set<Marker> markers)? radarTapped,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -693,6 +878,7 @@ mixin _$MapState {
   TResult map<TResult extends Object?>({
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
+    required TResult Function(_RadarTapped value) radarTapped,
     required TResult Function(_Error value) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -700,6 +886,7 @@ mixin _$MapState {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
+    TResult? Function(_RadarTapped value)? radarTapped,
     TResult? Function(_Error value)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -707,6 +894,7 @@ mixin _$MapState {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
+    TResult Function(_RadarTapped value)? radarTapped,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) =>
@@ -770,6 +958,8 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(Set<Marker> markers) success,
+    required TResult Function(RadarModel radar, Set<Marker> markers)
+        radarTapped,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -780,6 +970,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(Set<Marker> markers)? success,
+    TResult? Function(RadarModel radar, Set<Marker> markers)? radarTapped,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -790,6 +981,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(Set<Marker> markers)? success,
+    TResult Function(RadarModel radar, Set<Marker> markers)? radarTapped,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -804,6 +996,7 @@ class _$LoadingImpl implements _Loading {
   TResult map<TResult extends Object?>({
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
+    required TResult Function(_RadarTapped value) radarTapped,
     required TResult Function(_Error value) error,
   }) {
     return loading(this);
@@ -814,6 +1007,7 @@ class _$LoadingImpl implements _Loading {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
+    TResult? Function(_RadarTapped value)? radarTapped,
     TResult? Function(_Error value)? error,
   }) {
     return loading?.call(this);
@@ -824,6 +1018,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
+    TResult Function(_RadarTapped value)? radarTapped,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -910,6 +1105,8 @@ class _$SuccessImpl implements _Success {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(Set<Marker> markers) success,
+    required TResult Function(RadarModel radar, Set<Marker> markers)
+        radarTapped,
     required TResult Function(String message) error,
   }) {
     return success(markers);
@@ -920,6 +1117,7 @@ class _$SuccessImpl implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(Set<Marker> markers)? success,
+    TResult? Function(RadarModel radar, Set<Marker> markers)? radarTapped,
     TResult? Function(String message)? error,
   }) {
     return success?.call(markers);
@@ -930,6 +1128,7 @@ class _$SuccessImpl implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(Set<Marker> markers)? success,
+    TResult Function(RadarModel radar, Set<Marker> markers)? radarTapped,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -944,6 +1143,7 @@ class _$SuccessImpl implements _Success {
   TResult map<TResult extends Object?>({
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
+    required TResult Function(_RadarTapped value) radarTapped,
     required TResult Function(_Error value) error,
   }) {
     return success(this);
@@ -954,6 +1154,7 @@ class _$SuccessImpl implements _Success {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
+    TResult? Function(_RadarTapped value)? radarTapped,
     TResult? Function(_Error value)? error,
   }) {
     return success?.call(this);
@@ -964,6 +1165,7 @@ class _$SuccessImpl implements _Success {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
+    TResult Function(_RadarTapped value)? radarTapped,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -980,6 +1182,169 @@ abstract class _Success implements MapState {
   Set<Marker> get markers;
   @JsonKey(ignore: true)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RadarTappedImplCopyWith<$Res> {
+  factory _$$RadarTappedImplCopyWith(
+          _$RadarTappedImpl value, $Res Function(_$RadarTappedImpl) then) =
+      __$$RadarTappedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({RadarModel radar, Set<Marker> markers});
+}
+
+/// @nodoc
+class __$$RadarTappedImplCopyWithImpl<$Res>
+    extends _$MapStateCopyWithImpl<$Res, _$RadarTappedImpl>
+    implements _$$RadarTappedImplCopyWith<$Res> {
+  __$$RadarTappedImplCopyWithImpl(
+      _$RadarTappedImpl _value, $Res Function(_$RadarTappedImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? radar = null,
+    Object? markers = null,
+  }) {
+    return _then(_$RadarTappedImpl(
+      null == radar
+          ? _value.radar
+          : radar // ignore: cast_nullable_to_non_nullable
+              as RadarModel,
+      null == markers
+          ? _value._markers
+          : markers // ignore: cast_nullable_to_non_nullable
+              as Set<Marker>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$RadarTappedImpl implements _RadarTapped {
+  const _$RadarTappedImpl(this.radar, final Set<Marker> markers)
+      : _markers = markers;
+
+  @override
+  final RadarModel radar;
+  final Set<Marker> _markers;
+  @override
+  Set<Marker> get markers {
+    if (_markers is EqualUnmodifiableSetView) return _markers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(_markers);
+  }
+
+  @override
+  String toString() {
+    return 'MapState.radarTapped(radar: $radar, markers: $markers)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RadarTappedImpl &&
+            (identical(other.radar, radar) || other.radar == radar) &&
+            const DeepCollectionEquality().equals(other._markers, _markers));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, radar, const DeepCollectionEquality().hash(_markers));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RadarTappedImplCopyWith<_$RadarTappedImpl> get copyWith =>
+      __$$RadarTappedImplCopyWithImpl<_$RadarTappedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loading,
+    required TResult Function(Set<Marker> markers) success,
+    required TResult Function(RadarModel radar, Set<Marker> markers)
+        radarTapped,
+    required TResult Function(String message) error,
+  }) {
+    return radarTapped(radar, markers);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loading,
+    TResult? Function(Set<Marker> markers)? success,
+    TResult? Function(RadarModel radar, Set<Marker> markers)? radarTapped,
+    TResult? Function(String message)? error,
+  }) {
+    return radarTapped?.call(radar, markers);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loading,
+    TResult Function(Set<Marker> markers)? success,
+    TResult Function(RadarModel radar, Set<Marker> markers)? radarTapped,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (radarTapped != null) {
+      return radarTapped(radar, markers);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Success value) success,
+    required TResult Function(_RadarTapped value) radarTapped,
+    required TResult Function(_Error value) error,
+  }) {
+    return radarTapped(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_RadarTapped value)? radarTapped,
+    TResult? Function(_Error value)? error,
+  }) {
+    return radarTapped?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Success value)? success,
+    TResult Function(_RadarTapped value)? radarTapped,
+    TResult Function(_Error value)? error,
+    required TResult orElse(),
+  }) {
+    if (radarTapped != null) {
+      return radarTapped(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RadarTapped implements MapState {
+  const factory _RadarTapped(
+      final RadarModel radar, final Set<Marker> markers) = _$RadarTappedImpl;
+
+  RadarModel get radar;
+  Set<Marker> get markers;
+  @JsonKey(ignore: true)
+  _$$RadarTappedImplCopyWith<_$RadarTappedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1049,6 +1414,8 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(Set<Marker> markers) success,
+    required TResult Function(RadarModel radar, Set<Marker> markers)
+        radarTapped,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -1059,6 +1426,7 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(Set<Marker> markers)? success,
+    TResult? Function(RadarModel radar, Set<Marker> markers)? radarTapped,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -1069,6 +1437,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(Set<Marker> markers)? success,
+    TResult Function(RadarModel radar, Set<Marker> markers)? radarTapped,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -1083,6 +1452,7 @@ class _$ErrorImpl implements _Error {
   TResult map<TResult extends Object?>({
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
+    required TResult Function(_RadarTapped value) radarTapped,
     required TResult Function(_Error value) error,
   }) {
     return error(this);
@@ -1093,6 +1463,7 @@ class _$ErrorImpl implements _Error {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
+    TResult? Function(_RadarTapped value)? radarTapped,
     TResult? Function(_Error value)? error,
   }) {
     return error?.call(this);
@@ -1103,6 +1474,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
+    TResult Function(_RadarTapped value)? radarTapped,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {

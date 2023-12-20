@@ -1,4 +1,6 @@
 import 'package:antiradar/src/common/data/models/radars/radar_model.dart';
+import 'package:antiradar/src/common/utils/typedefs/typedefs.dart';
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class SpeedLimit extends RadarModel {
@@ -22,7 +24,7 @@ class SpeedLimit extends RadarModel {
   }
 
   @override
-  Marker toMarker() {
+  Marker toMarker(RadarTappedCallBack onTap) {
     //  implement toMarker
     throw UnimplementedError();
   }

@@ -1,5 +1,7 @@
 import 'package:antiradar/src/common/configurations/initialize.dart';
 import 'package:antiradar/src/common/data/models/radars/radar_model.dart';
+import 'package:antiradar/src/common/utils/typedefs/typedefs.dart';
+import 'package:flutter/material.dart';
 import 'package:geofence_service/geofence_service.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -65,11 +67,9 @@ class SpeedRadar extends RadarModel {
 
 
   @override
-  Marker toMarker() {
+  Marker toMarker(RadarTappedCallBack onTap) {
     return Marker(
-      onTap: () {
-
-      },
+      onTap: () => onTap(this),
       markerId: MarkerId(id),
       position: position,
       icon: GetIcon.icon,

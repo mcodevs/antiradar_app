@@ -19,14 +19,19 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         removeRadar: (value) => _removeRadar(emit, value),
         updateRadar: (value) => _updateRadar(emit, value),
         radiusRadar: (value) => _radiusRadar(emit, value),
+        tapRadar: (value) => _onTapRadar(emit, value),
       ),
     );
+  }
+
+  void _radarTapped(RadarModel radar) {
+    add(MapEvent.tapRadar(radar));
   }
 
   Future<void> _addRadar(Emitter<MapState> emit, _AddRadar value) async {
     try {
       final radars = await LocalDBService.addRadar(value.model);
-      emit(MapState.success(radars.toMarkers()));
+      emit(MapState.success(radars.toMarkers(_radarTapped)));
     } catch (e) {
       print(e);
     }
@@ -35,7 +40,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   Future<void> _removeRadar(Emitter<MapState> emit, _RemoveRadar value) async {
     try {
       final radars = await LocalDBService.remove(value.model);
-      emit(MapState.success(radars.toMarkers()));
+      emit(MapState.success(radars.toMarkers(_radarTapped)));
     } catch (e) {
       print(e);
     }
@@ -44,7 +49,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   Future<void> _updateRadar(Emitter<MapState> emit, _UpdateRadar value) async {
     try {
       final radars = await LocalDBService.update(value.model);
-      emit(MapState.success(radars.toMarkers()));
+      emit(MapState.success(radars.toMarkers(_radarTapped)));
     } catch (e) {
       print(e);
     }
@@ -52,9 +57,18 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   Future<void> _radiusRadar(Emitter<MapState> emit, _RadiusRadar value) async {
     final radars = LocalDBService.readRadars();
-    emit(MapState.success(radars.toMarkers()));
+    emit(MapState.success(radars.toMarkers(_radarTapped)));
+  }
+
+  void _onTapRadar(Emitter<MapState> emit, _TapRadar value) {
+    state.maybeMap(
+      orElse: () {},
+      success: (state) {
+        emit(MapState.radarTapped(value.radar, state.markers));
+      },
+      radarTapped: (state) {
+        emit(MapState.radarTapped(value.radar, state.markers));
+      },
+    );
   }
 }
-
-
-

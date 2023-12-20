@@ -1,14 +1,14 @@
 import 'package:antiradar/src/common/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class ConfirmButton extends StatelessWidget {
+class CustomFAB extends StatelessWidget {
   final double? radius;
   final Widget child;
   final VoidCallback onPressed;
   final double size;
   final Color color;
 
-  const ConfirmButton({
+  const CustomFAB({
     Key? key,
     this.radius,
     required this.child,

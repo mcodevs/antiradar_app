@@ -1,6 +1,6 @@
 import 'package:antiradar/src/common/configurations/app_routes.dart';
 import 'package:antiradar/src/common/constants/app_colors.dart';
-import 'package:antiradar/src/ui/widgets/confirm_code.dart';
+import 'package:antiradar/src/ui/widgets/custom_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
@@ -167,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                                         : '<';
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 12),
-                              child: ConfirmButton(
+                              child: CustomFAB(
                                 radius: 7,
                                 onPressed: () => onButtonPressed(value),
                                 size: 60,

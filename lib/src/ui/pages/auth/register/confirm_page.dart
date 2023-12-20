@@ -1,6 +1,4 @@
-
-
-import 'package:antiradar/src/ui/widgets/confirm_code.dart';
+import 'package:antiradar/src/ui/widgets/custom_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
@@ -8,9 +6,7 @@ import '../../../../common/constants/app_colors.dart';
 import '../login/login_page.dart';
 
 class ConfirmPage extends StatefulWidget {
-   const ConfirmPage({Key? key}) : super(key: key);
-
-
+  const ConfirmPage({Key? key}) : super(key: key);
 
   @override
   State<ConfirmPage> createState() => _ConfirmPageState();
@@ -21,7 +17,6 @@ class _ConfirmPageState extends State<ConfirmPage> {
   final focusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
 
-
   @override
   void dispose() {
     pinController.dispose();
@@ -29,18 +24,18 @@ class _ConfirmPageState extends State<ConfirmPage> {
     super.dispose();
   }
 
-  void buttonPressed(String value1){
-    if(value1 == "<"){
+  void buttonPressed(String value1) {
+    if (value1 == "<") {
       pinController.delete();
-    }else if(value1 == "x"){
+    } else if (value1 == "x") {
       pinController.clear();
-    }else{
+    } else {
       pinController.append(value1, 5);
     }
   }
+
   @override
   Widget build(BuildContext context) {
-
     const fillColor = Color.fromRGBO(243, 246, 249, 0);
 
     final defaultPinTheme = PinTheme(
@@ -55,7 +50,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
         border: Border.all(color: Colors.black),
       ),
     );
-    return  Scaffold(
+    return Scaffold(
       body: SafeArea(
         child: Center(
           child: Column(
@@ -87,12 +82,12 @@ class _ConfirmPageState extends State<ConfirmPage> {
                 length: 5,
                 controller: pinController,
                 focusNode: focusNode,
-                onSubmitted: (value1){
+                onSubmitted: (value1) {
                   FocusScope.of(context).unfocus();
-               },
+                },
                 useNativeKeyboard: false,
                 defaultPinTheme: defaultPinTheme,
-                separatorBuilder: (index)=>const SizedBox(width: 8),
+                separatorBuilder: (index) => const SizedBox(width: 8),
                 onCompleted: (pin) {
                   debugPrint('onCompleted: $pin');
                 },
@@ -137,24 +132,30 @@ class _ConfirmPageState extends State<ConfirmPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: List.generate(
                       4,
-                          (i) => Row(
+                      (i) => Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: List.generate(
                           3,
-                              (j) {
+                          (j) {
                             final index = i * 3 + j + 1;
                             final value = index <= 9
-                            ? "$index" :index == 10 ? "x" : index == 11 ? "0" : "<";
+                                ? "$index"
+                                : index == 10
+                                    ? "x"
+                                    : index == 11
+                                        ? "0"
+                                        : "<";
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 12),
-                              child: ConfirmButton(
+                              child: CustomFAB(
                                 radius: 7,
-                                onPressed: () =>buttonPressed(value),
+                                onPressed: () => buttonPressed(value),
                                 size: 60,
                                 child: Center(
                                   child: Text(
-                                   value,
-                                    style: const TextStyle(fontSize: 20,color: Colors.white),
+                                    value,
+                                    style: const TextStyle(
+                                        fontSize: 20, color: Colors.white),
                                   ),
                                 ),
                               ),
@@ -176,20 +177,22 @@ class _ConfirmPageState extends State<ConfirmPage> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
                         shape: const RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(10)),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                       ),
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) =>  const LoginPage()),
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()),
                         );
                       },
                       child: const Text(
                         "T A S D I Q L A SH",
-                        style:
-                        TextStyle(color: Colors.white, fontFamily: "TextFont", fontSize: 18),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "TextFont",
+                            fontSize: 18),
                       ),
                     ),
                   );
