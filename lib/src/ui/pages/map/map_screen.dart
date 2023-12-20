@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:antiradar/src/common/constants/app_icons.dart';
 import 'package:antiradar/src/common/constants/app_images.dart';
 import 'package:antiradar/src/common/data/models/radars/speed_radar.dart';
+import 'package:antiradar/src/common/data/services/flutter_tts_service.dart';
 import 'package:antiradar/src/ui/widgets/custom_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -78,8 +79,7 @@ class _MapScreenState extends State<MapScreen> {
       _geofenceStreamController.sink.add(
         MapEventModel(distance: geofenceRadius.length, radarName: geofence.id),
       );
-      await flutterTts
-          .speak("До радара осталось ${geofenceRadius.length.toInt()} метров");
+      TTSService.speakMeter(geofenceRadius.length.toInt());
       visiblite.value = true;
     } else if (geofenceStatus == GeofenceStatus.EXIT) {
       _geofenceStreamController.sink.add(null);
@@ -406,7 +406,7 @@ class _MapScreenState extends State<MapScreen> {
                                       child: TextButton(
                                         onPressed: () {
                                           mapBloc.add(MapEvent.updateRadar(
-                                              value.model));
+                                              value.radar));
                                         },
                                         child: const Text(
                                           "Tahrirlash",
@@ -418,7 +418,7 @@ class _MapScreenState extends State<MapScreen> {
                                       child: TextButton(
                                         onPressed: () {
                                           mapBloc.add(MapEvent.removeRadar(
-                                              value.model));
+                                              value.radar));
                                         },
                                         child: const Text(
                                           "O'chirish",

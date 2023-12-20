@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
 import '../widgets/custom_pinput.dart';
-import '../widgets/customcalculateButton.dart';
+import '../widgets/custom_calculate_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -64,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(
                   fontFamily: "TextFont",
                   fontSize: 23,
-                  color: AppColors.greenColor,
+                  color: AppColors.primary,
                 ),
               ),
               const SizedBox(height: 10),
@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                 padding: EdgeInsets.only(left: 90, right: 90),
                 child: Divider(
                   height: 2,
-                  color: AppColors.purpleColor,
+                  color: AppColors.secondary,
                 ),
               ),
               const Expanded(
@@ -115,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                     width: constraints.maxWidth <= 340 ? double.infinity : 340,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.greenColor,
+                        backgroundColor: AppColors.primary,
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),

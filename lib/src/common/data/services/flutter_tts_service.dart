@@ -5,12 +5,18 @@ class TTSService {
 
   const TTSService._();
 
-  static Future<TTSService> initialize() async {
+  static Future<void> initialize() async {
     _tts = FlutterTts();
     await _tts.awaitSpeakCompletion(true);
     await _tts.setVolume(1);
     await _tts.setSpeechRate(0.6);
     await _tts.setLanguage("ru");
-    return const TTSService._();
   }
+
+  static void speakMeter(int meter) =>
+      _tts.speak("До радара осталось $meter метров");
+
+  static void speakOtherRadar() => _tts
+    ..stop()
+    ..speak("Рядом обнаружен еще один радар");
 }

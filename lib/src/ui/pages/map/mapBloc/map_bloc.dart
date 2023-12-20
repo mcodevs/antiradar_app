@@ -1,4 +1,5 @@
 import 'package:antiradar/src/common/data/models/radars/radar_model.dart';
+import 'package:antiradar/src/common/data/services/geofencing.dart';
 import 'package:antiradar/src/common/data/services/local_db_service.dart';
 import 'package:antiradar/src/common/utils/extensions/extensions.dart';
 import 'package:bloc/bloc.dart';
@@ -30,6 +31,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   Future<void> _addRadar(Emitter<MapState> emit, _AddRadar value) async {
     try {
+      Geofencing.addRadar(value.model);
       final radars = await LocalDBService.addRadar(value.model);
       emit(MapState.success(radars.toMarkers(_radarTapped)));
     } catch (e) {
@@ -39,6 +41,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   Future<void> _removeRadar(Emitter<MapState> emit, _RemoveRadar value) async {
     try {
+      Geofencing.removeRadar(value.model.id);
       final radars = await LocalDBService.remove(value.model);
       emit(MapState.success(radars.toMarkers(_radarTapped)));
     } catch (e) {
@@ -48,6 +51,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   Future<void> _updateRadar(Emitter<MapState> emit, _UpdateRadar value) async {
     try {
+      Geofencing.updateRadar(value.model);
       final radars = await LocalDBService.update(value.model);
       emit(MapState.success(radars.toMarkers(_radarTapped)));
     } catch (e) {
@@ -57,6 +61,12 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   Future<void> _radiusRadar(Emitter<MapState> emit, _RadiusRadar value) async {
     final radars = LocalDBService.readRadars();
+    Geofencing.close();
+    Geofencing.getRadars(radars.toList());
+    Geofencing.listenRadar(
+      onInside: (radar) {},
+      onOutside: () {},
+    );
     emit(MapState.success(radars.toMarkers(_radarTapped)));
   }
 

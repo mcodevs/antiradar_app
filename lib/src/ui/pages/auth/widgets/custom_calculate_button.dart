@@ -1,6 +1,6 @@
+import 'package:antiradar/src/ui/widgets/custom_fab.dart';
 import 'package:flutter/material.dart';
 
-import '../../intro/widget/confirm_code.dart';
 
 class CustomCalculateButton extends StatelessWidget {
   final void Function(String value) onButtonPressed;
@@ -36,7 +36,7 @@ class CustomCalculateButton extends StatelessWidget {
                   };
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 12),
-                    child: ConfirmButton(
+                    child: CustomFAB(
                       radius: 7,
                       onPressed: () => onButtonPressed(value),
                       size: 60,

@@ -1,8 +1,6 @@
 import 'package:antiradar/src/common/configurations/initialize.dart';
 import 'package:antiradar/src/common/data/models/radars/radar_model.dart';
 import 'package:antiradar/src/common/utils/typedefs/typedefs.dart';
-import 'package:flutter/material.dart';
-import 'package:geofence_service/geofence_service.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
@@ -18,20 +16,7 @@ class SpeedRadar extends RadarModel {
     required super.position,
   });
 
-  Geofence toGeofence() {
-    return Geofence(
-      data: this,
-      id: "${position.latitude}${position.longitude}",
-      latitude: position.latitude,
-      longitude: position.longitude,
-      radius: [
-        GeofenceRadius(id: "600", length: 600),
-        GeofenceRadius(id: "300", length: 300),
-        GeofenceRadius(id: "150", length: 150),
-        GeofenceRadius(id: "50", length: 50),
-      ],
-    );
-  }
+
 
   factory SpeedRadar.fromMap(Map<String, dynamic> map) {
     return SpeedRadar(

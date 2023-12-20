@@ -1,18 +1,12 @@
-
-
-import 'package:antiradar/src/ui/pages/intro/widget/confirm_code.dart';
+import 'package:antiradar/src/common/constants/app_colors.dart';
+import 'package:antiradar/src/ui/pages/auth/login/login_page.dart';
+import 'package:antiradar/src/ui/pages/auth/widgets/custom_pinput.dart';
+import 'package:antiradar/src/ui/pages/auth/widgets/custom_calculate_button.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
-import '../../../common/constants/app_colors.dart';
-import '../auth/login/login_page.dart';
-import '../auth/widgets/custom_pinput.dart';
-import '../auth/widgets/customcalculateButton.dart';
-
 class ConfirmPage extends StatefulWidget {
-   const ConfirmPage({Key? key}) : super(key: key);
-
-
+  const ConfirmPage({Key? key}) : super(key: key);
 
   @override
   State<ConfirmPage> createState() => _ConfirmPageState();
@@ -23,7 +17,6 @@ class _ConfirmPageState extends State<ConfirmPage> {
   final focusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
 
-
   @override
   void dispose() {
     pinController.dispose();
@@ -31,18 +24,18 @@ class _ConfirmPageState extends State<ConfirmPage> {
     super.dispose();
   }
 
-  void buttonPressed(String value1){
-    if(value1 == "<"){
+  void buttonPressed(String value1) {
+    if (value1 == "<") {
       pinController.delete();
-    }else if(value1 == "x"){
+    } else if (value1 == "x") {
       pinController.clear();
-    }else{
+    } else {
       pinController.append(value1, 5);
     }
   }
+
   @override
   Widget build(BuildContext context) {
-
     const fillColor = Color.fromRGBO(243, 246, 249, 0);
 
     final defaultPinTheme = PinTheme(
@@ -57,7 +50,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
         border: Border.all(color: Colors.black),
       ),
     );
-    return  Scaffold(
+    return Scaffold(
       body: SafeArea(
         child: Center(
           child: Column(
@@ -66,9 +59,10 @@ class _ConfirmPageState extends State<ConfirmPage> {
               const Text(
                 "TASDIQLASH",
                 style: TextStyle(
-                    fontFamily: "TextFont",
-                    fontSize: 23,
-                    color: AppColors.primary),
+                  fontFamily: "TextFont",
+                  fontSize: 23,
+                  color: AppColors.primary,
+                ),
               ),
               const SizedBox(height: 10),
               const Padding(
@@ -104,20 +98,23 @@ class _ConfirmPageState extends State<ConfirmPage> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
                         shape: const RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(10)),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                       ),
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) =>  const LoginPage()),
+                          MaterialPageRoute(
+                            builder: (context) => const LoginPage(),
+                          ),
                         );
                       },
                       child: const Text(
                         "T A S D I Q L A SH",
-                        style:
-                        TextStyle(color: Colors.white, fontFamily: "TextFont", fontSize: 18),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "TextFont",
+                            fontSize: 18),
                       ),
                     ),
                   );
