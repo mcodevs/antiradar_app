@@ -7,4 +7,5 @@ class MapEvent with _$MapEvent {
   const factory MapEvent.updateRadar(RadarModel model) = _UpdateRadar;
   const factory MapEvent.tapRadar(RadarModel model) = _TapRadar;
   const factory MapEvent.radiusRadar(int radius) = _RadiusRadar;
+  const factory MapEvent.tapRadar(RadarModel radar) = _TapRadar;
 }

@@ -1,3 +1,5 @@
+import 'package:antiradar/src/common/utils/typedefs/typedefs.dart';
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uuid/uuid.dart';
 
@@ -8,7 +10,7 @@ abstract class RadarModel {
   RadarModel({String? id, required this.position, required this.speed}) : id = id ?? const Uuid().v4();
 
   Map<String, dynamic> toMap();
-  Marker toMarker({required void Function(RadarModel model) onTap});
+  Marker toMarker(RadarTappedCallBack onTap);
 
   @override
   bool operator ==(Object other) =>
@@ -18,3 +20,4 @@ abstract class RadarModel {
   @override
   int get hashCode => id.hashCode;
 }
+

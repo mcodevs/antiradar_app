@@ -8,7 +8,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class App extends StatelessWidget {
   const App({super.key});
 
-  void run() => runApp(this);
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:antiradar/src/common/constants/app_icons.dart';
 import 'package:antiradar/src/common/constants/app_images.dart';
 import 'package:antiradar/src/common/data/models/radars/speed_radar.dart';
-import 'package:antiradar/src/ui/widgets/confirm_code.dart';
+import 'package:antiradar/src/ui/widgets/custom_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -46,10 +46,7 @@ class _MapScreenState extends State<MapScreen> {
 
   Future<void> init() async {
     flutterTts = FlutterTts();
-    await flutterTts.awaitSpeakCompletion(true);
-    await flutterTts.setVolume(1);
-    await flutterTts.setSpeechRate(0.6);
-    await flutterTts.setLanguage("ru");
+
   }
 
   Future<void> checkPermission() async {
@@ -257,7 +254,7 @@ class _MapScreenState extends State<MapScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ConfirmButton(
+                CustomFAB(
                   onPressed: () => {},
                   radius: 20,
                   size: 63,
@@ -265,7 +262,7 @@ class _MapScreenState extends State<MapScreen> {
                     image: AssetImage(AppImages.setting),
                   ),
                 ),
-                ConfirmButton(
+                CustomFAB(
                   onPressed: () async {
                     final speed = await _showDialog();
                     if (speed != null) {
@@ -284,7 +281,7 @@ class _MapScreenState extends State<MapScreen> {
                     image: AssetImage(AppImages.add),
                   ),
                 ),
-                ConfirmButton(
+                CustomFAB(
                   onPressed: () async {
                     final controller = await _controller.future;
                     final position = await Geolocator.getCurrentPosition();
