@@ -1,16 +1,19 @@
+import 'package:antiradar/src/ui/pages/map/map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomIndicator extends StatelessWidget {
   final String bottomText;
-  final String text1;
-  final String text2;
+  final String speed;
+  final String distance;
+  final String speedLimit;
 
   const CustomIndicator({
     super.key,
     required this.bottomText,
-    required this.text1,
-    required this.text2,
+    required this.speed,
+    required this.distance,
+    required this.speedLimit,
   });
 
   @override
@@ -73,9 +76,9 @@ class CustomIndicator extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          text1,
+                          speed,
                           style: TextStyle(
-                            fontSize: 40.sp,
+                            fontSize: 25.sp,
                             color: const Color(0xFFFF0000),
                             fontWeight: FontWeight.w900,
                           ),
@@ -94,9 +97,9 @@ class CustomIndicator extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          text2,
+                          distance,
                           style: TextStyle(
-                            fontSize: 30.sp,
+                            fontSize: 20.sp,
                             color: const Color(0xFF000000),
                             fontWeight: FontWeight.w900,
                           ),
@@ -111,8 +114,7 @@ class CustomIndicator extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // const Image(height: 100,image: AssetImage("assets/images/image 7.png")),
-                    const SizedBox.square(dimension: 100),
+                    Limit(dimension: 60,speed: speedLimit),
                   ],
                 ),
               ),

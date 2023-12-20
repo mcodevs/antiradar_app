@@ -44,7 +44,10 @@ final class LocalDBService {
 
   static Future<Set<RadarModel>> remove(RadarModel model) async {
     final radars = readRadars();
-    radars.remove(model);
+    print('------------------------------');
+    print(model.toString());
+    print(radars.map((e) => e.toString()));
+    print(radars.remove(model));
     await saveRadars(radars);
     return radars;
   }
@@ -56,5 +59,4 @@ final class LocalDBService {
     await saveRadars(radars);
     return radars;
   }
-
 }

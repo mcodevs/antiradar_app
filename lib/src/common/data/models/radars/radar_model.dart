@@ -32,5 +32,10 @@ abstract class RadarModel {
 
   @override
   int get hashCode => id.hashCode;
+
+  @override
+  String toString() {
+    return 'RadarModel{position: $position, speed: $speed, id: $id}';
+  }
 }
 

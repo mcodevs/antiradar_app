@@ -31,6 +31,7 @@ class SpeedRadar extends RadarModel {
   @override
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'type': type,
       'direction': direction,
       'speed': speed,

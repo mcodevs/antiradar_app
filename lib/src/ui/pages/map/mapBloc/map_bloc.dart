@@ -6,6 +6,8 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../cubit/radar_cubit.dart';
+
 part 'map_event.dart';
 
 part 'map_state.dart';
@@ -13,7 +15,8 @@ part 'map_state.dart';
 part 'map_bloc.freezed.dart';
 
 class MapBloc extends Bloc<MapEvent, MapState> {
-  MapBloc() : super(const MapState.loading()) {
+  final RadarCubit radarCubit;
+  MapBloc({required this.radarCubit}) : super(const MapState.loading()) {
     on<MapEvent>(
       (event, emit) => event.map(
         addRadar: (value) => _addRadar(emit, value),
@@ -64,8 +67,12 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     Geofencing.close();
     Geofencing.getRadars(radars.toList());
     Geofencing.listenRadar(
-      onInside: (radar) {},
-      onOutside: () {},
+      onInside: (radar,distance) {
+        radarCubit.onInside(radar, distance);
+      },
+      onOutside: () {
+        radarCubit.outSide();
+      },
     );
     emit(MapState.success(radars.toMarkers(_radarTapped)));
   }
@@ -74,10 +81,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     state.maybeMap(
       orElse: () {},
       success: (state) {
-        emit(MapState.radarTapped(value.radar, state.markers));
+        emit(MapState.radarTapped(value.model, state.markers));
       },
       radarTapped: (state) {
-        emit(MapState.radarTapped(value.radar, state.markers));
+        emit(MapState.radarTapped(value.model, state.markers));
       },
     );
   }
