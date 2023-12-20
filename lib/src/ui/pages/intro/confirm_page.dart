@@ -1,11 +1,12 @@
 
 
-import 'package:antiradar/src/ui/pages/intro/widget/confirm_code.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../../common/constants/app_colors.dart';
 import '../auth/login/login_page.dart';
+import '../auth/widgets/custom_pinput.dart';
+import '../auth/widgets/customcalculateButton.dart';
 
 class ConfirmPage extends StatefulWidget {
    const ConfirmPage({Key? key}) : super(key: key);
@@ -83,88 +84,14 @@ class _ConfirmPageState extends State<ConfirmPage> {
               ),
               const Text("Kirish kodini o'rnating"),
               const SizedBox(height: 5),
-              Pinput(
-                length: 5,
-                controller: pinController,
+              CustomPinPut(
+                pinController: pinController,
                 focusNode: focusNode,
-                onSubmitted: (value1){
-                  FocusScope.of(context).unfocus();
-               },
-                useNativeKeyboard: false,
                 defaultPinTheme: defaultPinTheme,
-                separatorBuilder: (index)=>const SizedBox(width: 8),
-                onCompleted: (pin) {
-                  debugPrint('onCompleted: $pin');
-                },
-                onChanged: (value) {
-                  debugPrint('onChanged: $value');
-                },
-                cursor: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 9),
-                      width: 22,
-                      height: 1,
-                      color: Colors.black,
-                    ),
-                  ],
-                ),
-                focusedPinTheme: defaultPinTheme.copyWith(
-                  decoration: defaultPinTheme.decoration!.copyWith(
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.black),
-                  ),
-                ),
-                submittedPinTheme: defaultPinTheme.copyWith(
-                  decoration: defaultPinTheme.decoration!.copyWith(
-                    color: fillColor,
-                    borderRadius: BorderRadius.circular(13),
-                    border: Border.all(color: Colors.black),
-                  ),
-                ),
-                errorPinTheme: defaultPinTheme.copyBorderWith(
-                  border: Border.all(color: Colors.redAccent),
-                ),
+                fillColor: fillColor,
               ),
-              Expanded(
-                flex: 4,
-                child: FractionallySizedBox(
-                  alignment: Alignment.center,
-                  widthFactor: 0.55,
-                  heightFactor: 0.94,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: List.generate(
-                      4,
-                          (i) => Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: List.generate(
-                          3,
-                              (j) {
-                            final index = i * 3 + j + 1;
-                            final value = index <= 9
-                            ? "$index" :index == 10 ? "x" : index == 11 ? "0" : "<";
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 12),
-                              child: ConfirmButton(
-                                radius: 7,
-                                onPressed: () =>buttonPressed(value),
-                                size: 60,
-                                child: Center(
-                                  child: Text(
-                                   value,
-                                    style: const TextStyle(fontSize: 20,color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+              CustomCalculateButton(
+                onButtonPressed: (value) => buttonPressed(value),
               ),
               const SizedBox(height: 50),
               LayoutBuilder(

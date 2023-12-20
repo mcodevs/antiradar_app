@@ -22,7 +22,7 @@ class SpeedLimit extends RadarModel {
   }
 
   @override
-  Marker toMarker() {
+  Marker toMarker({required void Function(RadarModel model) onTap}) {
     //  implement toMarker
     throw UnimplementedError();
   }

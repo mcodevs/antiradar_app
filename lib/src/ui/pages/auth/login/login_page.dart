@@ -1,9 +1,10 @@
 import 'package:antiradar/src/common/configurations/app_routes.dart';
 import 'package:antiradar/src/common/constants/app_colors.dart';
-import 'package:antiradar/src/ui/pages/intro/widget/confirm_code.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
+import '../widgets/custom_pinput.dart';
+import '../widgets/customcalculateButton.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -34,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  final TextEditingController phonController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: 50,
                 width: 335,
                 child: TextField(
-                  controller: phonController,
+                  controller: phoneController,
                   decoration: const InputDecoration(
                     hintText: "Telefon raqamingizni kiriting",
                     border: OutlineInputBorder(),
@@ -98,96 +99,14 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 15),
               const Text("Kirish kodini kiriting"),
               const SizedBox(height: 5),
-              Pinput(
-                length: 5,
-                controller: pinController,
+              CustomPinPut(
+                pinController: pinController,
                 focusNode: focusNode,
-                onSubmitted: (value) {
-                  FocusScope.of(context).unfocus();
-                },
-                useNativeKeyboard: false,
                 defaultPinTheme: defaultPinTheme,
-                separatorBuilder: (index) => const SizedBox(width: 8),
-                onCompleted: (pin) {
-                  debugPrint('onCompleted: $pin');
-                },
-                onChanged: (value) {
-                  debugPrint('onChanged: $value');
-                },
-                cursor: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 9),
-                      width: 22,
-                      height: 1,
-                      color: Colors.black,
-                    ),
-                  ],
-                ),
-                focusedPinTheme: defaultPinTheme.copyWith(
-                  decoration: defaultPinTheme.decoration!.copyWith(
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.black),
-                  ),
-                ),
-                submittedPinTheme: defaultPinTheme.copyWith(
-                  decoration: defaultPinTheme.decoration!.copyWith(
-                    color: fillColor,
-                    borderRadius: BorderRadius.circular(13),
-                    border: Border.all(color: Colors.black),
-                  ),
-                ),
-                errorPinTheme: defaultPinTheme.copyBorderWith(
-                  border: Border.all(color: Colors.redAccent),
-                ),
+                fillColor: fillColor,
               ),
-              Expanded(
-                flex: 4,
-                child: FractionallySizedBox(
-                  alignment: Alignment.center,
-                  widthFactor: 0.55,
-                  heightFactor: 0.94,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: List.generate(
-                      4,
-                      (i) => Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: List.generate(
-                          3,
-                          (j) {
-                            final index = i * 3 + j + 1;
-                            final value = index <= 9
-                                ? '$index'
-                                : index == 10
-                                    ? 'x'
-                                    : index == 11
-                                        ? '0'
-                                        : '<';
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 12),
-                              child: ConfirmButton(
-                                radius: 7,
-                                onPressed: () => onButtonPressed(value),
-                                size: 60,
-                                child: Center(
-                                  child: Text(
-                                    value,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+              CustomCalculateButton(
+                onButtonPressed: (value) => onButtonPressed(value),
               ),
               LayoutBuilder(
                 builder: (context, constraints) {

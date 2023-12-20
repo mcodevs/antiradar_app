@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:antiradar/src/common/constants/app_icons.dart';
 import 'package:antiradar/src/common/constants/app_images.dart';
 import 'package:antiradar/src/common/data/models/radars/speed_radar.dart';
 import 'package:antiradar/src/ui/pages/intro/widget/confirm_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:geofence_service/geofence_service.dart' hide LocationPermission;
 import 'package:geolocator/geolocator.dart';
@@ -323,16 +325,21 @@ class _MapScreenState extends State<MapScreen> {
             children: [
               Positioned.fill(
                 child: BlocBuilder<MapBloc, MapState>(
+                  buildWhen: (previous, current) => current.maybeMap(
+                    orElse: () => true,
+                    radarTapped: (value) => false,
+                  ),
                   builder: (context, state) {
                     return GoogleMap(
                       onTap: (argument) async {
                         final res = await _showDialog();
-                        if(res != null){
+                        if (res != null) {
                           SpeedRadar radar = SpeedRadar(
                             type: "type",
                             direction: "direction",
                             speed: int.parse(res),
-                            position: LatLng(argument.latitude,argument.longitude),
+                            position:
+                                LatLng(argument.latitude, argument.longitude),
                           );
                           mapBloc.add(MapEvent.addRadar(radar));
                         }
@@ -353,12 +360,91 @@ class _MapScreenState extends State<MapScreen> {
                           );
                         });
                       },
+                      onCameraMoveStarted: () {
+                        state.maybeMap(
+                          orElse: () {},
+                          radarTapped: (value) => mapBloc.add(
+                            const MapEvent.radiusRadar(100),
+                          ),
+                        );
+                      },
                       myLocationButtonEnabled: false,
                       compassEnabled: false,
                       zoomControlsEnabled: false,
                       myLocationEnabled: true,
                     );
                   },
+                ),
+              ),
+              Positioned.fill(
+                child: BlocBuilder<MapBloc, MapState>(
+                  builder: (context, state) => state.maybeMap(
+                    orElse: () => const SizedBox.shrink(),
+                    radarTapped: (value) => Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 87.r),
+                            child: SizedBox(
+                              height: 40.h,
+                              width: 240.w,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      blurRadius: 3.r,
+                                      spreadRadius: 1.r,
+                                    ),
+                                  ],
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(15.r),
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextButton(
+                                        onPressed: () {
+                                          mapBloc.add(MapEvent.updateRadar(
+                                              value.model));
+                                        },
+                                        child: const Text(
+                                          "Tahrirlash",
+                                        ),
+                                      ),
+                                    ),
+                                    const VerticalDivider(),
+                                    Expanded(
+                                      child: TextButton(
+                                        onPressed: () {
+                                          mapBloc.add(MapEvent.removeRadar(
+                                              value.model));
+                                        },
+                                        child: const Text(
+                                          "O'chirish",
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Transform(
+                            transform: Matrix4.translationValues(0, -95, 0),
+                            child: Image(
+                              height: 50.r,
+                              image: const AssetImage(AppIcons.rasm),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
               // Positioned(

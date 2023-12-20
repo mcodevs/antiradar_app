@@ -14,6 +14,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   MapBloc() : super(const MapState.loading()) {
     on<MapEvent>(
       (event, emit) => event.map(
+        tapRadar: (value) => _tapRadar(emit, value),
         addRadar: (value) => _addRadar(emit, value),
         removeRadar: (value) => _removeRadar(emit, value),
         updateRadar: (value) => _updateRadar(emit, value),
@@ -22,10 +23,14 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     );
   }
 
+  void _onTap(RadarModel model) {
+    add(MapEvent.tapRadar(model));
+  }
+
   Future<void> _addRadar(Emitter<MapState> emit, _AddRadar value) async {
     try {
       final radars = await LocalDBService.addRadar(value.model);
-      emit(MapState.success(radars.toMarkers()));
+      emit(MapState.success(radars.toMarkers(onTap: _onTap)));
     } catch (e) {
       print(e);
     }
@@ -33,8 +38,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   Future<void> _removeRadar(Emitter<MapState> emit, _RemoveRadar value) async {
     try {
-      final radars = await LocalDBService.remove(value.model);
-      emit(MapState.success(radars.toMarkers()));
+      await LocalDBService.remove(value.model);
     } catch (e) {
       print(e);
     }
@@ -42,8 +46,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   Future<void> _updateRadar(Emitter<MapState> emit, _UpdateRadar value) async {
     try {
-      final radars = await LocalDBService.update(value.model);
-      emit(MapState.success(radars.toMarkers()));
+      await LocalDBService.update(value.model);
     } catch (e) {
       print(e);
     }
@@ -51,11 +54,15 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   Future<void> _radiusRadar(Emitter<MapState> emit, _RadiusRadar value) async {
     final radars = LocalDBService.readRadars();
-    emit(MapState.success(radars.toMarkers()));
+    emit(MapState.success(radars.toMarkers(onTap: _onTap)));
+  }
+
+  void _tapRadar(Emitter<MapState> emit, _TapRadar value) {
+    emit(MapState.radarTapped(value.model));
   }
 }
 
-
 extension on Set<RadarModel> {
-  Set<Marker> toMarkers() => map((e) => e.toMarker()).toSet();
+  Set<Marker> toMarkers({required void Function(RadarModel model) onTap}) =>
+      map((e) => e.toMarker(onTap: onTap)).toSet();
 }

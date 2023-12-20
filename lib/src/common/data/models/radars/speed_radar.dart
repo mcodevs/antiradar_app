@@ -65,11 +65,9 @@ class SpeedRadar extends RadarModel {
 
 
   @override
-  Marker toMarker() {
+  Marker toMarker({required void Function(RadarModel model) onTap}) {
     return Marker(
-      onTap: () {
-
-      },
+      onTap: () => onTap(this),
       markerId: MarkerId(id),
       position: position,
       icon: GetIcon.icon,

@@ -8,7 +8,7 @@ abstract class RadarModel {
   RadarModel({String? id, required this.position, required this.speed}) : id = id ?? const Uuid().v4();
 
   Map<String, dynamic> toMap();
-  Marker toMarker();
+  Marker toMarker({required void Function(RadarModel model) onTap});
 
   @override
   bool operator ==(Object other) =>
