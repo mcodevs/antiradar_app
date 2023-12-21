@@ -7,7 +7,12 @@ abstract class RadarModel {
   final LatLng position;
   final int speed;
   final String id;
-  RadarModel({String? id, required this.position, required this.speed}) : id = id ?? const Uuid().v4();
+  
+  RadarModel({
+    String? id,
+    required this.position,
+    required this.speed,
+  }) : id = id ?? const Uuid().v4();
 
   Map<String, dynamic> toMap();
   Marker toMarker(RadarTappedCallBack onTap);
@@ -18,17 +23,17 @@ abstract class RadarModel {
       other is RadarModel && runtimeType == other.runtimeType && id == other.id;
 
   Geofence toGeofence() => Geofence(
-      data: this,
-      id: id,
-      latitude: position.latitude,
-      longitude: position.longitude,
-      radius: [
-        GeofenceRadius(id: "600", length: 600),
-        GeofenceRadius(id: "300", length: 300),
-        GeofenceRadius(id: "150", length: 150),
-        GeofenceRadius(id: "50", length: 50),
-      ],
-    );
+        data: this,
+        id: id,
+        latitude: position.latitude,
+        longitude: position.longitude,
+        radius: [
+          GeofenceRadius(id: "600", length: 600),
+          GeofenceRadius(id: "300", length: 300),
+          GeofenceRadius(id: "150", length: 150),
+          GeofenceRadius(id: "50", length: 50),
+        ],
+      );
 
   @override
   int get hashCode => id.hashCode;
@@ -38,4 +43,3 @@ abstract class RadarModel {
     return 'RadarModel{position: $position, speed: $speed, id: $id}';
   }
 }
-

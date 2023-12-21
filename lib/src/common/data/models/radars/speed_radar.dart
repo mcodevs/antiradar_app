@@ -20,7 +20,7 @@ class SpeedRadar extends RadarModel {
 
   factory SpeedRadar.fromMap(Map<String, dynamic> map) {
     return SpeedRadar(
-      id: map['id'] as String?,
+      id: map['id'] as String,
       type: map['type'] as String,
       direction: map['direction'] as String,
       speed: map['speed'] as int,

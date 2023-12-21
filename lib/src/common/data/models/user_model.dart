@@ -1,4 +1,5 @@
 class UserModel {
+  final String? token;
   final String name;
   final String phoneNumber;
   final String carNumber;
@@ -6,6 +7,7 @@ class UserModel {
   final bool isAdmin;
 
   const UserModel({
+    this.token,
     required this.name,
     required this.phoneNumber,
     required this.carNumber,
@@ -14,6 +16,7 @@ class UserModel {
   });
 
   Map<String, Object?> toMap() => {
+        'token': token,
         'name': name,
         'phone_number': phoneNumber,
         'car_number': carNumber,
@@ -22,6 +25,7 @@ class UserModel {
       };
 
   factory UserModel.fromMap(Map<String, Object?> map) => UserModel(
+        token: map['token'] as String?,
         name: map['name'] as String,
         phoneNumber: map['phone_number'] as String,
         carNumber: map['car_number'] as String,

@@ -1,5 +1,6 @@
 import 'package:antiradar/src/common/configurations/app_routes.dart';
 import 'package:antiradar/src/common/constants/app_colors.dart';
+import 'package:antiradar/src/ui/widgets/main_button.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
@@ -108,35 +109,40 @@ class _LoginPageState extends State<LoginPage> {
               CustomCalculateButton(
                 onButtonPressed: (value) => onButtonPressed(value),
               ),
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  return SizedBox(
-                    height: constraints.maxWidth <= 600 ? 50 : 55,
-                    width: constraints.maxWidth <= 340 ? double.infinity : 340,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          AppRoutes.map,
-                          (route) => false,
-                        );
-                      },
-                      child: const Text(
-                        "K E Y I N G I",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: "TextFont",
-                            fontSize: 18),
-                      ),
-                    ),
-                  );
-                },
+              // LayoutBuilder(
+              //   builder: (context, constraints) {
+              //     return SizedBox(
+              //       height: constraints.maxWidth <= 600 ? 50 : 55,
+              //       width: constraints.maxWidth <= 340 ? double.infinity : 340,
+              //       child: ElevatedButton(
+              //         style: ElevatedButton.styleFrom(
+              //           backgroundColor: AppColors.primary,
+              //           shape: const RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.all(Radius.circular(10)),
+              //           ),
+              //         ),
+              //         onPressed: () {
+              //           Navigator.pushNamedAndRemoveUntil(
+              //             context,
+              //             AppRoutes.map,
+              //             (route) => false,
+              //           );
+              //         },
+              //         child: const Text(
+              //           "K E Y I N G I",
+              //           style: TextStyle(
+              //               color: Colors.white,
+              //               fontFamily: "TextFont",
+              //               fontSize: 18),
+              //         ),
+              //       ),
+              //     );
+              //   },
+              // ),
+              MainButton(
+                
+                onPressed: () {},
+                text: "Keyingi",
               ),
               const SizedBox(height: 20),
             ],

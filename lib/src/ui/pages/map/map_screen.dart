@@ -222,7 +222,8 @@ class _MapScreenState extends State<MapScreen> {
                 CustomFAB(
                   onPressed: () async {
                     final controller = await _controller.future;
-                    final position = await Geolocator.getCurrentPosition();
+                    final position = await Geolocator.getLastKnownPosition() ??
+                        await Geolocator.getCurrentPosition();
                     await controller.animateCamera(
                       CameraUpdate.newCameraPosition(
                         userCamera(position),
@@ -283,10 +284,8 @@ class _MapScreenState extends State<MapScreen> {
                           const CameraPosition(target: LatLng(45, 89)),
                       markers: state.maybeMap(
                         orElse: () => {},
-                        success: (value) {
-                          print(value.markers.length);
-                          return value.markers;
-                        },
+                        success: (value) => value.markers,
+                        radarTapped: (value) => value.markers,
                       ),
                       onMapCreated: (controller) {
                         _controller.complete(controller);
@@ -445,7 +444,6 @@ class _MapScreenState extends State<MapScreen> {
                         orElse: () => const SizedBox.shrink(),
                         visible: (value) => CustomIndicator(
                           bottomText: "СТАТСИОНАРНЫЙ РАДАР НА СПИНУ",
-                          speed: value.model.speed.toString(),
                           distance: value.distance.toString(),
                           speedLimit: value.model.speed.toString(),
                         ),
@@ -463,17 +461,21 @@ class _MapScreenState extends State<MapScreen> {
 class Limit extends StatelessWidget {
   final String speed;
   final double? dimension;
+  final VoidCallback onPressed;
+  final double? fontSize;
 
   const Limit({
     super.key,
     required this.speed,
+    required this.onPressed,
     this.dimension,
+    this.fontSize,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: onPressed,
       child: SizedBox.square(
         dimension: dimension ?? 80.r,
         child: DecoratedBox(
@@ -497,7 +499,7 @@ class Limit extends StatelessWidget {
                   child: Text(
                     speed,
                     style: TextStyle(
-                      fontSize: 20.sp,
+                      fontSize: fontSize ?? 20.sp,
                       fontWeight: FontWeight.w600,
                     ),
                   ),

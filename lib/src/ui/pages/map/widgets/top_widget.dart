@@ -1,17 +1,16 @@
 import 'package:antiradar/src/ui/pages/map/map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
 
 class CustomIndicator extends StatelessWidget {
   final String bottomText;
-  final String speed;
   final String distance;
   final String speedLimit;
 
   const CustomIndicator({
     super.key,
     required this.bottomText,
-    required this.speed,
     required this.distance,
     required this.speedLimit,
   });
@@ -19,8 +18,7 @@ class CustomIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 107.h,
-      width: 329.w,
+      height: 120.h,
       decoration: BoxDecoration(
         border: Border.all(
           width: 2.r,
@@ -64,7 +62,7 @@ class CustomIndicator extends StatelessWidget {
               ),
             ),
             Expanded(
-              flex: 3,
+              flex: 4,
               child: DecoratedBox(
                 decoration: const BoxDecoration(
                   color: Color(0xFFA027FF),
@@ -75,14 +73,30 @@ class CustomIndicator extends StatelessWidget {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          speed,
-                          style: TextStyle(
-                            fontSize: 25.sp,
-                            color: const Color(0xFFFF0000),
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
+                        StreamBuilder(
+                            stream: Geolocator.getPositionStream(
+                              locationSettings: const LocationSettings(
+                                accuracy: LocationAccuracy.bestForNavigation,
+                                timeLimit: Duration(seconds: 10),
+                              ),
+                            ),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return const CircularProgressIndicator();
+                              }
+                              return Text(
+                                snapshot.hasError
+                                    ? "0"
+                                    : (snapshot.data!.speed * 3.6)
+                                        .toInt()
+                                        .toString(),
+                                style: TextStyle(
+                                  fontSize: 25.sp,
+                                  color: const Color(0xFFFF0000),
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              );
+                            }),
                         Text(
                           "km/s",
                           style: TextStyle(
@@ -114,7 +128,12 @@ class CustomIndicator extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Limit(dimension: 60,speed: speedLimit),
+                    Limit(
+                      dimension: 60,
+                      speed: speedLimit,
+                      onPressed: () {},
+                      fontSize: 15.sp,
+                    ),
                   ],
                 ),
               ),

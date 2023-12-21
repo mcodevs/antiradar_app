@@ -35,6 +35,7 @@ dependencies:
   mask_text_input_formatter: ^2.5.0
   freezed_annotation: ^2.4.1
   uuid: ^4.2.2
+  permission_handler: ^11.1.0
 
 dev_dependencies:
   flutter_test:
