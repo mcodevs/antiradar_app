@@ -193,6 +193,7 @@ class _MapScreenState extends State<MapScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 CustomFAB(
+                  padding: const EdgeInsets.all(15),
                   onPressed: () => {},
                   radius: 20,
                   size: 63,
@@ -201,6 +202,7 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                 ),
                 CustomFAB(
+                  padding: const EdgeInsets.all(15),
                   onPressed: () async {
                     final speed = await _showDialog();
                     if (speed != null) {
@@ -220,6 +222,7 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                 ),
                 CustomFAB(
+                  padding: const EdgeInsets.all(15),
                   onPressed: () async {
                     final controller = await _controller.future;
                     final position = await Geolocator.getLastKnownPosition() ??
@@ -230,8 +233,10 @@ class _MapScreenState extends State<MapScreen> {
                       ),
                     );
                     if (subscription == null) {
-                      subscription =
-                          Geolocator.getPositionStream().listen((event) async {
+                      subscription = Geolocator.getPositionStream(
+                          locationSettings: const LocationSettings(
+                        accuracy: LocationAccuracy.bestForNavigation,
+                      )).listen((event) async {
                         await controller.animateCamera(
                           CameraUpdate.newCameraPosition(
                             userCamera(event),
@@ -437,18 +442,19 @@ class _MapScreenState extends State<MapScreen> {
                 right: 15,
                 left: 15,
                 child: StreamBuilder<RadarState>(
-                    stream: radarCubit.stream,
-                    initialData: radarCubit.state,
-                    builder: (context, snapshot) {
-                      return snapshot.data!.maybeMap(
-                        orElse: () => const SizedBox.shrink(),
-                        visible: (value) => CustomIndicator(
-                          bottomText: "СТАТСИОНАРНЫЙ РАДАР НА СПИНУ",
-                          distance: value.distance.toString(),
-                          speedLimit: value.model.speed.toString(),
-                        ),
-                      );
-                    }),
+                  stream: radarCubit.stream,
+                  initialData: radarCubit.state,
+                  builder: (context, snapshot) {
+                    return snapshot.data!.maybeMap(
+                      orElse: () => const SizedBox.shrink(),
+                      visible: (value) => CustomIndicator(
+                        bottomText: "СТАТСИОНАРНЫЙ РАДАР НА СПИНУ",
+                        distance: value.distance.toString(),
+                        speedLimit: value.model.speed.toString(),
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
           ),

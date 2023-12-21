@@ -1,6 +1,6 @@
 import 'package:antiradar/src/ui/widgets/custom_fab.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomCalculateButton extends StatelessWidget {
   final void Function(String value) onButtonPressed;
@@ -12,48 +12,38 @@ class CustomCalculateButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 4,
-      child: FractionallySizedBox(
-        alignment: Alignment.center,
-        widthFactor: 0.55,
-        heightFactor: 0.94,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+    return Column(
+      children: List.generate(
+        4,
+        (i) => Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(
-            4,
-            (i) => Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: List.generate(
-                3,
-                (j) {
-                  final index = i * 3 + j + 1;
-                  final value = switch (index) {
-                    <= 9 => '$index',
-                    == 10 => 'x',
-                    == 11 => '0',
-                    _ => '<',
-                  };
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: CustomFAB(
-                      radius: 7,
-                      onPressed: () => onButtonPressed(value),
-                      size: 60,
-                      child: Center(
-                        child: Text(
-                          value,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
+            3,
+            (j) {
+              final index = i * 3 + j + 1;
+              final value = switch (index) {
+                <= 9 => '$index',
+                == 10 => 'x',
+                == 11 => '0',
+                _ => '<',
+              };
+              return Padding(
+                padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 8.w),
+                child: CustomFAB(
+                  radius: 5,
+                  onPressed: () => onButtonPressed(value),
+                  size: 60.r,
+                  child: Text(
+                    value,
+                    style: TextStyle(
+                      fontSize: 30.sp,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
                     ),
-                  );
-                },
-              ),
-            ),
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ),

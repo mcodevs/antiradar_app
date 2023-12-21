@@ -10,7 +10,7 @@ class MainButton extends StatelessWidget {
     this.child,
     this.text,
     super.key,
-  })  : assert((child != null) ^ (text != null));
+  }) : assert((child != null) ^ (text != null));
 
   final VoidCallback onPressed;
   final Widget? child;
@@ -28,7 +28,7 @@ class MainButton extends StatelessWidget {
         fixedSize: const Size.fromHeight(53),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
-            Radius.circular(20),
+            Radius.circular(15),
           ),
         ),
       ),

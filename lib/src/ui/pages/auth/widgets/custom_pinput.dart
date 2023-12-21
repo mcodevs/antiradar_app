@@ -1,4 +1,6 @@
+import 'package:antiradar/src/common/constants/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pinput/pinput.dart';
 
 class CustomPinPut extends StatelessWidget {
@@ -6,14 +8,23 @@ class CustomPinPut extends StatelessWidget {
     super.key,
     required this.pinController,
     required this.focusNode,
-    required this.defaultPinTheme,
-    required this.fillColor,
   });
+
+  static final defaultPinTheme = PinTheme(
+    width: 40.w,
+    height: 40.h,
+    textStyle: TextStyle(
+      fontSize: 20.sp,
+      color: AppColors.black,
+    ),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(5),
+      border: Border.all(color: AppColors.black),
+    ),
+  );
 
   final TextEditingController pinController;
   final FocusNode focusNode;
-  final PinTheme defaultPinTheme;
-  final Color fillColor;
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +37,9 @@ class CustomPinPut extends StatelessWidget {
       },
       useNativeKeyboard: false,
       defaultPinTheme: defaultPinTheme,
-      separatorBuilder: (index) => const SizedBox(width: 8),
-      onCompleted: (pin) {
-        debugPrint('onCompleted: $pin');
-      },
-      onChanged: (value) {
-        debugPrint('onChanged: $value');
-      },
+      separatorBuilder: (index) => 11.horizontalSpace,
+      onCompleted: (pin) {},
+      onChanged: (value) {},
       cursor: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -44,19 +51,8 @@ class CustomPinPut extends StatelessWidget {
           ),
         ],
       ),
-      focusedPinTheme: defaultPinTheme.copyWith(
-        decoration: defaultPinTheme.decoration!.copyWith(
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.black),
-        ),
-      ),
-      submittedPinTheme: defaultPinTheme.copyWith(
-        decoration: defaultPinTheme.decoration!.copyWith(
-          color: fillColor,
-          borderRadius: BorderRadius.circular(13),
-          border: Border.all(color: Colors.black),
-        ),
-      ),
+      focusedPinTheme: defaultPinTheme,
+      submittedPinTheme: defaultPinTheme,
       errorPinTheme: defaultPinTheme.copyBorderWith(
         border: Border.all(color: Colors.redAccent),
       ),

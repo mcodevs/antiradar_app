@@ -36,20 +36,6 @@ class _ConfirmPageState extends State<ConfirmPage> {
 
   @override
   Widget build(BuildContext context) {
-    const fillColor = Color.fromRGBO(243, 246, 249, 0);
-
-    final defaultPinTheme = PinTheme(
-      width: 45,
-      height: 45,
-      textStyle: const TextStyle(
-        fontSize: 20,
-        color: Colors.black,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.black),
-      ),
-    );
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -82,8 +68,6 @@ class _ConfirmPageState extends State<ConfirmPage> {
               CustomPinPut(
                 pinController: pinController,
                 focusNode: focusNode,
-                defaultPinTheme: defaultPinTheme,
-                fillColor: fillColor,
               ),
               CustomCalculateButton(
                 onButtonPressed: (value) => buttonPressed(value),

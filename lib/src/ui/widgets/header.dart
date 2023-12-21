@@ -2,6 +2,7 @@ import 'package:antiradar/src/common/constants/app_colors.dart';
 import 'package:antiradar/src/common/constants/app_text_themes.dart';
 import 'package:antiradar/src/common/utils/extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Header extends StatelessWidget {
   const Header({
@@ -20,7 +21,7 @@ class Header extends StatelessWidget {
           text.toUpperCase(),
           style: AppTextThemes.header,
         ),
-        8.vertical,
+        8.verticalSpace,
         ConstrainedBox(
           constraints: const BoxConstraints.expand(
             width: 218,

@@ -7,6 +7,7 @@ class CustomFAB extends StatelessWidget {
   final VoidCallback onPressed;
   final double size;
   final Color color;
+  final EdgeInsets padding;
 
   const CustomFAB({
     Key? key,
@@ -14,16 +15,18 @@ class CustomFAB extends StatelessWidget {
     required this.child,
     required this.onPressed,
     required this.size,
-    this.color = AppColors.primary,
+    this.color = AppColors.onPrimary,
+    this.padding = EdgeInsets.zero,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: size,
-      width: size,
+    return SizedBox.square(
+      dimension: size,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
+          elevation: 8,
+          padding: padding,
           backgroundColor: color,
           shape: radius != null
               ? RoundedRectangleBorder(
