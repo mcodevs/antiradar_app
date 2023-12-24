@@ -166,7 +166,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 50),
+              // const SizedBox(height: 20),
               LayoutBuilder(
                 builder: (context, constraints) {
                   return SizedBox(
@@ -195,6 +195,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                   );
                 },
               ),
+              const SizedBox(height: 20,)
             ],
           ),
         ),

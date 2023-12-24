@@ -10,6 +10,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../common/constants/app_colors.dart';
+import '../pages/home/places_page_two/places_two.dart';
 import '../pages/home/widget/confiro_code.dart';
 
 class MapEvent {
@@ -290,7 +291,9 @@ class _MapScreenState extends State<MapScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ConfirmButton(
-                onPressed: () => {},
+                onPressed: () => {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const PlacesPageTwo()))
+                },
                 radius: 20,
                 size: 63,
                 child: Image(
@@ -412,7 +415,7 @@ class _MapScreenState extends State<MapScreen> {
                   }),
             ),
             Positioned(
-              top: 160,
+              top: 30,
               left: 12,
               child: GestureDetector(
                 onTap: () {},
@@ -453,7 +456,7 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
             Positioned(
-              top: 250,
+              top: 120,
               left: 15,
               child: GestureDetector(
                 onTap: () {},
